@@ -34,7 +34,6 @@ namespace RubberDuckPub
             switch (testComboBox.SelectedItem)
             {
                 case "Standard Settings":
-                    contentLabel.Content = "Starndard settings selected";
                     bar = new Bar(this);
                     break;
                 case "20 glasses, 3 chairs":
