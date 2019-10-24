@@ -1,4 +1,8 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RubberDuckPub
 {
@@ -8,20 +12,41 @@ namespace RubberDuckPub
         public ConcurrentStack<int> dirtyGlassesStack = new ConcurrentStack<int>();
         public ConcurrentStack<int> emptyChairs = new ConcurrentStack<int>();
         public ConcurrentQueue<Guest> guestQueue = new ConcurrentQueue<Guest>();
+        public ConcurrentQueue<Guest> waitingToBeSeated = new ConcurrentQueue<Guest>();
+        public List<Guest> seatedGuests = new List<Guest>();
         public int numberOfGlasses { get; set; } = 8;
         public int numberOfChairs = 9;
         public int timeOpenBar = 120;
         public bool IsOpen { get; set; }
-
+        
         public Bar(MainWindow mainWindow)
         {
             // assign allt som behovs
             IsOpen = true;
             PushGlasses(numberOfGlasses);
             PushChairs(numberOfChairs);
-            Bartender bartender = new Bartender(this, mainWindow);
             Bouncer bouncer = new Bouncer(this, mainWindow);
+            Bartender bartender = new Bartender(this, mainWindow);            
             Waiter waiter = new Waiter(this, mainWindow);
+            Task.Run(() =>
+            {
+                while (IsOpen)
+                {
+                    UpdateContentLabels(mainWindow);
+                    Thread.Sleep(100);
+                }
+            });
+        }
+
+        private void UpdateContentLabels(MainWindow mainWindow)
+        {
+            mainWindow.Dispatcher.Invoke(() => mainWindow.waitingAtBarLabel.Content = $"{guestQueue.Count} guests");
+            mainWindow.Dispatcher.Invoke(() => mainWindow.waitingForChairLabel.Content = $"{waitingToBeSeated.Count} guests");
+            mainWindow.Dispatcher.Invoke(() => mainWindow.drinkingLabel.Content = $"{seatedGuests.Count} guests");
+            mainWindow.Dispatcher.Invoke(() => mainWindow.glassesOnShelfLabel.Content = $"{cleanGlassesStack.Count}");
+            mainWindow.Dispatcher.Invoke(() => mainWindow.glassesTotalLabel.Content = $"{numberOfGlasses}");
+            mainWindow.Dispatcher.Invoke(() => mainWindow.availableChairsLabel.Content = $"{emptyChairs.Count}");
+            mainWindow.Dispatcher.Invoke(() => mainWindow.chairsTotalLabel.Content = $"{numberOfChairs}");
         }
 
         public void PushGlasses(int numberOfGlasses)

@@ -26,12 +26,12 @@ namespace RubberDuckPub
             };
             testComboBox.ItemsSource = testCases;
 
-            testButton.Click += OnTestButtonClicked;
+            openBarButton.Click += OnTestButtonClicked;
         }
 
         private void OnTestButtonClicked(object sender, RoutedEventArgs e)
         {
-            testButton.IsEnabled = false;
+            openBarButton.IsEnabled = false;
             barStatusLabel.Foreground = Brushes.Green;
             barStatusLabel.Text += "OPEN";
             
