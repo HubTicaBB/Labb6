@@ -24,7 +24,9 @@ namespace RubberDuckPub
         {
             if (bar.guestQueue.Count == 0)
             {
+
                 Log(DateTime.Now, "Bartender is waiting for guests at the bar.", mainWindow);
+                Thread.Sleep(10000);  //
             }
             else
             {

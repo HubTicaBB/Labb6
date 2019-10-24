@@ -89,7 +89,7 @@ namespace RubberDuckPub
         public void GenerateGuest(Bar bar, MainWindow mainWindow)
         {
             int index = r.Next(1, nameList.Count());
-            int seconds = r.Next(3, 11);
+            int seconds = r.Next(10, 15);
             Thread.Sleep(seconds * 1000);
             bar.guestQueue.Enqueue(new Guest(nameList[index]));
             Log(DateTime.Now, nameList[index] + " comes in and goes to the bar", mainWindow);
