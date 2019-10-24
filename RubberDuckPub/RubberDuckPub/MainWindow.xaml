@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="Ye Olde Rubber Duck Bar" Height="450" Width="800">
     <Grid>
-        
+        <ListBox x:Name="listBoxBartender" HorizontalAlignment="Left" Height="213" Margin="31,100,0,0" VerticalAlignment="Top" Width="123"/>
+        <Label x:Name="labelBartender" Content="Bartender" HorizontalAlignment="Left" Margin="31,77,0,0" VerticalAlignment="Top" Width="123"/>
+
     </Grid>
 </Window>
