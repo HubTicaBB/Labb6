@@ -13,6 +13,14 @@ namespace RubberDuckPub
         static int numberOfChairs = 9;
         static int timeOpenBar = 120;
 
+        public Bar(MainWindow mainWindow)
+        {
+            // assign allt som behovs
+            Bartender bartender = new Bartender(this, mainWindow);
+            Bouncer bouncer = new Bouncer(this, mainWindow);
+            Waiter waiter = new Waiter(this, mainWindow);
+        }
+
         Action pushGlasses = () =>
         {
             for (int i = 0; i < numberOfGlasses; i++)
@@ -29,8 +37,5 @@ namespace RubberDuckPub
                  emptyChairs.Push(i);
              }
          };
-
-
-
     }
 }

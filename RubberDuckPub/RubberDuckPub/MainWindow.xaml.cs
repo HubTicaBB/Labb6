@@ -30,11 +30,12 @@ namespace RubberDuckPub
 
         private void OnTestButtonClicked(object sender, RoutedEventArgs e)
         {
-            // Bar bar;
+            Bar bar;
             switch (testComboBox.SelectedItem)
             {
                 case "Standard Settings":
-                    // bar = new Bar(this); constructor använder default värdena på properties
+                    contentLabel.Content = "Starndard settings selected";
+                    bar = new Bar(this);
                     break;
                 case "20 glasses, 3 chairs":
                     // bar = new Bar(this, 20, 3);
