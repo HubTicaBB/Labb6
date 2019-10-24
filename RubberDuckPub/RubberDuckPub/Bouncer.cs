@@ -9,15 +9,15 @@ namespace RubberDuckPub
     public class Bouncer
     {
         static List<string> nameList = new List<string>
-        { 
-            "Bob", 
-            "Tijana", 
-            "Andreea", 
-            "Kalle", 
-            "Sam", 
-            "Linda", 
-            "Ellen", 
-            "Suzy", 
+        {
+            "Bob",
+            "Tijana",
+            "Andreea",
+            "Kalle",
+            "Sam",
+            "Linda",
+            "Ellen",
+            "Suzy",
             "Jane",
             "Maria",
             "Anna",
@@ -80,6 +80,7 @@ namespace RubberDuckPub
                 while (bar.IsOpen)
                 {
                     GenerateGuest(bar, mainWindow);
+                    //bar.IsOpen = false; quick check if the bouncer is going home
                 }
                 GoHome(mainWindow);
             });
@@ -91,22 +92,22 @@ namespace RubberDuckPub
             int seconds = r.Next(3, 11);
             Thread.Sleep(seconds * 1000);
             bar.guestQueue.Enqueue(new Guest(nameList[index]));
-            Log(DateTime.Now, nameList[index], mainWindow);
+            Log(DateTime.Now, nameList[index] + " comes in and goes to the bar", mainWindow);
         }
 
-        private void Log(DateTime timestamp, string name, MainWindow mainWindow)
+        private void Log(DateTime timestamp, string activity, MainWindow mainWindow)
         {
-            mainWindow.Dispatcher.Invoke(() => mainWindow.GuestsListBox.Items.Insert(0, $"{timestamp.ToString("H:mm:ss")} - {name} comes in and goes to the bar"));
+            mainWindow.Dispatcher.Invoke(() => mainWindow.GuestsListBox.Items.Insert(0, $"{timestamp.ToString("H:mm:ss")} - {activity}"));
         }
 
-        private void Log(DateTime timestamp, MainWindow mainWindow)
-        {
-            mainWindow.Dispatcher.Invoke(() => mainWindow.GuestsListBox.Items.Insert(0, $"{timestamp.ToString("H:mm:ss")} - Bouncer goes home"));
-        }
+        //private void Log(DateTime timestamp, MainWindow mainWindow)
+        //{
+        //    mainWindow.Dispatcher.Invoke(() => mainWindow.GuestsListBox.Items.Insert(0, $"{timestamp.ToString("H:mm:ss")} - Bouncer goes home"));
+        //}
 
         private void GoHome(MainWindow mainWindow)
         {
-            Log(DateTime.Now, mainWindow);
+            Log(DateTime.Now, "Bouncer goes home.", mainWindow);
         }
     }
 }

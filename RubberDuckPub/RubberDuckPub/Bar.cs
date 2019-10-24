@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 
 namespace RubberDuckPub
 {
@@ -18,9 +17,26 @@ namespace RubberDuckPub
         {
             // assign allt som behovs
             IsOpen = true;
+            PushGlasses(numberOfGlasses);
+            PushChairs(numberOfChairs);
             Bartender bartender = new Bartender(this, mainWindow);
             Bouncer bouncer = new Bouncer(this, mainWindow);
             Waiter waiter = new Waiter(this, mainWindow);
+        }
+
+        public void PushGlasses(int numberOfGlasses)
+        {
+            for (int i = 0; i < numberOfGlasses; i++)
+            {
+                cleanGlassesStack.Push(i);
+            }
+        }
+        public void PushChairs(int numberOfChairs)
+        {
+            for (int i = 0; i < numberOfChairs; i++)
+            {
+                emptyChairs.Push(i);
+            }
         }
 
         //public Action pushGlasses = () =>

@@ -8,25 +8,28 @@
         Title="Ye Olde Rubber Duck Bar" Height="532.5" Width="1066">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="656*"/>
-            <ColumnDefinition Width="139*"/>
+            <ColumnDefinition Width="565*"/>
+            <ColumnDefinition Width="86*"/>
+            <ColumnDefinition Width="36"/>
+            <ColumnDefinition Width="187*"/>
+            <ColumnDefinition Width="185*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="BartenderListBox" HorizontalAlignment="Left" Height="213" Margin="31,174,0,0" VerticalAlignment="Top" Width="123"/>
+        <ListBox x:Name="BartenderListBox" HorizontalAlignment="Left" Height="210" Margin="31,177,0,0" VerticalAlignment="Top" Width="273"/>
         <Label x:Name="labelBartender" Content="Bartender" HorizontalAlignment="Left" Margin="31,151,0,0" VerticalAlignment="Top" Width="123"/>
-        <ListBox x:Name="WaiterListBox" HorizontalAlignment="Left" Height="213" Margin="159,174,0,0" VerticalAlignment="Top" Width="123"/>
-        <ListBox x:Name="GuestsListBox" HorizontalAlignment="Left" Height="213" Margin="482,174,0,0" VerticalAlignment="Top" Width="284"/>
-        <Label x:Name="guestsLabel" Content="Guests" HorizontalAlignment="Left" Margin="482,146,0,0" VerticalAlignment="Top" Width="123"/>
-        <Label x:Name="waiterLabel" Content="Waiter" HorizontalAlignment="Left" Margin="159,151,0,0" VerticalAlignment="Top" Width="123"/>
+        <ListBox x:Name="WaiterListBox" HorizontalAlignment="Left" Height="213" Margin="330,174,0,0" VerticalAlignment="Top" Width="123"/>
+        <ListBox x:Name="GuestsListBox" HorizontalAlignment="Left" Height="213" Margin="482,174,0,0" VerticalAlignment="Top" Width="284" Grid.ColumnSpan="4"/>
+        <Label x:Name="guestsLabel" Content="Guests" HorizontalAlignment="Left" Margin="482,146,0,0" VerticalAlignment="Top" Width="123" Grid.ColumnSpan="2"/>
+        <Label x:Name="waiterLabel" Content="Waiter" HorizontalAlignment="Left" Margin="330,156,0,0" VerticalAlignment="Top" Width="123"/>
         <Button x:Name="openButton" Content="Open Bar" HorizontalAlignment="Left" Height="28" Margin="31,43,0,0" VerticalAlignment="Top" Width="185"/>
         <Label x:Name="labelBartender_Copy" Content="Bartender" HorizontalAlignment="Left" Margin="31,151,0,0" VerticalAlignment="Top" Width="123"/>
         <Label x:Name="labelBartender_Copy1" Content="Bartender" HorizontalAlignment="Left" Margin="31,151,0,0" VerticalAlignment="Top" Width="123"/>
         <Button x:Name="closeButton" Content="Close Bar" HorizontalAlignment="Left" Height="28" Margin="225,43,0,0" VerticalAlignment="Top" Width="185"/>
-        <Label x:Name="contentLabel" Content="" HorizontalAlignment="Left" Height="213" Margin="797,174,0,0" VerticalAlignment="Top" Width="225" Grid.ColumnSpan="2"/>
-        <TextBlock x:Name="barStatusLabel" HorizontalAlignment="Left" Height="46" Margin="797,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123" Grid.ColumnSpan="2"/>
-        <Label Content="Bar Status" HorizontalAlignment="Left" Height="28" Margin="797,34,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.ColumnSpan="2"/>
-        <Button x:Name="panicButton" Content="Panic! (stop alll the threads)" HorizontalAlignment="Left" Height="28" Margin="797,433,0,0" VerticalAlignment="Top" Width="225" Grid.ColumnSpan="2" Foreground="Red"/>
+        <Label x:Name="contentLabel" Content="" HorizontalAlignment="Left" Height="213" Margin="111,174,0,0" VerticalAlignment="Top" Width="225" Grid.ColumnSpan="2" Grid.Column="3"/>
+        <TextBlock x:Name="barStatusLabel" HorizontalAlignment="Left" Height="46" Margin="111,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123" Grid.ColumnSpan="2" Grid.Column="3"/>
+        <Label Content="Bar Status" HorizontalAlignment="Left" Height="28" Margin="111,34,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.ColumnSpan="2" Grid.Column="3"/>
+        <Button x:Name="panicButton" Content="Panic! (stop alll the threads)" HorizontalAlignment="Left" Height="28" Margin="111,433,0,0" VerticalAlignment="Top" Width="225" Grid.ColumnSpan="2" Foreground="Red" Grid.Column="3"/>
         <ComboBox x:Name="testComboBox" HorizontalAlignment="Left" Height="24" Margin="31,414,0,0" VerticalAlignment="Top" Width="251" SelectedIndex="0"/>
-        <Label Content="Bar Content" HorizontalAlignment="Left" Height="28" Margin="797,146,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.ColumnSpan="2"/>
+        <Label Content="Bar Content" HorizontalAlignment="Left" Height="28" Margin="111,146,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.ColumnSpan="2" Grid.Column="3"/>
         <Button x:Name="testButton" Content="Test" HorizontalAlignment="Left" Margin="287,414,0,0" VerticalAlignment="Top" Width="123" Height="24"/>
 
     </Grid>
