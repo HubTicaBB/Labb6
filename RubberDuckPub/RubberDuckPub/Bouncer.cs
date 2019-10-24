@@ -100,11 +100,6 @@ namespace RubberDuckPub
             mainWindow.Dispatcher.Invoke(() => mainWindow.GuestsListBox.Items.Insert(0, $"{timestamp.ToString("H:mm:ss")} - {activity}"));
         }
 
-        //private void Log(DateTime timestamp, MainWindow mainWindow)
-        //{
-        //    mainWindow.Dispatcher.Invoke(() => mainWindow.GuestsListBox.Items.Insert(0, $"{timestamp.ToString("H:mm:ss")} - Bouncer goes home"));
-        //}
-
         private void GoHome(MainWindow mainWindow)
         {
             Log(DateTime.Now, "Bouncer goes home.", mainWindow);

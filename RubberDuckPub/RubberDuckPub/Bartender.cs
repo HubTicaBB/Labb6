@@ -25,13 +25,13 @@ namespace RubberDuckPub
             if (bar.guestQueue.Count == 0)
             {
 
-                Log(DateTime.Now, "Bartender is waiting for guests at the bar.", mainWindow);
+                Log(DateTime.Now, "Waiting for guests at the bar.", mainWindow);
                 Thread.Sleep(10000);  //
             }
             else
             {
                 Guest dequeuedGuest;
-                Log(DateTime.Now, "Bartender is going to the shelf.", mainWindow);
+                Log(DateTime.Now, "Going to the shelf.", mainWindow);
                 bar.guestQueue.TryDequeue(out dequeuedGuest);
 
                 GoToShelf(bar, dequeuedGuest, mainWindow);
@@ -42,7 +42,7 @@ namespace RubberDuckPub
         {
             if (bar.cleanGlassesStack.Count > 0)
             {
-                Log(DateTime.Now, "Bartender is picking up a glass from the shelf.", mainWindow);
+                Log(DateTime.Now, "Picking up a glass from the shelf.", mainWindow);
                 Thread.Sleep(3000);
                 ServeBeer(bar, dequeuedGuest, mainWindow);
             }
@@ -50,7 +50,7 @@ namespace RubberDuckPub
 
         private void ServeBeer(Bar bar, Guest dequeuedGuest, MainWindow mainWindow)
         {
-            Log(DateTime.Now, $"Bartender is pouring a beer to {dequeuedGuest.Name}.", mainWindow); // add name of guest
+            Log(DateTime.Now, $"Pouring a beer to {dequeuedGuest.Name}.", mainWindow); // add name of guest
             Thread.Sleep(3000);
         }
 
@@ -58,6 +58,7 @@ namespace RubberDuckPub
         {
             // 
         }
+
         private void Log(DateTime timestamp, string activity, MainWindow mainWindow)
         {
             mainWindow.Dispatcher.Invoke(() => mainWindow.BartenderListBox.Items.Insert(0, $"{timestamp.ToString("H:mm:ss")} - {activity}"));

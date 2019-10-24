@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Media;
 
 namespace RubberDuckPub
 {
@@ -30,6 +31,10 @@ namespace RubberDuckPub
 
         private void OnTestButtonClicked(object sender, RoutedEventArgs e)
         {
+            testButton.IsEnabled = false;
+            barStatusLabel.Foreground = Brushes.Green;
+            barStatusLabel.Text += "OPEN";
+            
             Bar bar;
             switch (testComboBox.SelectedItem)
             {
