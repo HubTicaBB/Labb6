@@ -32,7 +32,7 @@ namespace RubberDuckPub
 
             openBarButton.Click += OnTestButtonClicked;
         }
-        //public ManualResetEvent PauseBartender = new ManualResetEvent(true); is not really working 
+        //public ManualResetEvent PauseBartender = new ManualResetEvent(true); //is not really working 
         private void OnTestButtonClicked(object sender, RoutedEventArgs e)
         {
 
