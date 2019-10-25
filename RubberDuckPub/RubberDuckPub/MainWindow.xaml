@@ -16,8 +16,8 @@
         </Grid.ColumnDefinitions>
         <ListBox x:Name="BartenderListBox" HorizontalAlignment="Left" Height="294" Margin="31,93,0,0" VerticalAlignment="Top" Width="271"/>
         <ListBox x:Name="WaiterListBox" HorizontalAlignment="Left" Height="294" Margin="307,93,0,0" VerticalAlignment="Top" Width="271"/>
-        <ListBox x:Name="GuestsListBox" HorizontalAlignment="Left" Height="294" Margin="583,93,0,0" VerticalAlignment="Top" Width="271" Grid.ColumnSpan="4"/>
-        <Label x:Name="guestsLabel" Content="Guests" HorizontalAlignment="Left" Margin="583,62,0,0" VerticalAlignment="Top" Width="271" Grid.ColumnSpan="4"/>
+        <ListBox x:Name="GuestsListBox" HorizontalAlignment="Left" Height="294" Margin="583,93,0,0" VerticalAlignment="Top" Width="313" Grid.ColumnSpan="4"/>
+        <Label x:Name="guestsLabel" Content="Guests" HorizontalAlignment="Left" Margin="583,62,0,0" VerticalAlignment="Top" Width="313" Grid.ColumnSpan="4"/>
         <Label x:Name="waiterLabel" Content="Waiter" HorizontalAlignment="Left" Margin="307,62,0,0" VerticalAlignment="Top" Width="271"/>
         <Label x:Name="labelBartender_Copy1" Content="Bartender" HorizontalAlignment="Left" Margin="31,62,0,0" VerticalAlignment="Top" Width="271"/>
         <Button x:Name="closeButton" Content="Close Bar" HorizontalAlignment="Left" Height="24" Margin="445,414,0,0" VerticalAlignment="Top" Width="133"/>

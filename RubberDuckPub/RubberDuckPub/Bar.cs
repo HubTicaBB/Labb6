@@ -8,9 +8,9 @@ namespace RubberDuckPub
 {
     public class Bar
     {
-        public ConcurrentStack<int> cleanGlassesStack = new ConcurrentStack<int>();
-        public ConcurrentStack<int> dirtyGlassesStack = new ConcurrentStack<int>();
-        public ConcurrentStack<int> emptyChairs = new ConcurrentStack<int>();
+        public ConcurrentStack<Glasses> cleanGlassesStack = new ConcurrentStack<Glasses>();
+        public ConcurrentStack<Glasses> dirtyGlassesStack = new ConcurrentStack<Glasses>();
+        public ConcurrentStack<Chairs> emptyChairs = new ConcurrentStack<Chairs>();
         public ConcurrentQueue<Guest> guestQueue = new ConcurrentQueue<Guest>();
         public ConcurrentQueue<Guest> waitingToBeSeated = new ConcurrentQueue<Guest>();
         public List<Guest> seatedGuests = new List<Guest>();
@@ -40,27 +40,27 @@ namespace RubberDuckPub
 
         private void UpdateContentLabels(MainWindow mainWindow)
         {
-            mainWindow.Dispatcher.Invoke(() => mainWindow.waitingAtBarLabel.Content = $"{guestQueue.Count} guests");
-            mainWindow.Dispatcher.Invoke(() => mainWindow.waitingForChairLabel.Content = $"{waitingToBeSeated.Count} guests");
-            mainWindow.Dispatcher.Invoke(() => mainWindow.drinkingLabel.Content = $"{seatedGuests.Count} guests");
-            mainWindow.Dispatcher.Invoke(() => mainWindow.glassesOnShelfLabel.Content = $"{cleanGlassesStack.Count}");
-            mainWindow.Dispatcher.Invoke(() => mainWindow.glassesTotalLabel.Content = $"{numberOfGlasses}");
-            mainWindow.Dispatcher.Invoke(() => mainWindow.availableChairsLabel.Content = $"{emptyChairs.Count}");
-            mainWindow.Dispatcher.Invoke(() => mainWindow.chairsTotalLabel.Content = $"{numberOfChairs}");
+            mainWindow.Dispatcher.Invoke(() => mainWindow.waitingAtBarLabel.Content = guestQueue.Count.ToString());
+            mainWindow.Dispatcher.Invoke(() => mainWindow.waitingForChairLabel.Content = waitingToBeSeated.Count.ToString());
+            mainWindow.Dispatcher.Invoke(() => mainWindow.drinkingLabel.Content = seatedGuests.Count.ToString());
+            mainWindow.Dispatcher.Invoke(() => mainWindow.glassesOnShelfLabel.Content = cleanGlassesStack.Count.ToString());
+            mainWindow.Dispatcher.Invoke(() => mainWindow.glassesTotalLabel.Content = numberOfGlasses.ToString());
+            mainWindow.Dispatcher.Invoke(() => mainWindow.availableChairsLabel.Content = emptyChairs.Count.ToString());
+            mainWindow.Dispatcher.Invoke(() => mainWindow.chairsTotalLabel.Content = numberOfChairs.ToString());
         }
 
         public void PushGlasses(int numberOfGlasses)
         {
             for (int i = 0; i < numberOfGlasses; i++)
             {
-                cleanGlassesStack.Push(i);
+                cleanGlassesStack.Push(new Glasses());
             }
         }
         public void PushChairs(int numberOfChairs)
         {
             for (int i = 0; i < numberOfChairs; i++)
             {
-                emptyChairs.Push(i);
+                emptyChairs.Push(new Chairs());
             }
         }
 
