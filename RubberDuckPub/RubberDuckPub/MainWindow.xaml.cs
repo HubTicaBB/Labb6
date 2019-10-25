@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 
 namespace RubberDuckPub
@@ -8,6 +9,8 @@ namespace RubberDuckPub
     /// </summary>
     public partial class MainWindow : Window
     {
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -27,9 +30,10 @@ namespace RubberDuckPub
 
             testButton.Click += OnTestButtonClicked;
         }
-
+        public ManualResetEvent PauseBartender = new ManualResetEvent(true);
         private void OnTestButtonClicked(object sender, RoutedEventArgs e)
         {
+
             Bar bar;
             switch (testComboBox.SelectedItem)
             {

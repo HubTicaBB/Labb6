@@ -12,6 +12,7 @@ namespace RubberDuckPub
         public int numberOfChairs = 9;
         public int timeOpenBar = 120;
         public bool IsOpen { get; set; }
+        public MainWindow mainWindow;
 
         public Bar(MainWindow mainWindow)
         {
@@ -19,8 +20,8 @@ namespace RubberDuckPub
             IsOpen = true;
             PushGlasses(numberOfGlasses);
             PushChairs(numberOfChairs);
-            Bartender bartender = new Bartender(this, mainWindow);
             Bouncer bouncer = new Bouncer(this, mainWindow);
+            Bartender bartender = new Bartender(this, mainWindow, bouncer);
             Waiter waiter = new Waiter(this, mainWindow);
         }
 

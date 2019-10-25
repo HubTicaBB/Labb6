@@ -6,13 +6,14 @@ namespace RubberDuckPub
 {
     public class Bartender
     {
-        public Bartender(Bar bar, MainWindow mainWindow)
+        public Bartender(Bar bar, MainWindow mainWindow, Bouncer bouncer)
         {
+            //bar.mainWindow.PauseBartender.WaitOne(Timeout.Infinite);
             Task.Run(() =>
             {
                 while (bar.IsOpen)
                 {
-                    CheckIfGuestsAreWaiting(bar, mainWindow);
+                    CheckIfGuestsAreWaiting(bar, mainWindow, bouncer);
                 }
                 //GoHome() after all lists with guests are empty 
 
@@ -20,13 +21,14 @@ namespace RubberDuckPub
 
         }
 
-        private void CheckIfGuestsAreWaiting(Bar bar, MainWindow mainWindow)
+        private void CheckIfGuestsAreWaiting(Bar bar, MainWindow mainWindow, Bouncer bouncer)
         {
             if (bar.guestQueue.Count == 0)
             {
 
                 Log(DateTime.Now, "Bartender is waiting for guests at the bar.", mainWindow);
-                Thread.Sleep(10000);  //
+                int waitForGuest = bouncer.seconds;
+                Thread.Sleep(waitForGuest * 1000);  //
             }
             else
             {

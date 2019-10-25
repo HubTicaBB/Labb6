@@ -72,13 +72,14 @@ namespace RubberDuckPub
             "Pontus"
         };
         static Random r = new Random();
-
+        public int seconds { get; set; }
         public Bouncer(Bar bar, MainWindow mainWindow)
         {
             Task.Run(() =>
             {
                 while (bar.IsOpen)
                 {
+
                     GenerateGuest(bar, mainWindow);
                     //bar.IsOpen = false; quick check if the bouncer is going home
                 }
@@ -89,7 +90,7 @@ namespace RubberDuckPub
         public void GenerateGuest(Bar bar, MainWindow mainWindow)
         {
             int index = r.Next(1, nameList.Count());
-            int seconds = r.Next(10, 15);
+            seconds = r.Next(10, 15);
             Thread.Sleep(seconds * 1000);
             bar.guestQueue.Enqueue(new Guest(nameList[index]));
             Log(DateTime.Now, nameList[index] + " comes in and goes to the bar", mainWindow);
