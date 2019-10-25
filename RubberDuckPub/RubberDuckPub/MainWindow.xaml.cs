@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using System.Windows;
 
 namespace RubberDuckPub
@@ -28,9 +27,9 @@ namespace RubberDuckPub
             };
             testComboBox.ItemsSource = testCases;
 
-            testButton.Click += OnTestButtonClicked;
+            openBarButton.Click += OnTestButtonClicked;
         }
-        public ManualResetEvent PauseBartender = new ManualResetEvent(true);
+        //public ManualResetEvent PauseBartender = new ManualResetEvent(true); is not really working 
         private void OnTestButtonClicked(object sender, RoutedEventArgs e)
         {
 

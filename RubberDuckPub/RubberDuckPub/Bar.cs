@@ -9,10 +9,10 @@ namespace RubberDuckPub
         public ConcurrentStack<int> emptyChairs = new ConcurrentStack<int>();
         public ConcurrentQueue<Guest> guestQueue = new ConcurrentQueue<Guest>();
         public int numberOfGlasses { get; set; } = 8;
-        public int numberOfChairs = 9;
-        public int timeOpenBar = 120;
+        public int numberOfChairs { get; set; } = 9;
+        public int timeOpenBar { get; set; } = 120;
         public bool IsOpen { get; set; }
-        public MainWindow mainWindow;
+        //public MainWindow mainWindow;
 
         public Bar(MainWindow mainWindow)
         {
