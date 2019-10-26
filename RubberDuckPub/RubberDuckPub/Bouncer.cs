@@ -92,7 +92,7 @@ namespace RubberDuckPub
             int seconds = r.Next(10, 15);
             Thread.Sleep(seconds * 1000);
             bar.guestQueue.Enqueue(new Guest(nameList[index], bar, mainWindow));
-            Log(DateTime.Now, nameList[index] + " comes in and goes to the bar", mainWindow);
+            Log(DateTime.Now, $"{nameList[index]} comes in and goes to the bar", mainWindow);
             Thread.Sleep(1000);
         }
 

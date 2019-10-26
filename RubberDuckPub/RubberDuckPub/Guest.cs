@@ -7,15 +7,17 @@ namespace RubberDuckPub
     public class Guest
     {
         public string Name { get; set; }
+        public bool IsInTheBar { get; set; }
 
         public Guest(string name, Bar bar, MainWindow mainWindow)
         {
             Name = name;
+            IsInTheBar = true;
 
             Task.Run(() =>
             {
-                while (bar.IsOpen)
-                {
+                while (IsInTheBar)
+                {                    
                     Act(bar, mainWindow);                    
                 }
             });
@@ -34,20 +36,15 @@ namespace RubberDuckPub
             }            
         }
 
-        private void SitDown(Bar bar, MainWindow mainWindow)
-        {
-            Guest seated;
-            bar.waitingToBeSeated.TryDequeue(out seated);
-            Log(DateTime.Now, $"{this.Name} set down to drink his beer", mainWindow);
-            bar.seatedGuests.Add(seated);
-
-            Drink(mainWindow);
-
-            LeaveTheBar(bar, mainWindow);
-        }
-
         private bool WaitingForChair(Bar bar)
         {
+            foreach (var guest in bar.waitingToBeSeated)
+            {
+                if (guest.Name == Name)
+                {
+                    return true;
+                }
+            }
             return (bar.waitingToBeSeated.Count > 0) ? true : false;
         }
 
@@ -56,21 +53,37 @@ namespace RubberDuckPub
             return (bar.emptyChairs.Count > 0) ? true : false;
         }
 
-        private void Drink(MainWindow mainWindow)
+        private void SitDown(Bar bar, MainWindow mainWindow)
+        {
+            Guest seated;
+            if (bar.waitingToBeSeated.TryDequeue(out seated))
+            {
+                Log(DateTime.Now, $"{Name} set down to drink his beer", mainWindow);
+                bar.seatedGuests.Add(seated);
+                Drink(bar, mainWindow);
+            } 
+        }
+
+        private void Drink(Bar bar, MainWindow mainWindow)
         {
             Random random = new Random();
             Thread.Sleep(random.Next(10, 21) * 1000);
-            Log(DateTime.Now, $"{this.Name} drank up his beer and left the bar", mainWindow);
+            bar.dirtyGlassesStack.Push(bar.glassesInUse[0]);
+            bar.glassesInUse.Remove(bar.glassesInUse[0]);            
+            Log(DateTime.Now, $"{Name} drank up a beer and left the bar", mainWindow);
+            LeaveTheBar(bar, mainWindow);
         }
 
         private void LeaveTheBar(Bar bar, MainWindow mainWindow)
         {
-            bar.seatedGuests.Remove(this);
+            bar.seatedGuests.Remove(this);            
             Thread.Sleep(2000);
-            if (this.Name == "Pontus")
+            IsInTheBar = false;
+            if (Name == "Pontus")
             {
-                Log(DateTime.Now, "Pontus decided to drink one more beer", mainWindow);
+                Log(DateTime.Now, $"{Name} decided to drink one more beer", mainWindow);
                 bar.guestQueue.Enqueue(this);
+                IsInTheBar = true;
             }
         }
 

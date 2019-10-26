@@ -40,16 +40,21 @@ namespace RubberDuckPub
             {                
                 Log(DateTime.Now, "Picking up a glass from the shelf.", mainWindow);
                 Glasses glass;
-                bar.cleanGlassesStack.TryPop(out glass);
-                Thread.Sleep(3000);
-                Guest dequeuedGuest;
-                bar.guestQueue.TryDequeue(out dequeuedGuest);
-                ServeBeer(bar, dequeuedGuest, mainWindow);
+                if (bar.cleanGlassesStack.TryPop(out glass))
+                {
+                    Thread.Sleep(3000);
+                    Guest dequeuedGuest;
+                    if (bar.guestQueue.TryDequeue(out dequeuedGuest))
+                    {
+                        ServeBeer(glass, bar, dequeuedGuest, mainWindow);
+                    }
+                }                                     
             }
         }
 
-        private void ServeBeer(Bar bar, Guest dequeuedGuest, MainWindow mainWindow)
+        private void ServeBeer(Glasses glass, Bar bar, Guest dequeuedGuest, MainWindow mainWindow)
         {
+            bar.glassesInUse.Add(glass);
             Log(DateTime.Now, $"Pouring a beer to {dequeuedGuest.Name}.", mainWindow);
             bar.waitingToBeSeated.Enqueue(dequeuedGuest);
             Thread.Sleep(3000);

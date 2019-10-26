@@ -10,11 +10,12 @@ namespace RubberDuckPub
     {
         public ConcurrentStack<Glasses> cleanGlassesStack = new ConcurrentStack<Glasses>();
         public ConcurrentStack<Glasses> dirtyGlassesStack = new ConcurrentStack<Glasses>();
+        public List<Glasses> glassesInUse = new List<Glasses>();
         public ConcurrentStack<Chairs> emptyChairs = new ConcurrentStack<Chairs>();
         public ConcurrentQueue<Guest> guestQueue = new ConcurrentQueue<Guest>();
         public ConcurrentQueue<Guest> waitingToBeSeated = new ConcurrentQueue<Guest>();
         public List<Guest> seatedGuests = new List<Guest>();
-        public int numberOfGlasses { get; set; } = 8;
+        public int numberOfGlasses { get; set; } = 800;
         public int numberOfChairs = 9;
         public int timeOpenBar = 120;
         public bool IsOpen { get; set; }
