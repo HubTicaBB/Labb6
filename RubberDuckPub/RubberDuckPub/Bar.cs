@@ -9,6 +9,7 @@ namespace RubberDuckPub
         public ConcurrentStack<Glasses> dirtyGlassesStack = new ConcurrentStack<Glasses>();
         public ConcurrentStack<Chairs> emptyChairs = new ConcurrentStack<Chairs>();
         public ConcurrentQueue<Guest> guestQueue = new ConcurrentQueue<Guest>();
+        public ConcurrentQueue<Guest> guestWaitingForTableQueue = new ConcurrentQueue<Guest>();
         public List<string> barContent = new List<string>();
         public int NumberOfGlasses { get; set; } = 8;
         public int NumberOfChairs { get; set; } = 9;

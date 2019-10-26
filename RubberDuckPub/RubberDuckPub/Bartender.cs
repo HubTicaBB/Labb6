@@ -56,6 +56,7 @@ namespace RubberDuckPub
             Log(DateTime.Now, $"Bartender is pouring a beer to {dequeuedGuest.Name}.", mainWindow);
             bar.dirtyGlassesStack.Push(removedGlass);
             Thread.Sleep(3000);
+            bar.guestWaitingForTableQueue.Enqueue(dequeuedGuest);
         }
 
         private void GoHome()
