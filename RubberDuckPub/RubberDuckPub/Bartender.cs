@@ -35,7 +35,6 @@ namespace RubberDuckPub
                 Guest dequeuedGuest;
                 Log(DateTime.Now, "Bartender is going to the shelf.", mainWindow);
                 bar.guestQueue.TryDequeue(out dequeuedGuest);
-
                 GoToShelf(bar, dequeuedGuest, mainWindow);
             }
         }
@@ -48,7 +47,6 @@ namespace RubberDuckPub
                 Log(DateTime.Now, "Bartender is picking up a glass from the shelf.", mainWindow);
                 bar.cleanGlassesStack.TryPop(out removedGlass);
                 mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, mainWindow.GuestsListBox.Items.Count, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
-                Thread.Sleep(3000);
                 ServeBeer(bar, dequeuedGuest, mainWindow, removedGlass);
             }
         }

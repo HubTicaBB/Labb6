@@ -33,8 +33,8 @@ namespace RubberDuckPub
             barContent.Clear();
 
             barContent.Add($"There are { numberGuests} guests in the bar.");
-            barContent.Add($"There are {numberCleanGlasses} glasses on the shelf.");
-            barContent.Add($"There are {numberEmptyChairs} available tables.");
+            barContent.Add($"There are {numberCleanGlasses} glasses on the shelf ({NumberOfGlasses} total).");
+            barContent.Add($"There are {numberEmptyChairs} available tables ({NumberOfChairs} total).");
             mainWindow.barContentListBox.ItemsSource = barContent;
             mainWindow.barContentListBox.Items.Refresh();
             //mainWindow.barContentListBox.UpdateLayout();
