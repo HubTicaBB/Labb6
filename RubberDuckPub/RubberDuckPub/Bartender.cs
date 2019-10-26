@@ -52,7 +52,12 @@ namespace RubberDuckPub
 
         private void ServeBeer(Bar bar, Guest dequeuedGuest, MainWindow mainWindow)
         {
-            Log(DateTime.Now, $"Bartender is pouring a beer to {dequeuedGuest.Name}.", mainWindow); // add name of guest
+            Glasses removedGlass;
+            Log(DateTime.Now, $"Bartender is pouring a beer to {dequeuedGuest.Name}.", mainWindow);
+            // remove glass from clean glasses
+            bar.cleanGlassesStack.TryPop(out removedGlass);
+            bar.dirtyGlassesStack.Push(removedGlass);
+            mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, mainWindow.GuestsListBox.Items.Count, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
             Thread.Sleep(3000);
         }
 
