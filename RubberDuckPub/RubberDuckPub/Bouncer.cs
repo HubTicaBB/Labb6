@@ -94,17 +94,13 @@ namespace RubberDuckPub
             Thread.Sleep(seconds * 1000);
             bar.guestQueue.Enqueue(new Guest(nameList[index]));
             Log(DateTime.Now, nameList[index] + " comes in and goes to the bar", mainWindow);
+            mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, mainWindow.GuestsListBox.Items.Count, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
         }
 
         private void Log(DateTime timestamp, string activity, MainWindow mainWindow)
         {
             mainWindow.Dispatcher.Invoke(() => mainWindow.GuestsListBox.Items.Insert(0, $"{timestamp.ToString("H:mm:ss")} - {activity}"));
         }
-
-        //private void Log(DateTime timestamp, MainWindow mainWindow)
-        //{
-        //    mainWindow.Dispatcher.Invoke(() => mainWindow.GuestsListBox.Items.Insert(0, $"{timestamp.ToString("H:mm:ss")} - Bouncer goes home"));
-        //}
 
         private void GoHome(MainWindow mainWindow)
         {

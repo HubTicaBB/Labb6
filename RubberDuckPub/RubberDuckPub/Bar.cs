@@ -14,7 +14,6 @@ namespace RubberDuckPub
         public int numberOfChairs { get; set; } = 9;
         public int timeOpenBar { get; set; } = 120;
         public bool IsOpen { get; set; }
-        //public MainWindow mainWindow;
 
         public Bar(MainWindow mainWindow)
         {
@@ -22,21 +21,24 @@ namespace RubberDuckPub
             IsOpen = true;
             PushGlasses(numberOfGlasses);
             PushChairs(numberOfChairs);
-            BarContentInfo(mainWindow);
+            BarContentInfo(mainWindow, guestQueue.Count, cleanGlassesStack.Count, emptyChairs.Count);
             Bouncer bouncer = new Bouncer(this, mainWindow);
             Bartender bartender = new Bartender(this, mainWindow, bouncer);
             Waiter waiter = new Waiter(this, mainWindow);
         }
 
-        public void BarContentInfo(MainWindow mainWindow) // make it refresh after each thing that happens 
+
+        public void BarContentInfo(MainWindow mainWindow, int numberGuests, int numberCleanGlasses, int numberEmptyChairs) // make it refresh after each thing that happens 
         {
-            barContent.Add($"There are { guestQueue.Count} guests in the bar.");
-            barContent.Add($"There are {cleanGlassesStack.Count} glasses on the shelf.");
-            barContent.Add($"There are {emptyChairs.Count} available tables.");
-            foreach (var item in barContent)
-            {
-                mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items.Insert(0, item));
-            }
+            barContent.Clear();
+
+            barContent.Add($"There are { numberGuests} guests in the bar.");
+            barContent.Add($"There are {numberCleanGlasses} glasses on the shelf.");
+            barContent.Add($"There are {numberEmptyChairs} available tables.");
+            mainWindow.barContentListBox.ItemsSource = barContent;
+            mainWindow.barContentListBox.Items.Refresh();
+            //mainWindow.barContentListBox.UpdateLayout();
+            mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items);
         }
 
         public void PushGlasses(int numberOfGlasses)
