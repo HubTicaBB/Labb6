@@ -85,7 +85,7 @@ namespace RubberDuckPub
         }
         public void CountDown(Bar bar)
         {
-            timeSpan = TimeSpan.FromSeconds(bar.timeOpenBar);
+            timeSpan = TimeSpan.FromSeconds(bar.TimeOpenBar);
             dispatcherTimer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
 
             {

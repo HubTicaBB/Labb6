@@ -10,17 +10,17 @@ namespace RubberDuckPub
         public ConcurrentStack<Chairs> emptyChairs = new ConcurrentStack<Chairs>();
         public ConcurrentQueue<Guest> guestQueue = new ConcurrentQueue<Guest>();
         public List<string> barContent = new List<string>();
-        public int numberOfGlasses { get; set; } = 8;
-        public int numberOfChairs { get; set; } = 9;
-        public int timeOpenBar { get; set; } = 120;
+        public int NumberOfGlasses { get; set; } = 8;
+        public int NumberOfChairs { get; set; } = 9;
+        public int TimeOpenBar { get; set; } = 120;
         public bool IsOpen { get; set; }
 
         public Bar(MainWindow mainWindow)
         {
             // assign allt som behovs
             IsOpen = true;
-            PushGlasses(numberOfGlasses);
-            PushChairs(numberOfChairs);
+            PushGlasses(NumberOfGlasses);
+            PushChairs(NumberOfChairs);
             BarContentInfo(mainWindow, guestQueue.Count, cleanGlassesStack.Count, emptyChairs.Count);
             Bouncer bouncer = new Bouncer(this, mainWindow);
             Bartender bartender = new Bartender(this, mainWindow, bouncer);

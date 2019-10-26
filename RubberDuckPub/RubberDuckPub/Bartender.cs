@@ -44,20 +44,19 @@ namespace RubberDuckPub
         {
             if (bar.cleanGlassesStack.Count > 0)
             {
+                Glasses removedGlass;
                 Log(DateTime.Now, "Bartender is picking up a glass from the shelf.", mainWindow);
+                bar.cleanGlassesStack.TryPop(out removedGlass);
+                mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, mainWindow.GuestsListBox.Items.Count, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
                 Thread.Sleep(3000);
-                ServeBeer(bar, dequeuedGuest, mainWindow);
+                ServeBeer(bar, dequeuedGuest, mainWindow, removedGlass);
             }
         }
 
-        private void ServeBeer(Bar bar, Guest dequeuedGuest, MainWindow mainWindow)
+        private void ServeBeer(Bar bar, Guest dequeuedGuest, MainWindow mainWindow, Glasses removedGlass)
         {
-            Glasses removedGlass;
             Log(DateTime.Now, $"Bartender is pouring a beer to {dequeuedGuest.Name}.", mainWindow);
-            // remove glass from clean glasses
-            bar.cleanGlassesStack.TryPop(out removedGlass);
             bar.dirtyGlassesStack.Push(removedGlass);
-            mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, mainWindow.GuestsListBox.Items.Count, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
             Thread.Sleep(3000);
         }
 
