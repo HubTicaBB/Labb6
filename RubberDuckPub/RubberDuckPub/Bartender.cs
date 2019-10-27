@@ -46,19 +46,27 @@ namespace RubberDuckPub
                 Glasses removedGlass;
                 Log(DateTime.Now, "Bartender is picking up a glass from the shelf.", mainWindow);
                 bar.cleanGlassesStack.TryPop(out removedGlass);
-                mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, mainWindow.GuestsListBox.Items.Count, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
-                ServeBeer(bar, dequeuedGuest, mainWindow, removedGlass);
+                mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
+                //ServeBeer(bar, dequeuedGuest, mainWindow, removedGlass);
+                Thread.Sleep(3000);
+                ServeBeer(bar, dequeuedGuest, mainWindow);
             }
         }
 
-        private void ServeBeer(Bar bar, Guest dequeuedGuest, MainWindow mainWindow, Glasses removedGlass)
+        //private void ServeBeer(Bar bar, Guest dequeuedGuest, MainWindow mainWindow, Glasses removedGlass)
+        //{
+        //    Log(DateTime.Now, $"Bartender is pouring a beer to {dequeuedGuest.Name}.", mainWindow);
+        //    bar.dirtyGlassesStack.Push(removedGlass);
+        //    Thread.Sleep(3000);
+        //    bar.guestWaitingForTableQueue.Enqueue(dequeuedGuest);
+        //}
+
+        private void ServeBeer(Bar bar, Guest dequeuedGuest, MainWindow mainWindow)
         {
             Log(DateTime.Now, $"Bartender is pouring a beer to {dequeuedGuest.Name}.", mainWindow);
-            bar.dirtyGlassesStack.Push(removedGlass);
             Thread.Sleep(3000);
             bar.guestWaitingForTableQueue.Enqueue(dequeuedGuest);
         }
-
         private void GoHome()
         {
             // 

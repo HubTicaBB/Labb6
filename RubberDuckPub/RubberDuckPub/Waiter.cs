@@ -51,7 +51,7 @@ namespace RubberDuckPub
             {
                 bar.cleanGlassesStack.Push(new Glasses());
             }
-            mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, mainWindow.GuestsListBox.Items.Count, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
+            mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
         }
 
         private void Log(DateTime timestamp, string activity, MainWindow mainWindow)

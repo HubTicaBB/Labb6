@@ -90,11 +90,13 @@ namespace RubberDuckPub
         public void GenerateGuest(Bar bar, MainWindow mainWindow)
         {
             int index = r.Next(1, nameList.Count());
-            seconds = r.Next(10, 15);
+            seconds = r.Next(20, 30); // changed this to be able to follow the actions
             Thread.Sleep(seconds * 1000);
-            bar.guestQueue.Enqueue(new Guest(nameList[index]));
+            bar.guestQueue.Enqueue(new Guest(nameList[index], bar, mainWindow));
             Log(DateTime.Now, nameList[index] + " comes in and goes to the bar", mainWindow);
-            mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, mainWindow.GuestsListBox.Items.Count, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
+            bar.TotalNumberGuests++;
+            mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
+            Thread.Sleep(1000); // time to go to the bar
         }
 
         private void Log(DateTime timestamp, string activity, MainWindow mainWindow)

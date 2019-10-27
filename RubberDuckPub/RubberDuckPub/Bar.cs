@@ -11,6 +11,7 @@ namespace RubberDuckPub
         public ConcurrentQueue<Guest> guestQueue = new ConcurrentQueue<Guest>();
         public ConcurrentQueue<Guest> guestWaitingForTableQueue = new ConcurrentQueue<Guest>();
         public List<string> barContent = new List<string>();
+        public int TotalNumberGuests { get; set; } = 0;
         public int NumberOfGlasses { get; set; } = 8;
         public int NumberOfChairs { get; set; } = 9;
         public int TimeOpenBar { get; set; } = 120;
@@ -22,18 +23,18 @@ namespace RubberDuckPub
             IsOpen = true;
             PushGlasses(NumberOfGlasses);
             PushChairs(NumberOfChairs);
-            BarContentInfo(mainWindow, guestQueue.Count, cleanGlassesStack.Count, emptyChairs.Count);
+            BarContentInfo(mainWindow, cleanGlassesStack.Count, emptyChairs.Count);
             Bouncer bouncer = new Bouncer(this, mainWindow);
             Bartender bartender = new Bartender(this, mainWindow, bouncer);
             Waiter waiter = new Waiter(this, mainWindow);
         }
 
 
-        public void BarContentInfo(MainWindow mainWindow, int numberGuests, int numberCleanGlasses, int numberEmptyChairs) // make it refresh after each thing that happens 
+        public void BarContentInfo(MainWindow mainWindow, int numberCleanGlasses, int numberEmptyChairs) // make it refresh after each thing that happens 
         {
             barContent.Clear();
 
-            barContent.Add($"There are { numberGuests} guests in the bar.");
+            barContent.Add($"There are { TotalNumberGuests} guests in the bar.");
             barContent.Add($"There are {numberCleanGlasses} glasses on the shelf ({NumberOfGlasses} total).");
             barContent.Add($"There are {numberEmptyChairs} available tables ({NumberOfChairs} total).");
             mainWindow.barContentListBox.ItemsSource = barContent;
