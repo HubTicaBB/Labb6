@@ -26,22 +26,27 @@ namespace RubberDuckPub
 
         private void CheckIfGlassesAreEmpty(Bar bar, MainWindow mainWindow)
         {
-            if (bar.dirtyGlassesStack.Count > 0)
+            int glassesToClean = bar.dirtyGlassesStack.Count;
+            if (glassesToClean > 0)
             {
-                Glasses[] removedGlasses = new Glasses[bar.dirtyGlassesStack.Count];
-                Log(DateTime.Now, $"Picking up {bar.dirtyGlassesStack.Count} empty glasses.", mainWindow);
-                bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, bar.dirtyGlassesStack.Count);
-                numberOfPickedUpGlasses = removedGlasses.Length;
+                //Glasses[] removedGlasses = new Glasses[bar.dirtyGlassesStack.Count];
+                Log(DateTime.Now, $"Picking up {glassesToClean} empty glasses.", mainWindow);
+                //bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, bar.dirtyGlassesStack.Count); 
+                //numberOfPickedUpGlasses = removedGlasses.Length;
                 Thread.Sleep(TimeToPickUpGlasses);
-                DoDishes(bar, mainWindow, numberOfPickedUpGlasses);
+                DoDishes(bar, mainWindow, glassesToClean);
             }
         }
 
-        private void DoDishes(Bar bar, MainWindow mainWindow, int numberOfPickedUpGlasses)
+        private void DoDishes(Bar bar, MainWindow mainWindow, int glassesToClean)
         {
             Log(DateTime.Now, $"Doing dishes.", mainWindow);
             Thread.Sleep(TimeToDoDishes);
-            PutGlassBack(bar, mainWindow, numberOfPickedUpGlasses);
+
+            Glasses[] removedGlasses = new Glasses[glassesToClean];
+            bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, glassesToClean);
+            //numberOfPickedUpGlasses = removedGlasses.Length;
+            PutGlassBack(bar, mainWindow, glassesToClean);
         }
 
         private void PutGlassBack(Bar bar, MainWindow mainWindow, int numberOfPickedUpGlasses)
@@ -51,7 +56,7 @@ namespace RubberDuckPub
             {
                 bar.cleanGlassesStack.Push(new Glasses());
             }
-            mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
+            mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, numberOfPickedUpGlasses, bar.emptyChairs.Count));
         }
 
         private void Log(DateTime timestamp, string activity, MainWindow mainWindow)
