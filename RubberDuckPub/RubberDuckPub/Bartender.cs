@@ -26,14 +26,14 @@ namespace RubberDuckPub
             if (bar.guestQueue.Count == 0)
             {
 
-                Log(DateTime.Now, "Bartender is waiting for guests at the bar.", mainWindow);
+                Log(DateTime.Now, "Waiting for guests at the bar.", mainWindow);
                 int waitForGuest = bouncer.seconds;
                 Thread.Sleep(waitForGuest * 1000);  //
             }
             else
             {
                 Guest dequeuedGuest;
-                Log(DateTime.Now, "Bartender is going to the shelf.", mainWindow);
+                Log(DateTime.Now, "Going to the shelf.", mainWindow);
                 bar.guestQueue.TryDequeue(out dequeuedGuest);
                 GoToShelf(bar, dequeuedGuest, mainWindow);
             }
@@ -44,7 +44,7 @@ namespace RubberDuckPub
             if (bar.cleanGlassesStack.Count > 0)
             {
                 Glasses removedGlass;
-                Log(DateTime.Now, "Bartender is picking up a glass from the shelf.", mainWindow);
+                Log(DateTime.Now, "Picking up a glass from the shelf.", mainWindow);
                 bar.cleanGlassesStack.TryPop(out removedGlass);
                 mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
                 //ServeBeer(bar, dequeuedGuest, mainWindow, removedGlass);
@@ -63,7 +63,7 @@ namespace RubberDuckPub
 
         private void ServeBeer(Bar bar, Guest dequeuedGuest, MainWindow mainWindow)
         {
-            Log(DateTime.Now, $"Bartender is pouring a beer to {dequeuedGuest.Name}.", mainWindow);
+            Log(DateTime.Now, $"Pouring a beer to {dequeuedGuest.Name}.", mainWindow);
             Thread.Sleep(3000);
             bar.guestWaitingForTableQueue.Enqueue(dequeuedGuest);
         }

@@ -30,10 +30,10 @@ namespace RubberDuckPub
             };
             testComboBox.ItemsSource = testCases;
 
-            openBarButton.Click += OnTestButtonClicked;
+            openBarButton.Click += OnOpenBarButtonClicked;
         }
         //public ManualResetEvent PauseBartender = new ManualResetEvent(true); //is not really working 
-        private void OnTestButtonClicked(object sender, RoutedEventArgs e)
+        private void OnOpenBarButtonClicked(object sender, RoutedEventArgs e)
         {
 
             Bar bar;
@@ -97,5 +97,7 @@ namespace RubberDuckPub
             }, Application.Current.Dispatcher);
             dispatcherTimer.Start();
         }
+
+
     }
 }
