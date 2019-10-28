@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace RubberDuckPub
 {
@@ -9,6 +10,9 @@ namespace RubberDuckPub
     /// </summary>
     public partial class MainWindow : Window
     {
+        DispatcherTimer dispatcherTimer;
+        TimeSpan timeSpan;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -26,20 +30,18 @@ namespace RubberDuckPub
             };
             testComboBox.ItemsSource = testCases;
 
-            openBarButton.Click += OnTestButtonClicked;
+            openBarButton.Click += OnOpenBarButtonClicked;
         }
-
-        private void OnTestButtonClicked(object sender, RoutedEventArgs e)
+        //public ManualResetEvent PauseBartender = new ManualResetEvent(true); //is not really working 
+        private void OnOpenBarButtonClicked(object sender, RoutedEventArgs e)
         {
-            openBarButton.IsEnabled = false;
-            barStatusLabel.Foreground = Brushes.Green;
-            barStatusLabel.Text += "OPEN";
-            
+
             Bar bar;
             switch (testComboBox.SelectedItem)
             {
                 case "Standard Settings":
                     bar = new Bar(this);
+                    CountDown(bar);
                     break;
                 case "20 glasses, 3 chairs":
                     // bar = new Bar(this, 20, 3);
@@ -78,6 +80,24 @@ namespace RubberDuckPub
                 default:
                     break;
             }
+
+
         }
+        public void CountDown(Bar bar)
+        {
+            timeSpan = TimeSpan.FromSeconds(bar.TimeOpenBar);
+            dispatcherTimer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
+
+            {
+                barStatusTextBox.Text = "The bar is open!\nThe bar is closing in: " + timeSpan.ToString("c");
+                if (timeSpan == TimeSpan.Zero)
+                    dispatcherTimer.Stop();
+                timeSpan = timeSpan.Add(TimeSpan.FromSeconds(-1));
+
+            }, Application.Current.Dispatcher);
+            dispatcherTimer.Start();
+        }
+
+
     }
 }

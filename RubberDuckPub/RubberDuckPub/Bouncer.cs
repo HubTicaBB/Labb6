@@ -72,13 +72,14 @@ namespace RubberDuckPub
             "Pontus"
         };
         static Random r = new Random();
-
+        public int seconds { get; set; }
         public Bouncer(Bar bar, MainWindow mainWindow)
         {
             Task.Run(() =>
             {
                 while (bar.IsOpen)
                 {
+                    // while loop how many guests are coming inside the bar
                     GenerateGuest(bar, mainWindow);
                     //bar.IsOpen = false; quick check if the bouncer is going home
                 }
@@ -89,11 +90,13 @@ namespace RubberDuckPub
         public void GenerateGuest(Bar bar, MainWindow mainWindow)
         {
             int index = r.Next(1, nameList.Count());
-            int seconds = r.Next(10, 15);
+            seconds = r.Next(3, 11); // changed this to be able to follow the actions
             Thread.Sleep(seconds * 1000);
             bar.guestQueue.Enqueue(new Guest(nameList[index], bar, mainWindow));
             Log(DateTime.Now, nameList[index] + " comes in and goes to the bar", mainWindow);
-            Thread.Sleep(1000);
+            bar.TotalNumberGuests++;
+            mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
+            Thread.Sleep(1000); // time to go to the bar
         }
 
         private void Log(DateTime timestamp, string activity, MainWindow mainWindow)

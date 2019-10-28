@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace RubberDuckPub
 {
@@ -12,41 +9,37 @@ namespace RubberDuckPub
         public ConcurrentStack<Glasses> dirtyGlassesStack = new ConcurrentStack<Glasses>();
         public ConcurrentStack<Chairs> emptyChairs = new ConcurrentStack<Chairs>();
         public ConcurrentQueue<Guest> guestQueue = new ConcurrentQueue<Guest>();
-        public ConcurrentQueue<Guest> waitingToBeSeated = new ConcurrentQueue<Guest>();
-        public List<Guest> seatedGuests = new List<Guest>();
-        public int numberOfGlasses { get; set; } = 8;
-        public int numberOfChairs = 9;
-        public int timeOpenBar = 120;
+        public ConcurrentQueue<Guest> guestWaitingForTableQueue = new ConcurrentQueue<Guest>();
+        public List<string> barContent = new List<string>();
+        public int TotalNumberGuests { get; set; } = 0;
+        public int NumberOfGlasses { get; set; } = 8;
+        public int NumberOfChairs { get; set; } = 9;
+        public int TimeOpenBar { get; set; } = 120;
         public bool IsOpen { get; set; }
-        
+
         public Bar(MainWindow mainWindow)
         {
             // assign allt som behovs
             IsOpen = true;
-            PushGlasses(numberOfGlasses);
-            PushChairs(numberOfChairs);
+            PushGlasses(NumberOfGlasses);
+            PushChairs(NumberOfChairs);
+            BarContentInfo(mainWindow, cleanGlassesStack.Count, emptyChairs.Count);
             Bouncer bouncer = new Bouncer(this, mainWindow);
-            Bartender bartender = new Bartender(this, mainWindow);            
+            Bartender bartender = new Bartender(this, mainWindow, bouncer);
             Waiter waiter = new Waiter(this, mainWindow);
-            Task.Run(() =>
-            {
-                while (IsOpen)
-                {
-                    UpdateContentLabels(mainWindow);
-                    Thread.Sleep(100);
-                }
-            });
         }
 
-        private void UpdateContentLabels(MainWindow mainWindow)
+
+        public void BarContentInfo(MainWindow mainWindow, int numberCleanGlasses, int numberEmptyChairs) // make it refresh after each thing that happens 
         {
-            mainWindow.Dispatcher.Invoke(() => mainWindow.waitingAtBarLabel.Content = guestQueue.Count.ToString());
-            mainWindow.Dispatcher.Invoke(() => mainWindow.waitingForChairLabel.Content = waitingToBeSeated.Count.ToString());
-            mainWindow.Dispatcher.Invoke(() => mainWindow.drinkingLabel.Content = seatedGuests.Count.ToString());
-            mainWindow.Dispatcher.Invoke(() => mainWindow.glassesOnShelfLabel.Content = cleanGlassesStack.Count.ToString());
-            mainWindow.Dispatcher.Invoke(() => mainWindow.glassesTotalLabel.Content = numberOfGlasses.ToString());
-            mainWindow.Dispatcher.Invoke(() => mainWindow.availableChairsLabel.Content = emptyChairs.Count.ToString());
-            mainWindow.Dispatcher.Invoke(() => mainWindow.chairsTotalLabel.Content = numberOfChairs.ToString());
+            barContent.Clear();
+
+            barContent.Add($"There are { TotalNumberGuests} guests in the bar.");
+            barContent.Add($"There are {numberCleanGlasses} glasses on the shelf ({NumberOfGlasses} total).");
+            barContent.Add($"There are {numberEmptyChairs} available tables ({NumberOfChairs} total).");
+            mainWindow.barContentListBox.ItemsSource = barContent;
+            mainWindow.barContentListBox.Items.Refresh();
+            mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items);
         }
 
         public void PushGlasses(int numberOfGlasses)
@@ -63,22 +56,5 @@ namespace RubberDuckPub
                 emptyChairs.Push(new Chairs());
             }
         }
-
-        //public Action pushGlasses = () =>
-        //{
-        //    for (int i = 0; i < numberOfGlasses; i++)
-        //    {
-        //        cleanGlassesStack.Push(i);
-
-        //    }
-        //};
-
-        //Action pushChairs = () =>
-        // {
-        //     for (int i = 0; i < numberOfChairs; i++)
-        //     {
-        //         emptyChairs.Push(i);
-        //     }
-        // };
     }
 }
