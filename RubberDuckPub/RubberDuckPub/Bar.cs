@@ -39,7 +39,6 @@ namespace RubberDuckPub
             barContent.Add($"There are {numberEmptyChairs} available tables ({NumberOfChairs} total).");
             mainWindow.barContentListBox.ItemsSource = barContent;
             mainWindow.barContentListBox.Items.Refresh();
-            //mainWindow.barContentListBox.UpdateLayout();
             mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items);
         }
 
@@ -57,22 +56,5 @@ namespace RubberDuckPub
                 emptyChairs.Push(new Chairs());
             }
         }
-
-        //public Action pushGlasses = () =>
-        //{
-        //    for (int i = 0; i < numberOfGlasses; i++)
-        //    {
-        //        cleanGlassesStack.Push(i);
-
-        //    }
-        //};
-
-        //Action pushChairs = () =>
-        // {
-        //     for (int i = 0; i < numberOfChairs; i++)
-        //     {
-        //         emptyChairs.Push(i);
-        //     }
-        // };
     }
 }

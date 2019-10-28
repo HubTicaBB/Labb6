@@ -19,7 +19,7 @@ namespace RubberDuckPub
 
                     CheckIfGlassesAreEmpty(bar, mainWindow);
                 }
-                //GoHome() after all guests went home:  mainWindow.GuestsListBox.Items.Count == 0;
+                //GoHome() after all guests went home:  TotalGuest == 0;
 
             });
         }
@@ -29,10 +29,7 @@ namespace RubberDuckPub
             int glassesToClean = bar.dirtyGlassesStack.Count;
             if (glassesToClean > 0)
             {
-                //Glasses[] removedGlasses = new Glasses[bar.dirtyGlassesStack.Count];
                 Log(DateTime.Now, $"Picking up {glassesToClean} empty glasses.", mainWindow);
-                //bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, bar.dirtyGlassesStack.Count); 
-                //numberOfPickedUpGlasses = removedGlasses.Length;
                 Thread.Sleep(TimeToPickUpGlasses);
                 DoDishes(bar, mainWindow, glassesToClean);
             }
@@ -45,14 +42,13 @@ namespace RubberDuckPub
 
             Glasses[] removedGlasses = new Glasses[glassesToClean];
             bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, glassesToClean);
-            //numberOfPickedUpGlasses = removedGlasses.Length;
             PutGlassBack(bar, mainWindow, glassesToClean);
         }
 
-        private void PutGlassBack(Bar bar, MainWindow mainWindow, int numberOfPickedUpGlasses)
+        private void PutGlassBack(Bar bar, MainWindow mainWindow, int glassesToClean)
         {
             Log(DateTime.Now, $"Putting clean glasses in the shelf.", mainWindow);
-            for (int i = 0; i < numberOfPickedUpGlasses; i++)
+            for (int i = 0; i < glassesToClean; i++)
             {
                 bar.cleanGlassesStack.Push(new Glasses());
             }

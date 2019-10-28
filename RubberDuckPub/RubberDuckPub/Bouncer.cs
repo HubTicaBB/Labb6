@@ -79,7 +79,7 @@ namespace RubberDuckPub
             {
                 while (bar.IsOpen)
                 {
-
+                    // while loop how many guests are coming inside the bar
                     GenerateGuest(bar, mainWindow);
                     //bar.IsOpen = false; quick check if the bouncer is going home
                 }
