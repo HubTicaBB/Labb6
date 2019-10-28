@@ -9,21 +9,22 @@ namespace RubberDuckPub
         public int TimeToPickUpGlasses { get; set; } = 10000;
         public int TimeToDoDishes { get; set; } = 15000;
         public int numberOfPickedUpGlasses = 0;
+        public bool IsWorking { get; set; }
+
         public Waiter(Bar bar, MainWindow mainWindow)
         {
             // add properties in the constructor
             Task.Run(() =>
             {
-                while (bar.IsOpen)
+                while (bar.IsOpen || bar.dirtyGlassesStack.Count > 0)
                 {
-
+                    IsWorking = true;
                     CheckIfGlassesAreEmpty(bar, mainWindow);
                 }
-                //GoHome() after all guests went home:  TotalGuest == 0;
-
+                GoHome(mainWindow, bar);
             });
         }
-
+        
         private void CheckIfGlassesAreEmpty(Bar bar, MainWindow mainWindow)
         {
             int glassesToClean = bar.dirtyGlassesStack.Count;
@@ -47,13 +48,26 @@ namespace RubberDuckPub
 
         private void PutGlassBack(Bar bar, MainWindow mainWindow, int glassesToClean)
         {
+            int glassesOnShelf = bar.cleanGlassesStack.Count;
             Log(DateTime.Now, $"Putting clean glasses in the shelf.", mainWindow);
             for (int i = 0; i < glassesToClean; i++)
             {
                 bar.cleanGlassesStack.Push(new Glasses());
             }
-            mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, numberOfPickedUpGlasses, bar.emptyChairs.Count));
+            Thread.Sleep(100); // för att content listbox har tid att uppdatera sig
+            ////mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, glassesOnShelf + glassesToClean, bar.emptyChairs.Count));
         }
+
+        private void GoHome(MainWindow mainWindow, Bar bar)
+        {
+            if (bar.TotalNumberGuests == 0)
+            {
+                Log(DateTime.Now, "Waiter goes home.", mainWindow);
+                IsWorking = false;
+                //mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, numberOfPickedUpGlasses, bar.emptyChairs.Count));
+            }
+        }
+
 
         private void Log(DateTime timestamp, string activity, MainWindow mainWindow)
         {

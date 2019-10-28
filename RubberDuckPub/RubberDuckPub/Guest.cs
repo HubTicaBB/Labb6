@@ -15,49 +15,53 @@ namespace RubberDuckPub
             Name = name;
             Task.Run(() =>
             {
-                while (bar.IsOpen && IsInBar)
+                while (IsInBar)
                 {
                     if (bar.guestWaitingForTableQueue.Count > 0)
                     {
-                        Log(DateTime.Now, $"{this.Name} is searching for an available seat.", mainWindow);
-                        SearchForEmptyChair(bar, mainWindow);
+                        Guest nextToBeServed;
+                        bar.guestWaitingForTableQueue.TryDequeue(out nextToBeServed);
+                        if (nextToBeServed != null)
+                        {
+                            Log(DateTime.Now, $"{nextToBeServed.Name} is searching for an available seat.", mainWindow);
+                            SearchForEmptyChair(bar, mainWindow, nextToBeServed);
+                        }                        
                     }
                 }
             });
         }
 
-        private void SearchForEmptyChair(Bar bar, MainWindow mainWindow)
+        private void SearchForEmptyChair(Bar bar, MainWindow mainWindow, Guest nextToBeSeated)
         {
             if (bar.emptyChairs.Count > 0)
             {
-
                 Thread.Sleep(TimeToGoToTable);
-                Log(DateTime.Now, $"{this.Name} is sitting at the table.", mainWindow);
+                Log(DateTime.Now, $"{nextToBeSeated.Name} is sitting at the table.", mainWindow);
+                bar.seatedGuests.Add(nextToBeSeated);
                 bar.emptyChairs.TryPop(out Chairs removedChair);
-                mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
-                DrinkBeer(bar, mainWindow, removedChair);
+                ////mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
+                DrinkBeer(bar, mainWindow, removedChair, nextToBeSeated);
             }
         }
 
-        private void DrinkBeer(Bar bar, MainWindow mainWindow, Chairs removedChair)
+        private void DrinkBeer(Bar bar, MainWindow mainWindow, Chairs removedChair, Guest drinkingGuest)
         {
             Random r = new Random();
-            Log(DateTime.Now, $"{this.Name} is drinking beer", mainWindow);
+            Log(DateTime.Now, $"{drinkingGuest.Name} is drinking beer", mainWindow);
             int secondsToDrinkBeer = r.Next(10, 21);
             Thread.Sleep(secondsToDrinkBeer * 1000);
-            GoHome(bar, mainWindow, removedChair);
+            GoHome(bar, mainWindow, removedChair, drinkingGuest);
         }
 
-        private void GoHome(Bar bar, MainWindow mainWindow, Chairs removedChair)
+        private void GoHome(Bar bar, MainWindow mainWindow, Chairs removedChair, Guest leavingGuest)
         {
-            Guest servedGuest;
-            Log(DateTime.Now, $"{this.Name} finished the beer and goes home.", mainWindow);
-            bar.guestWaitingForTableQueue.TryDequeue(out servedGuest);
+            bar.seatedGuests.Remove(this);
+            Log(DateTime.Now, $"{leavingGuest.Name} finished the beer and goes home.", mainWindow);
             IsInBar = false;
             bar.dirtyGlassesStack.Push(new Glasses());
             bar.emptyChairs.Push(removedChair);
             bar.TotalNumberGuests--;
-            mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
+            ////mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
         }
 
         private void Log(DateTime timestamp, string activity, MainWindow mainWindow)

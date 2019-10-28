@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -35,8 +36,11 @@ namespace RubberDuckPub
             closeBarButton.Click += OnCloseBarButtonClicked;
         }
         //public ManualResetEvent PauseBartender = new ManualResetEvent(true); //is not really working 
+
         private void OnOpenBarButtonClicked(object sender, RoutedEventArgs e)
-        {            
+        {
+            openBarButton.IsEnabled = false;
+            closeBarButton.IsEnabled = true;
             switch (testComboBox.SelectedItem)
             {
                 case "Standard Settings":
@@ -84,6 +88,9 @@ namespace RubberDuckPub
 
         private void OnCloseBarButtonClicked(object sender, RoutedEventArgs e)
         {
+            closeBarButton.IsEnabled = false;
+            openBarButton.IsEnabled = true;
+            Thread.Sleep(100);
             bar.IsOpen = false;
         }
 
