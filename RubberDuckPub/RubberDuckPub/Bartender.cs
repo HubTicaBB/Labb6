@@ -8,15 +8,17 @@ namespace RubberDuckPub
     {
         public Bartender(Bar bar, MainWindow mainWindow, Bouncer bouncer)
         {
-            //bar.mainWindow.PauseBartender.WaitOne(Timeout.Infinite);
+
             Task.Run(() =>
             {
                 while (bar.IsOpen)
                 {
                     CheckIfGuestsAreWaiting(bar, mainWindow, bouncer);
                 }
-                //GoHome() after all lists with guests are empty 
-
+                if (bar.IsOpen == false)
+                {
+                    GoHome(bar, mainWindow);
+                }
             });
 
         }
@@ -56,10 +58,14 @@ namespace RubberDuckPub
             Log(DateTime.Now, $"Pouring a beer to {dequeuedGuest.Name}.", mainWindow);
             Thread.Sleep(3000);
             bar.guestWaitingForTableQueue.Enqueue(dequeuedGuest);
+
         }
-        private void GoHome()
+        private void GoHome(Bar bar, MainWindow mainWindow)
         {
-            // 
+            if (bar.TotalNumberGuests == 0)
+            {
+                Log(DateTime.Now, "Goes home.", mainWindow);
+            }
         }
         private void Log(DateTime timestamp, string activity, MainWindow mainWindow)
         {

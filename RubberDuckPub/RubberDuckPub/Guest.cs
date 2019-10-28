@@ -21,6 +21,8 @@ namespace RubberDuckPub
                     {
                         Log(DateTime.Now, $"{this.Name} is searching for an available seat.", mainWindow);
                         SearchForEmptyChair(bar, mainWindow);
+                        //dequeue the guest from the waitingForTableQueue and use it forward in the next methods 
+                        // like that the bar.guestWaitingForTableQueue becomes empty 
                     }
                 }
             });

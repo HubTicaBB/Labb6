@@ -8,7 +8,7 @@ namespace RubberDuckPub
     {
         public int TimeToPickUpGlasses { get; set; } = 10000;
         public int TimeToDoDishes { get; set; } = 15000;
-        public int numberOfPickedUpGlasses = 0;
+
         public Waiter(Bar bar, MainWindow mainWindow)
         {
             // add properties in the constructor
@@ -19,10 +19,13 @@ namespace RubberDuckPub
 
                     CheckIfGlassesAreEmpty(bar, mainWindow);
                 }
+                //GoHome(bar, mainWindow);
                 //GoHome() after all guests went home:  TotalGuest == 0;
 
             });
         }
+
+
 
         private void CheckIfGlassesAreEmpty(Bar bar, MainWindow mainWindow)
         {
@@ -47,12 +50,21 @@ namespace RubberDuckPub
 
         private void PutGlassBack(Bar bar, MainWindow mainWindow, int glassesToClean)
         {
+            int cleanGlassesBefore = bar.cleanGlassesStack.Count;
             Log(DateTime.Now, $"Putting clean glasses in the shelf.", mainWindow);
             for (int i = 0; i < glassesToClean; i++)
             {
                 bar.cleanGlassesStack.Push(new Glasses());
             }
-            mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, numberOfPickedUpGlasses, bar.emptyChairs.Count));
+            mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, (cleanGlassesBefore + glassesToClean), bar.emptyChairs.Count));
+            GoHome(bar, mainWindow);
+        }
+        private void GoHome(Bar bar, MainWindow mainWindow)
+        {
+            if (bar.TotalNumberGuests == 0)
+            {
+                Log(DateTime.Now, "Goes home.", mainWindow);
+            }
         }
 
         private void Log(DateTime timestamp, string activity, MainWindow mainWindow)
