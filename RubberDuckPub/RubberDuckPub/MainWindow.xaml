@@ -29,7 +29,7 @@
         <ListBox x:Name="GuestsListBox" HorizontalAlignment="Left" Height="331" Margin="155,177,0,0" VerticalAlignment="Top" Width="320" Grid.ColumnSpan="4" Grid.Column="1"/>
         <Label x:Name="guestsLabel" Content="Guests" HorizontalAlignment="Left" Margin="156,143,0,0" VerticalAlignment="Top" Width="123" Grid.ColumnSpan="2" Grid.Column="1"/>
         <Label x:Name="waiterLabel" Content="Waiter" HorizontalAlignment="Left" Margin="352,151,0,0" VerticalAlignment="Top" Width="123"/>
-        <Button x:Name="closeButton" Content="Close Bar" HorizontalAlignment="Left" Height="28" Margin="523,96,0,0" VerticalAlignment="Top" Width="149" Grid.ColumnSpan="2"/>
+        <Button x:Name="closeBarButton" Content="Close Bar" HorizontalAlignment="Left" Height="28" Margin="523,96,0,0" VerticalAlignment="Top" Width="149" Grid.ColumnSpan="2"/>
         <TextBlock x:Name="barStatusTextBox" HorizontalAlignment="Left" Height="46" Margin="180,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123" Grid.Column="4" Grid.ColumnSpan="2"/>
         <Label Content="Bar Status" HorizontalAlignment="Left" Height="28" Margin="180,72,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.Column="4" Grid.ColumnSpan="2"/>
         <ComboBox x:Name="testComboBox" HorizontalAlignment="Left" Height="28" Margin="10,96,0,0" VerticalAlignment="Top" Width="320" SelectedIndex="0"/>

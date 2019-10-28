@@ -14,7 +14,7 @@ namespace RubberDuckPub
         public int TotalNumberGuests { get; set; } = 0;
         public int NumberOfGlasses { get; set; } = 8;
         public int NumberOfChairs { get; set; } = 9;
-        public int TimeOpenBar { get; set; } = 120;
+        public int TimeOpenBar { get; set; } = 20;
         public bool IsOpen { get; set; }
 
         public Bar(MainWindow mainWindow)

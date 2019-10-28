@@ -10,6 +10,7 @@ namespace RubberDuckPub
     /// </summary>
     public partial class MainWindow : Window
     {
+        Bar bar;
         DispatcherTimer dispatcherTimer;
         TimeSpan timeSpan;
 
@@ -31,12 +32,11 @@ namespace RubberDuckPub
             testComboBox.ItemsSource = testCases;
 
             openBarButton.Click += OnOpenBarButtonClicked;
+            closeBarButton.Click += OnCloseBarButtonClicked;
         }
         //public ManualResetEvent PauseBartender = new ManualResetEvent(true); //is not really working 
         private void OnOpenBarButtonClicked(object sender, RoutedEventArgs e)
-        {
-
-            Bar bar;
+        {            
             switch (testComboBox.SelectedItem)
             {
                 case "Standard Settings":
@@ -80,24 +80,32 @@ namespace RubberDuckPub
                 default:
                     break;
             }
-
-
         }
+
+        private void OnCloseBarButtonClicked(object sender, RoutedEventArgs e)
+        {
+            bar.IsOpen = false;
+        }
+
         public void CountDown(Bar bar)
         {
             timeSpan = TimeSpan.FromSeconds(bar.TimeOpenBar);
             dispatcherTimer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
-
             {
-                barStatusTextBox.Text = "The bar is open!\nThe bar is closing in: " + timeSpan.ToString("c");
+                string status = (bar.IsOpen) ? "open" : "closed";
+                barStatusTextBox.Text = $"The bar is {status}!";
+                if (bar.IsOpen) barStatusTextBox.Text += "\nThe bar is closing in: " + timeSpan.ToString("c");
+                else timeSpan = TimeSpan.Zero;
                 if (timeSpan == TimeSpan.Zero)
+                {
                     dispatcherTimer.Stop();
+                    bar.IsOpen = false;
+                    barStatusTextBox.Text = "The bar is closed";
+                }                    
                 timeSpan = timeSpan.Add(TimeSpan.FromSeconds(-1));
 
             }, Application.Current.Dispatcher);
             dispatcherTimer.Start();
         }
-
-
     }
 }
