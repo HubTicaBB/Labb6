@@ -16,25 +16,39 @@ namespace RubberDuckPub
         public List<Guest> seatedGuests = new List<Guest>();
         public List<string> barContent = new List<string>();
         public int TotalNumberGuests { get; set; } = 0;
-        public int NumberOfGlasses { get; set; } = 8;
-        public int NumberOfChairs { get; set; } = 9;
-        public int TimeOpenBar { get; set; } = 120;
+        public int NumberOfGlasses { get; set; }
+        public int NumberOfChairs { get; set; }
+        public bool GuestsStayingDouble { get; set; }
+        public int TimeOpenBar { get; set; }
         public bool IsOpen { get; set; }
 
-        public Bar(MainWindow mainWindow)
+        public Bar(MainWindow mainWindow,
+                   int numberOfGlasses = 8,
+                   int numberOfChairs = 9,
+                   bool guestsStayingDouble = false,
+                   bool waiterTwiceAsFast = false,
+                   int openingSeconds = 120,
+                   int numberOfGuestsAtATime = 1,
+                   bool bouncerHalfAsSlow = false)
         {
             // assign allt som behovs
             IsOpen = true;
+            NumberOfGlasses = numberOfGlasses;
+            NumberOfChairs = numberOfChairs;
+            GuestsStayingDouble = guestsStayingDouble;
+            TimeOpenBar = openingSeconds;
+
+
             PushGlasses(NumberOfGlasses);
             PushChairs(NumberOfChairs);
             //////BarContentInfo(mainWindow, cleanGlassesStack.Count, emptyChairs.Count);
-            Bouncer bouncer = new Bouncer(this, mainWindow);
+            Bouncer bouncer = new Bouncer(this, mainWindow, numberOfGuestsAtATime, bouncerHalfAsSlow);
             Bartender bartender = new Bartender(this, mainWindow, bouncer);
-            Waiter waiter = new Waiter(this, mainWindow);
+            Waiter waiter = new Waiter(this, mainWindow, waiterTwiceAsFast);
 
             Task.Run(() =>
             {
-                while (IsOpen || waiter.IsWorking)
+                while (IsOpen || waiter.IsWorking || TotalNumberGuests != 0)
                 {
                     UpdateBarContent(mainWindow);
                     Thread.Sleep(101);

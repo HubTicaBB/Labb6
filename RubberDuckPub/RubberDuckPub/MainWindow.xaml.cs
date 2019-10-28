@@ -25,7 +25,7 @@ namespace RubberDuckPub
                 "20 glasses, 3 chairs",
                 "20 chairs, 5 glasses",
                 "Guests staying double time",
-                "The waiter picks upp glasses in half the time",
+                "The waiter twice as fast",
                 "Bar working hours: 5 minutes",
                 "Couples Night",
                 "Bus comming"
@@ -48,38 +48,32 @@ namespace RubberDuckPub
                     CountDown(bar);
                     break;
                 case "20 glasses, 3 chairs":
-                    // bar = new Bar(this, 20, 3);
-                    // constructor overload:
-                    // public Bar(MainWindow mainWindow, int numberOfGlasses, int numberOfChairs)
-                    // {
-                    //      NumberOfGlasses = numberOfGlasses;
-                    //      NumberOfChairs = numberOfChairs;
-                    // }
+                    bar = new Bar(this, numberOfGlasses: 20, numberOfChairs: 3);
+                    CountDown(bar);
                     break;
                 case "20 chairs, 5 glasses":
-                    // bar = new Bar(this, 5, 20);  // samma konstruktorn som i caset ovan
+                    bar = new Bar(this, numberOfChairs: 20, numberOfGlasses: 5);
+                    CountDown(bar);
                     break;
                 case "Guests staying double time":
-                    // bar = new Bar(this);
+                    bar = new Bar(this, guestsStayingDouble: true);
+                    CountDown(bar);
                     break;
-                case "The waiter picks upp glasses in half the time":
-                    // class Waiter { int PickUpTime = 10000 by default }
-                    // bar = new Bar(this, 5000)
-                    // {
-                    //      // gör allt som vanligt, fast skicka 5000 med Waiter konstruktorn
-                    //      Waiter waiter = new Waiter(this, 5000)
-                    //      public Waiter(Bar bar, MainWindow mainwindow)
-                    // }
-                    //
+                case "The waiter twice as fast":
+                    bar = new Bar(this, waiterTwiceAsFast: true);
+                    CountDown(bar);
                     break;
                 case "Bar working hours: 5 minutes":
-                    // bar = new Bar(this);
+                    bar = new Bar(this, openingSeconds: 300);
+                    CountDown(bar);
                     break;
                 case "Couples Night":
-                    // bar = new Bar(this);
+                    bar = new Bar(this, numberOfGuestsAtATime: 2);
+                    CountDown(bar);
                     break;
                 case "Bus comming":
-                    // bar = new Bar(this);
+                    bar = new Bar(this, bouncerHalfAsSlow: true, numberOfGuestsAtATime: 15);
+                    CountDown(bar);
                     break;
                 default:
                     break;

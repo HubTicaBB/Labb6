@@ -73,14 +73,18 @@ namespace RubberDuckPub
         };
         static Random r = new Random();
         public int seconds { get; set; }
+        public int NumberOfGuestsAtATime { get; set; }
+        public bool HalfAsFast { get; set; }
 
-        public Bouncer(Bar bar, MainWindow mainWindow)
+        public Bouncer(Bar bar, MainWindow mainWindow, int numberOfGuestsAtATime, bool halfAsFast)
         {
+            NumberOfGuestsAtATime = numberOfGuestsAtATime;
+            HalfAsFast = halfAsFast;
+
             Task.Run(() =>
             {
                 while (bar.IsOpen)
                 {
-                    // while loop how many guests are coming inside the bar
                     GenerateGuest(bar, mainWindow);
                     //bar.IsOpen = false; quick check if the bouncer is going home
                 }
@@ -90,16 +94,19 @@ namespace RubberDuckPub
 
         public void GenerateGuest(Bar bar, MainWindow mainWindow)
         {
-            int index = r.Next(1, nameList.Count());
             seconds = r.Next(3, 11);
+            if (HalfAsFast) seconds *= 2;
             Thread.Sleep(seconds * 1000);
-            if (!bar.IsOpen) return;
-            bar.guestQueue.Enqueue(new Guest(nameList[index], bar, mainWindow));            
-            Log(DateTime.Now, nameList[index] + " comes in and goes to the bar", mainWindow);
-            nameList.RemoveAt(index);
-            bar.TotalNumberGuests++;
-            ////mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
-            Thread.Sleep(1000); // time to go to the bar
+
+            for (int i = 0; i < NumberOfGuestsAtATime; i++)
+            {
+                int index = r.Next(1, nameList.Count());
+                if (!bar.IsOpen) return;
+                bar.guestQueue.Enqueue(new Guest(nameList[index], bar, mainWindow));
+                Log(DateTime.Now, nameList[index] + " comes in and goes to the bar", mainWindow);
+                bar.TotalNumberGuests++;
+            }
+            NumberOfGuestsAtATime = 1;
         }
 
         private void Log(DateTime timestamp, string activity, MainWindow mainWindow)

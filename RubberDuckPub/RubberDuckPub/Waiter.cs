@@ -10,9 +10,17 @@ namespace RubberDuckPub
         public int TimeToDoDishes { get; set; } = 15000;
         public int numberOfPickedUpGlasses = 0;
         public bool IsWorking { get; set; }
+        public bool TwiceAsFast { get; set; }
 
-        public Waiter(Bar bar, MainWindow mainWindow)
+
+        public Waiter(Bar bar, MainWindow mainWindow, bool twiceAsFast)
         {
+            TwiceAsFast = twiceAsFast;
+            if (TwiceAsFast)
+            {
+                TimeToPickUpGlasses /= 2;
+                TimeToDoDishes /= 2;
+            }
             // add properties in the constructor
             Task.Run(() =>
             {
