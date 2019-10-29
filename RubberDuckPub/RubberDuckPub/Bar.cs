@@ -38,7 +38,6 @@ namespace RubberDuckPub
             GuestsStayingDouble = guestsStayingDouble;
             TimeOpenBar = openingSeconds;
 
-
             PushGlasses(NumberOfGlasses);
             PushChairs(NumberOfChairs);
             //////BarContentInfo(mainWindow, cleanGlassesStack.Count, emptyChairs.Count);
@@ -48,7 +47,7 @@ namespace RubberDuckPub
 
             Task.Run(() =>
             {
-                while (IsOpen || waiter.IsWorking || TotalNumberGuests != 0)
+                while (IsOpen || waiter.IsWorking || bartender.IsWorking)
                 {
                     UpdateBarContent(mainWindow);
                     Thread.Sleep(101);
@@ -59,14 +58,11 @@ namespace RubberDuckPub
         private void UpdateBarContent(MainWindow mainWindow)
         {
             mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items.Clear());
-            mainWindow.Dispatcher.Invoke(() => 
-                mainWindow.barContentListBox.Items.Add($"There are {TotalNumberGuests} guests in the bar."));
-            mainWindow.Dispatcher.Invoke(() =>
-                mainWindow.barContentListBox.Items.Add($"There are {cleanGlassesStack.Count} glasses on the shelf " +
-                                                       $"({NumberOfGlasses} total)"));
-            mainWindow.Dispatcher.Invoke(() =>
-                mainWindow.barContentListBox.Items.Add($"There are {emptyChairs.Count} available chairs " +
-                                                       $"({NumberOfChairs} total)"));            
+            mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items.Add($"There are {TotalNumberGuests} guests in the bar."));
+            mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items.Add($"There are {cleanGlassesStack.Count} glasses on the shelf " +
+                                                                                      $"({NumberOfGlasses} total)"));
+            mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items.Add($"There are {emptyChairs.Count} available chairs " +
+                                                                                      $"({NumberOfChairs} total)"));            
         }
 
 
@@ -82,7 +78,7 @@ namespace RubberDuckPub
         //    ////mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items);
         //}
 
-    public void PushGlasses(int numberOfGlasses)
+        public void PushGlasses(int numberOfGlasses)
         {
             for (int i = 0; i < numberOfGlasses; i++)
             {

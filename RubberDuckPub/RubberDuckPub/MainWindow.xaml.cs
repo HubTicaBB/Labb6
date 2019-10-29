@@ -28,7 +28,7 @@ namespace RubberDuckPub
                 "The waiter twice as fast",
                 "Bar working hours: 5 minutes",
                 "Couples Night",
-                "Bus comming"
+                "Bus coming"
             };
             testComboBox.ItemsSource = testCases;
 
@@ -71,7 +71,7 @@ namespace RubberDuckPub
                     bar = new Bar(this, numberOfGuestsAtATime: 2);
                     CountDown(bar);
                     break;
-                case "Bus comming":
+                case "Bus coming":
                     bar = new Bar(this, bouncerHalfAsSlow: true, numberOfGuestsAtATime: 15);
                     CountDown(bar);
                     break;

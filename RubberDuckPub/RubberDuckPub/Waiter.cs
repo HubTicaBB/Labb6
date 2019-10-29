@@ -22,6 +22,7 @@ namespace RubberDuckPub
                 TimeToDoDishes /= 2;
             }
             // add properties in the constructor
+
             Task.Run(() =>
             {
                 while (bar.IsOpen || bar.dirtyGlassesStack.Count > 0)
