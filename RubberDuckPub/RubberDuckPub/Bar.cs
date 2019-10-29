@@ -31,7 +31,6 @@ namespace RubberDuckPub
                    int numberOfGuestsAtATime = 1,
                    bool bouncerHalfAsSlow = false)
         {
-            // assign allt som behovs
             IsOpen = true;
             NumberOfGlasses = numberOfGlasses;
             NumberOfChairs = numberOfChairs;
@@ -40,7 +39,7 @@ namespace RubberDuckPub
 
             PushGlasses(NumberOfGlasses);
             PushChairs(NumberOfChairs);
-            //////BarContentInfo(mainWindow, cleanGlassesStack.Count, emptyChairs.Count);
+
             Bouncer bouncer = new Bouncer(this, mainWindow, numberOfGuestsAtATime, bouncerHalfAsSlow);
             Bartender bartender = new Bartender(this, mainWindow, bouncer);
             Waiter waiter = new Waiter(this, mainWindow, waiterTwiceAsFast);
