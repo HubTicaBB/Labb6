@@ -8,6 +8,9 @@ namespace RubberDuckPub
 {
     public class Bouncer
     {
+        public MainWindow mainWindow { get; set; }
+        public Bar bar { get; set; }
+
         static List<string> nameList = new List<string>
         {
             "Bob",
@@ -78,9 +81,11 @@ namespace RubberDuckPub
 
         public Bouncer(Bar bar, MainWindow mainWindow, int numberOfGuestsAtATime, bool halfAsFast)
         {
+            this.bar = bar;
+            this.mainWindow = mainWindow;
             NumberOfGuestsAtATime = numberOfGuestsAtATime;
             HalfAsFast = halfAsFast;
-            StartBouncer(bar, mainWindow);
+            StartBouncer();
             //Task.Run(() =>
             //{
             //    while (bar.IsOpen)
@@ -92,20 +97,20 @@ namespace RubberDuckPub
             //});
         }
 
-        private void StartBouncer(Bar bar, MainWindow mainWindow)
+        private void StartBouncer()
         {
             Task.Run(() =>
             {
                 while (bar.IsOpen)
                 {
-                    GenerateGuest(bar, mainWindow);
+                    GenerateGuest();
                     //bar.IsOpen = false; quick check if the bouncer is going home
                 }
-                GoHome(mainWindow);
+                GoHome();
             });
         }
 
-        public void GenerateGuest(Bar bar, MainWindow mainWindow)
+        public void GenerateGuest()
         {
             seconds = r.Next(3, 11);
             if (HalfAsFast) seconds *= 2;
@@ -116,20 +121,20 @@ namespace RubberDuckPub
                 int index = r.Next(1, nameList.Count());
                 if (!bar.IsOpen) return;
                 bar.guestQueue.Enqueue(new Guest(nameList[index], bar, mainWindow));
-                Log(DateTime.Now, nameList[index] + " comes in and goes to the bar", mainWindow);
+                Log(DateTime.Now, nameList[index] + " comes in and goes to the bar");
                 bar.TotalNumberGuests++;
             }
             NumberOfGuestsAtATime = (NumberOfGuestsAtATime == 15) ? 1 : NumberOfGuestsAtATime;
         }
 
-        private void Log(DateTime timestamp, string activity, MainWindow mainWindow)
+        private void Log(DateTime timestamp, string activity)
         {
             mainWindow.Dispatcher.Invoke(() => mainWindow.GuestsListBox.Items.Insert(0, $"{timestamp.ToString("H:mm:ss")} - {activity}"));
         }
 
-        private void GoHome(MainWindow mainWindow)
+        private void GoHome()
         {
-            Log(DateTime.Now, "Bouncer goes home.", mainWindow);
+            Log(DateTime.Now, "Bouncer goes home.");
         }
     }
 }
