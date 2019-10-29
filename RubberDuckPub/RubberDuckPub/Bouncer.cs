@@ -80,7 +80,20 @@ namespace RubberDuckPub
         {
             NumberOfGuestsAtATime = numberOfGuestsAtATime;
             HalfAsFast = halfAsFast;
+            StartBouncer(bar, mainWindow);
+            //Task.Run(() =>
+            //{
+            //    while (bar.IsOpen)
+            //    {
+            //        GenerateGuest(bar, mainWindow);
+            //        //bar.IsOpen = false; quick check if the bouncer is going home
+            //    }
+            //    GoHome(mainWindow);
+            //});
+        }
 
+        private void StartBouncer(Bar bar, MainWindow mainWindow)
+        {
             Task.Run(() =>
             {
                 while (bar.IsOpen)

@@ -22,7 +22,21 @@ namespace RubberDuckPub
                 TimeToDoDishes /= 2;
             }
             // add properties in the constructor
+            StartWaiter(bar, mainWindow);
 
+            //Task.Run(() =>
+            //{
+            //    while (bar.IsOpen || bar.dirtyGlassesStack.Count > 0)
+            //    {
+            //        IsWorking = true;
+            //        CheckIfGlassesAreEmpty(bar, mainWindow);
+            //    }
+            //    GoHome(mainWindow, bar);
+            //});
+        }
+
+        private void StartWaiter(Bar bar, MainWindow mainWindow)
+        {
             Task.Run(() =>
             {
                 while (bar.IsOpen || bar.dirtyGlassesStack.Count > 0)
@@ -33,7 +47,7 @@ namespace RubberDuckPub
                 GoHome(mainWindow, bar);
             });
         }
-        
+
         private void CheckIfGlassesAreEmpty(Bar bar, MainWindow mainWindow)
         {
             int glassesToClean = bar.dirtyGlassesStack.Count;

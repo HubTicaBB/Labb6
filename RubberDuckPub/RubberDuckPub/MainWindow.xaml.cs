@@ -45,35 +45,35 @@ namespace RubberDuckPub
             {
                 case "Standard Settings":
                     bar = new Bar(this);
-                    CountDown(bar);
+                    UpdateBarStatus(bar);
                     break;
                 case "20 glasses, 3 chairs":
                     bar = new Bar(this, numberOfGlasses: 20, numberOfChairs: 3);
-                    CountDown(bar);
+                    UpdateBarStatus(bar);
                     break;
                 case "20 chairs, 5 glasses":
                     bar = new Bar(this, numberOfChairs: 20, numberOfGlasses: 5);
-                    CountDown(bar);
+                    UpdateBarStatus(bar);
                     break;
                 case "Guests staying double time":
                     bar = new Bar(this, guestsStayingDouble: true);
-                    CountDown(bar);
+                    UpdateBarStatus(bar);
                     break;
                 case "The waiter twice as fast":
                     bar = new Bar(this, waiterTwiceAsFast: true);
-                    CountDown(bar);
+                    UpdateBarStatus(bar);
                     break;
                 case "Bar working hours: 5 minutes":
                     bar = new Bar(this, openingSeconds: 300);
-                    CountDown(bar);
+                    UpdateBarStatus(bar);
                     break;
                 case "Couples Night":
                     bar = new Bar(this, numberOfGuestsAtATime: 2);
-                    CountDown(bar);
+                    UpdateBarStatus(bar);
                     break;
                 case "Bus coming":
                     bar = new Bar(this, bouncerHalfAsSlow: true, numberOfGuestsAtATime: 15);
-                    CountDown(bar);
+                    UpdateBarStatus(bar);
                     break;
                 default:
                     break;
@@ -88,7 +88,7 @@ namespace RubberDuckPub
             bar.IsOpen = false;
         }
 
-        public void CountDown(Bar bar)
+        public void UpdateBarStatus(Bar bar)
         {
             timeSpan = TimeSpan.FromSeconds(bar.TimeOpenBar);
             dispatcherTimer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
@@ -102,7 +102,7 @@ namespace RubberDuckPub
                     dispatcherTimer.Stop();
                     bar.IsOpen = false;
                     barStatusTextBox.Text = "The bar is closed";
-                }                    
+                }
                 timeSpan = timeSpan.Add(TimeSpan.FromSeconds(-1));
 
             }, Application.Current.Dispatcher);
