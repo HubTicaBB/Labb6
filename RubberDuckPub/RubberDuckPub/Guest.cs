@@ -13,6 +13,27 @@ namespace RubberDuckPub
         public Guest(string name, Bar bar, MainWindow mainWindow)
         {
             Name = name;
+            StartGuest(bar, mainWindow);
+            //Task.Run(() =>
+            //{
+            //    while (IsInBar)
+            //    {
+            //        if (bar.guestWaitingForTableQueue.Count > 0)
+            //        {
+            //            Guest nextToBeServed;
+            //            bar.guestWaitingForTableQueue.TryDequeue(out nextToBeServed);
+            //            if (nextToBeServed != null)
+            //            {
+            //                Log(DateTime.Now, $"{nextToBeServed.Name} is searching for an available seat.", mainWindow);
+            //                SearchForEmptyChair(bar, mainWindow, nextToBeServed);
+            //            }
+            //        }
+            //    }
+            //});
+        }
+
+        private void StartGuest(Bar bar, MainWindow mainWindow)
+        {
             Task.Run(() =>
             {
                 while (IsInBar)
@@ -25,7 +46,7 @@ namespace RubberDuckPub
                         {
                             Log(DateTime.Now, $"{nextToBeServed.Name} is searching for an available seat.", mainWindow);
                             SearchForEmptyChair(bar, mainWindow, nextToBeServed);
-                        }                        
+                        }
                     }
                 }
             });
