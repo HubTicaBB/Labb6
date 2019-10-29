@@ -10,17 +10,31 @@ namespace RubberDuckPub
 
         public Bartender(Bar bar, MainWindow mainWindow, Bouncer bouncer)
         {
+            StartBartender(bar, mainWindow, bouncer);
             //bar.mainWindow.PauseBartender.WaitOne(Timeout.Infinite);
+            //Task.Run(() =>
+            //{
+            //    while (bar.IsOpen || bar.TotalNumberGuests > 0)
+            //    {
+            //        IsWorking = true;
+            //        CheckIfGuestsAreWaiting(bar, mainWindow, bouncer);                    
+            //    }
+            //    GoHome(mainWindow);
+            //});
+
+        }
+
+        private void StartBartender(Bar bar, MainWindow mainWindow, Bouncer bouncer)
+        {
             Task.Run(() =>
             {
                 while (bar.IsOpen || bar.TotalNumberGuests > 0)
                 {
                     IsWorking = true;
-                    CheckIfGuestsAreWaiting(bar, mainWindow, bouncer);                    
+                    CheckIfGuestsAreWaiting(bar, mainWindow, bouncer);
                 }
                 GoHome(mainWindow);
             });
-
         }
 
         private void CheckIfGuestsAreWaiting(Bar bar, MainWindow mainWindow, Bouncer bouncer)
@@ -28,7 +42,7 @@ namespace RubberDuckPub
             if (bar.guestQueue.Count == 0)
             {
                 Log(DateTime.Now, "Waiting for guests at the bar.", mainWindow);
-                
+
                 //int waitForGuest = bouncer.seconds;
                 //Thread.Sleep(waitForGuest * 1000);  //
             }
@@ -61,8 +75,8 @@ namespace RubberDuckPub
                 Guest dequeuedGuest;
                 bar.guestQueue.TryDequeue(out dequeuedGuest);
                 ////mainWindow.Dispatcher.Invoke(() => bar.BarContentInfo(mainWindow, bar.cleanGlassesStack.Count, bar.emptyChairs.Count));
-                ServeBeer(bar, dequeuedGuest, mainWindow);            
-             }
+                ServeBeer(bar, dequeuedGuest, mainWindow);
+            }
         }
 
         private void ServeBeer(Bar bar, Guest dequeuedGuest, MainWindow mainWindow)
@@ -72,7 +86,7 @@ namespace RubberDuckPub
                 Log(DateTime.Now, $"Pouring a beer to {dequeuedGuest.Name}.", mainWindow);
                 bar.guestWaitingForTableQueue.Enqueue(dequeuedGuest);
                 Thread.Sleep(3000);
-            }            
+            }
         }
 
         private void GoHome(MainWindow mainWindow)
