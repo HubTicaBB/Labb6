@@ -48,7 +48,7 @@ namespace RubberDuckPub
         {
             Random r = new Random();
             Log(DateTime.Now, $"{drinkingGuest.Name} is drinking beer", mainWindow);
-            int secondsToDrinkBeer = r.Next(10, 21);
+            int secondsToDrinkBeer = r.Next(20, 31);
             if (bar.GuestsStayingDouble)
                 secondsToDrinkBeer *= 2;
             Thread.Sleep(secondsToDrinkBeer * 1000);
