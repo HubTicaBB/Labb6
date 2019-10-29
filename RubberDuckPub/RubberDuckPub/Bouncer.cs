@@ -106,7 +106,7 @@ namespace RubberDuckPub
                 Log(DateTime.Now, nameList[index] + " comes in and goes to the bar", mainWindow);
                 bar.TotalNumberGuests++;
             }
-            NumberOfGuestsAtATime = 1;
+            NumberOfGuestsAtATime = (NumberOfGuestsAtATime == 15) ? 1 : NumberOfGuestsAtATime;
         }
 
         private void Log(DateTime timestamp, string activity, MainWindow mainWindow)

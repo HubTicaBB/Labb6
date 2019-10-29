@@ -35,9 +35,9 @@ namespace RubberDuckPub
             while (bar.guestQueue.Count == 0)
             {
                 if (bar.TotalNumberGuests == 0 && !bar.IsOpen)
-                {
                     return;
-                }
+                if (bar.guestQueue.Count > 0 && bar.cleanGlassesStack.Count > 0)
+                    break;               
             }
             Log(DateTime.Now, "Going to the shelf.", mainWindow);
             GoToShelf(bar, /*dequeuedGuest,*/ mainWindow);
