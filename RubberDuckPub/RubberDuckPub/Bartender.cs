@@ -32,14 +32,26 @@ namespace RubberDuckPub
                 //int waitForGuest = bouncer.seconds;
                 //Thread.Sleep(waitForGuest * 1000);  //
             }
-            while (bar.guestQueue.Count == 0 && bar.IsOpen) { }
+            while (bar.guestQueue.Count == 0)
+            {
+                if (bar.TotalNumberGuests == 0 && !bar.IsOpen)
+                {
+                    return;
+                }
+            }
             Log(DateTime.Now, "Going to the shelf.", mainWindow);
             GoToShelf(bar, /*dequeuedGuest,*/ mainWindow);
         }
 
         private void GoToShelf(Bar bar, /*Guest dequeuedGuest,*/ MainWindow mainWindow)
         {
-            while (bar.cleanGlassesStack.Count == 0) { }
+            while (bar.cleanGlassesStack.Count == 0)
+            {
+                if (bar.TotalNumberGuests == 0 && !bar.IsOpen)
+                {
+                    return;
+                }
+            }
             if (bar.cleanGlassesStack.Count > 0 && bar.guestQueue.Count > 0)
             {
                 Log(DateTime.Now, "Picking up a glass from the shelf.", mainWindow);
