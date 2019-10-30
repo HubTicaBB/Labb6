@@ -6,66 +6,86 @@ namespace RubberDuckPub
 {
     public class Bartender
     {
+        public MainWindow mainWindow { get; set; }
+        public Bar bar { get; set; }
+
+        public bool IsWorking { get; set; }
+
         public Bartender(Bar bar, MainWindow mainWindow)
+        {
+            this.bar = bar;
+            this.mainWindow = mainWindow;
+
+            StartBartender();
+        }
+
+        private void StartBartender()
         {
             Task.Run(() =>
             {
-                while (bar.IsOpen)
+                while (bar.IsOpen || bar.TotalNumberGuests > 0)
                 {
-                    CheckIfGuestsAreWaiting(bar, mainWindow);
+                    IsWorking = true;
+                    CheckIfGuestsAreWaiting();
                 }
-                //GoHome() after all lists with guests are empty 
-
+                GoHome();
             });
-
         }
 
-        private void CheckIfGuestsAreWaiting(Bar bar, MainWindow mainWindow)
+        private void CheckIfGuestsAreWaiting()
         {
             if (bar.guestQueue.Count == 0)
             {
-                Log(DateTime.Now, "Waiting for guests at the bar.", mainWindow);
-                Thread.Sleep(10000);  //
+                Log(DateTime.Now, "Waiting for guests at the bar.");
+                while (bar.guestQueue.Count == 0 && (bar.IsOpen || bar.TotalNumberGuests > 0))
+                {
+
+                }
             }
             else
-            {                
-                Log(DateTime.Now, "Going to the shelf.", mainWindow); 
-                GoToShelf(bar, mainWindow);
-            }
+            {
+                Log(DateTime.Now, "Going to the shelf.");
+                GoToShelf();
+            }           
         }
 
-        private void GoToShelf(Bar bar, MainWindow mainWindow)
+        private void GoToShelf()
         {
-            if (bar.cleanGlassesStack.Count > 0)
-            {                
-                Log(DateTime.Now, "Picking up a glass from the shelf.", mainWindow);
-                Glasses glass;
-                if (bar.cleanGlassesStack.TryPop(out glass))
+            while (bar.cleanGlassesStack.Count == 0)
+            {
+                if (bar.TotalNumberGuests == 0 && !bar.IsOpen)
                 {
-                    Thread.Sleep(3000);
-                    Guest dequeuedGuest;
-                    if (bar.guestQueue.TryDequeue(out dequeuedGuest))
-                    {
-                        ServeBeer(glass, bar, dequeuedGuest, mainWindow);
-                    }
-                }                                     
+                    return;
+                }
+            }
+            if (bar.cleanGlassesStack.Count > 0 && bar.guestQueue.Count > 0)
+            {
+                Log(DateTime.Now, "Picking up a glass from the shelf.");
+                bar.cleanGlassesStack.TryPop(out Glasses glass);
+                Thread.Sleep(3000);
+                bool dequeued = bar.guestQueue.TryDequeue(out Guest dequeuedGuest);
+                if (dequeued)
+                {
+                    ServeBeer(dequeuedGuest);
+                }
             }
         }
 
-        private void ServeBeer(Glasses glass, Bar bar, Guest dequeuedGuest, MainWindow mainWindow)
+        private void ServeBeer(Guest dequeuedGuest)
         {
-            bar.glassesInUse.Add(glass);
-            Log(DateTime.Now, $"Pouring a beer to {dequeuedGuest.Name}.", mainWindow);
-            bar.waitingToBeSeated.Enqueue(dequeuedGuest);
+            Log(DateTime.Now, $"Pouring a beer to {dequeuedGuest.Name}.");
+            dequeuedGuest.HasBeer = true;
+            bar.guestWaitingForTableQueue.Enqueue(dequeuedGuest);
             Thread.Sleep(3000);
         }
 
         private void GoHome()
         {
-            // 
+            Log(DateTime.Now, "Bartender goes home.");
+            IsWorking = false;
         }
 
-        private void Log(DateTime timestamp, string activity, MainWindow mainWindow)
+        private void Log(DateTime timestamp, string activity)
         {
             mainWindow.Dispatcher.Invoke(() => mainWindow.BartenderListBox.Items.Insert(0, $"{timestamp.ToString("H:mm:ss")} - {activity}"));
         }

@@ -8,7 +8,10 @@ namespace RubberDuckPub
 {
     public class Bouncer
     {
-        static List<string> nameList = new List<string>
+        public MainWindow mainWindow { get; set; }
+        public Bar bar { get; set; }
+
+        static readonly List<string> nameList = new List<string>
         {
             "Bob",
             "Tijana",
@@ -72,38 +75,66 @@ namespace RubberDuckPub
             "Pontus"
         };
         static Random r = new Random();
+        public int Seconds { get; set; }
+        public int NumberOfGuestsAtATime { get; set; }
+        public bool HalfAsFast { get; set; }
 
-        public Bouncer(Bar bar, MainWindow mainWindow)
+        public Bouncer(Bar bar, MainWindow mainWindow, int numberOfGuestsAtATime, bool halfAsFast)
+        {
+            this.bar = bar;
+            this.mainWindow = mainWindow;
+            NumberOfGuestsAtATime = numberOfGuestsAtATime;
+            HalfAsFast = halfAsFast;
+            StartBouncer();
+            //Task.Run(() =>
+            //{
+            //    while (bar.IsOpen)
+            //    {
+            //        GenerateGuest(bar, mainWindow);
+            //        //bar.IsOpen = false; quick check if the bouncer is going home
+            //    }
+            //    GoHome(mainWindow);
+            //});
+        }
+
+        private void StartBouncer()
         {
             Task.Run(() =>
             {
                 while (bar.IsOpen)
                 {
-                    GenerateGuest(bar, mainWindow);
+                    GenerateGuest();
                     //bar.IsOpen = false; quick check if the bouncer is going home
                 }
-                GoHome(mainWindow);
+                GoHome();
             });
         }
 
-        public void GenerateGuest(Bar bar, MainWindow mainWindow)
+        public void GenerateGuest()
         {
-            int index = r.Next(1, nameList.Count());
-            int seconds = r.Next(10, 15);
-            Thread.Sleep(seconds * 1000);
-            bar.guestQueue.Enqueue(new Guest(nameList[index], bar, mainWindow));
-            Log(DateTime.Now, $"{nameList[index]} comes in and goes to the bar", mainWindow);
-            Thread.Sleep(1000);
+            Seconds = r.Next(3, 11);
+            if (HalfAsFast) Seconds *= 2;
+            Thread.Sleep(Seconds * 1000);
+
+            for (int i = 0; i < NumberOfGuestsAtATime; i++)
+            {
+                int index = r.Next(1, nameList.Count());
+                if (!bar.IsOpen) return;
+                bar.guestQueue.Enqueue(new Guest(nameList[index], bar, mainWindow));
+                Log(DateTime.Now, nameList[index] + " comes in and goes to the bar");
+                bar.TotalNumberGuests++;
+            }
+            NumberOfGuestsAtATime = (NumberOfGuestsAtATime == 15) ? 1 : NumberOfGuestsAtATime;
         }
 
-        private void Log(DateTime timestamp, string activity, MainWindow mainWindow)
+        private void Log(DateTime timestamp, string activity)
         {
             mainWindow.Dispatcher.Invoke(() => mainWindow.GuestsListBox.Items.Insert(0, $"{timestamp.ToString("H:mm:ss")} - {activity}"));
         }
 
-        private void GoHome(MainWindow mainWindow)
+        private void GoHome()
         {
-            Log(DateTime.Now, "Bouncer goes home.", mainWindow);
+            Log(DateTime.Now, "Bouncer goes home.");
         }
     }
 }
