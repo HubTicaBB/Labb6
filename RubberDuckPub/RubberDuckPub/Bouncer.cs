@@ -131,10 +131,7 @@ namespace RubberDuckPub
                 bar.TotalNumberGuests++;
             }
 
-            if (NumberOfGuestsAtATime == 15)
-            {
-                NumberOfGuestsAtATime = (CouplesNight) ? 2 : 1;
-            }
+            NumberOfGuestsAtATime = (NumberOfGuestsAtATime == 15) ? 1 : NumberOfGuestsAtATime;
         }
 
         private void Log(DateTime timestamp, string activity)
