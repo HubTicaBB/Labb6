@@ -10,7 +10,6 @@ namespace RubberDuckPub
     {
         public MainWindow mainWindow { get; set; }
         public Bar bar { get; set; }
-
         static readonly List<string> nameList = new List<string>
         {
             "Bob",
@@ -77,24 +76,19 @@ namespace RubberDuckPub
         static Random r = new Random();
         public int Seconds { get; set; }
         public int NumberOfGuestsAtATime { get; set; }
-        public bool HalfAsFast { get; set; }
+        public bool BusIsComing { get; set; }
+        public int TimeForBusToArrive { get; set; } = 20;
+        public bool CouplesNight { get; set; }
 
-        public Bouncer(Bar bar, MainWindow mainWindow, int numberOfGuestsAtATime, bool halfAsFast)
+        public Bouncer(Bar bar, MainWindow mainWindow, int numberOfGuestsAtATime, bool busIsComing, bool couplesNight)
         {
             this.bar = bar;
             this.mainWindow = mainWindow;
             NumberOfGuestsAtATime = numberOfGuestsAtATime;
-            HalfAsFast = halfAsFast;
+            BusIsComing = busIsComing;
+            CouplesNight = couplesNight;
+
             StartBouncer();
-            //Task.Run(() =>
-            //{
-            //    while (bar.IsOpen)
-            //    {
-            //        GenerateGuest(bar, mainWindow);
-            //        //bar.IsOpen = false; quick check if the bouncer is going home
-            //    }
-            //    GoHome(mainWindow);
-            //});
         }
 
         private void StartBouncer()
@@ -104,8 +98,8 @@ namespace RubberDuckPub
                 while (bar.IsOpen)
                 {
                     GenerateGuest();
-                    //bar.IsOpen = false; quick check if the bouncer is going home
                 }
+
                 GoHome();
             });
         }
@@ -113,7 +107,19 @@ namespace RubberDuckPub
         public void GenerateGuest()
         {
             Seconds = r.Next(3, 11);
-            if (HalfAsFast) Seconds *= 2;
+           
+            if (BusIsComing)
+            {
+                Seconds *= 2;
+                TimeForBusToArrive -= Seconds;
+                if (TimeForBusToArrive <= 0)
+                {
+                    Seconds = TimeForBusToArrive + Seconds;
+                    NumberOfGuestsAtATime = 15;
+                    BusIsComing = false;
+                }
+            }
+
             Thread.Sleep(Seconds * 1000);
 
             for (int i = 0; i < NumberOfGuestsAtATime; i++)
@@ -124,7 +130,11 @@ namespace RubberDuckPub
                 Log(DateTime.Now, nameList[index] + " comes in and goes to the bar");
                 bar.TotalNumberGuests++;
             }
-            NumberOfGuestsAtATime = (NumberOfGuestsAtATime == 15) ? 1 : NumberOfGuestsAtATime;
+
+            if (NumberOfGuestsAtATime == 15)
+            {
+                NumberOfGuestsAtATime = (CouplesNight) ? 2 : 1;
+            }
         }
 
         private void Log(DateTime timestamp, string activity)

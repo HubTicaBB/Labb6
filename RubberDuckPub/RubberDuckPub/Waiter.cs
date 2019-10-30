@@ -69,7 +69,7 @@ namespace RubberDuckPub
             {
                 bar.cleanGlassesStack.Push(new Glasses());  // put back new clean glasses 
             }
-            Thread.Sleep(100); // för att content listbox har tid att uppdatera sig
+            Thread.Sleep(1000); // för att content listbox har tid att uppdatera sig
         }
 
         private void GoHome()
