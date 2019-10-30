@@ -48,8 +48,11 @@ namespace RubberDuckPub
                 if (seatSucceeded)
                 {
                     bar.seatedGuests.Add(this);
-                    bar.emptyChairs.TryPop(out Chairs removedChair);
-                    DrinkBeer(removedChair);
+                    bool chairTaken = bar.emptyChairs.TryPop(out Chairs removedChair);
+                    if (chairTaken)
+                    {
+                        DrinkBeer(removedChair);
+                    }                    
                 }                
             }                
         }
