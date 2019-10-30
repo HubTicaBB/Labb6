@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +12,8 @@ namespace RubberDuckPub
         public ConcurrentStack<Chairs> emptyChairs = new ConcurrentStack<Chairs>();
         public ConcurrentQueue<Guest> guestQueue = new ConcurrentQueue<Guest>();
         public ConcurrentQueue<Guest> guestWaitingForTableQueue = new ConcurrentQueue<Guest>();
-        public List<Guest> seatedGuests = new List<Guest>();
+        public ConcurrentBag<Guest> seatedGuests = new ConcurrentBag<Guest>();
+        //public List<Guest> seatedGuests = new List<Guest>();
         public List<string> barContent = new List<string>();
         public int TotalNumberGuests { get; set; } = 0;
         public int NumberOfGlasses { get; set; }
@@ -61,7 +61,7 @@ namespace RubberDuckPub
             mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items.Add($"There are {cleanGlassesStack.Count} glasses on the shelf " +
                                                                                       $"({NumberOfGlasses} total)"));
             mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items.Add($"There are {emptyChairs.Count} available chairs " +
-                                                                                      $"({NumberOfChairs} total)"));            
+                                                                                      $"({NumberOfChairs} total)"));
         }
 
 

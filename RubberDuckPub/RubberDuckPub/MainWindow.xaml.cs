@@ -95,8 +95,14 @@ namespace RubberDuckPub
             {
                 string status = (bar.IsOpen) ? "open" : "closed";
                 barStatusTextBox.Text = $"The bar is {status}!";
-                if (bar.IsOpen) barStatusTextBox.Text += "\nThe bar is closing in: " + timeSpan.ToString("c");
-                else timeSpan = TimeSpan.Zero;
+                if (bar.IsOpen)
+                {
+                    barStatusTextBox.Text += "\nThe bar is closing in: " + timeSpan.ToString("c");
+                }
+                else
+                {
+                    timeSpan = TimeSpan.Zero;
+                }
                 if (timeSpan == TimeSpan.Zero)
                 {
                     dispatcherTimer.Stop();

@@ -46,7 +46,7 @@ namespace RubberDuckPub
             {
                 Log(DateTime.Now, "Going to the shelf.");
                 GoToShelf();
-            }           
+            }
         }
 
         private void GoToShelf()
@@ -74,8 +74,9 @@ namespace RubberDuckPub
         private void ServeBeer(Guest dequeuedGuest)
         {
             Log(DateTime.Now, $"Pouring a beer to {dequeuedGuest.Name}.");
-            dequeuedGuest.HasBeer = true;
+            //dequeuedGuest.HasBeer = true;
             bar.guestWaitingForTableQueue.Enqueue(dequeuedGuest);
+            dequeuedGuest.HasBeer = true;
             Thread.Sleep(3000);
         }
 

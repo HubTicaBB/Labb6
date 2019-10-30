@@ -43,7 +43,7 @@ namespace RubberDuckPub
 
         private void CheckIfGlassesAreEmpty()
         {
-            int glassesToClean = bar.dirtyGlassesStack.Count;
+            int glassesToClean = bar.dirtyGlassesStack.Count; // save count in a variable so that is static 
             if (glassesToClean > 0)
             {
                 Log(DateTime.Now, $"Picking up {glassesToClean} empty glasses.");
@@ -58,7 +58,7 @@ namespace RubberDuckPub
             Thread.Sleep(TimeToDoDishes);
 
             Glasses[] removedGlasses = new Glasses[glassesToClean];
-            bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, glassesToClean);
+            bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, glassesToClean);  // remove dirty glasses because they are clean now
             PutGlassBack(glassesToClean);
         }
 
@@ -67,7 +67,7 @@ namespace RubberDuckPub
             Log(DateTime.Now, $"Putting clean glasses in the shelf.");
             for (int i = 0; i < glassesToClean; i++)
             {
-                bar.cleanGlassesStack.Push(new Glasses());
+                bar.cleanGlassesStack.Push(new Glasses());  // put back new clean glasses 
             }
             Thread.Sleep(100); // för att content listbox har tid att uppdatera sig
         }
