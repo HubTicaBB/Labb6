@@ -11,7 +11,7 @@ namespace RubberDuckPub
         public MainWindow mainWindow { get; set; }
         public Bar bar { get; set; }
 
-        static List<string> nameList = new List<string>
+        static readonly List<string> nameList = new List<string>
         {
             "Bob",
             "Tijana",
@@ -75,7 +75,7 @@ namespace RubberDuckPub
             "Pontus"
         };
         static Random r = new Random();
-        public int seconds { get; set; }
+        public int Seconds { get; set; }
         public int NumberOfGuestsAtATime { get; set; }
         public bool HalfAsFast { get; set; }
 
@@ -112,9 +112,9 @@ namespace RubberDuckPub
 
         public void GenerateGuest()
         {
-            seconds = r.Next(3, 11);
-            if (HalfAsFast) seconds *= 2;
-            Thread.Sleep(seconds * 1000);
+            Seconds = r.Next(3, 11);
+            if (HalfAsFast) Seconds *= 2;
+            Thread.Sleep(Seconds * 1000);
 
             for (int i = 0; i < NumberOfGuestsAtATime; i++)
             {

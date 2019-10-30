@@ -41,7 +41,7 @@ namespace RubberDuckPub
             PushChairs(NumberOfChairs);
 
             Bouncer bouncer = new Bouncer(this, mainWindow, numberOfGuestsAtATime, bouncerHalfAsSlow);
-            Bartender bartender = new Bartender(this, mainWindow, bouncer);
+            Bartender bartender = new Bartender(this, mainWindow);
             Waiter waiter = new Waiter(this, mainWindow, waiterTwiceAsFast);
 
             Task.Run(() =>

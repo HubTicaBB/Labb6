@@ -26,23 +26,13 @@ namespace RubberDuckPub
             }
 
             StartWaiter();
-
-            //Task.Run(() =>
-            //{
-            //    while (bar.IsOpen || bar.dirtyGlassesStack.Count > 0)
-            //    {
-            //        IsWorking = true;
-            //        CheckIfGlassesAreEmpty(bar, mainWindow);
-            //    }
-            //    GoHome(mainWindow, bar);
-            //});
         }
 
         private void StartWaiter()
         {
             Task.Run(() =>
             {
-                while (bar.IsOpen || bar.dirtyGlassesStack.Count > 0)
+                while (bar.IsOpen || bar.dirtyGlassesStack.Count > 0 || bar.TotalNumberGuests > 0)
                 {
                     IsWorking = true;
                     CheckIfGlassesAreEmpty();
@@ -90,7 +80,6 @@ namespace RubberDuckPub
                 IsWorking = false;
             }
         }
-
 
         private void Log(DateTime timestamp, string activity)
         {

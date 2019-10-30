@@ -11,22 +11,12 @@ namespace RubberDuckPub
 
         public bool IsWorking { get; set; }
 
-        public Bartender(Bar bar, MainWindow mainWindow, Bouncer bouncer)
+        public Bartender(Bar bar, MainWindow mainWindow)
         {
             this.bar = bar;
             this.mainWindow = mainWindow;
 
             StartBartender();
-            //bar.mainWindow.PauseBartender.WaitOne(Timeout.Infinite);
-            //Task.Run(() =>
-            //{
-            //    while (bar.IsOpen || bar.TotalNumberGuests > 0)
-            //    {
-            //        IsWorking = true;
-            //        CheckIfGuestsAreWaiting(bar, mainWindow, bouncer);                    
-            //    }
-            //    GoHome(mainWindow);
-            //});
         }
 
         private void StartBartender()
@@ -47,16 +37,16 @@ namespace RubberDuckPub
             if (bar.guestQueue.Count == 0)
             {
                 Log(DateTime.Now, "Waiting for guests at the bar.");
+                while (bar.guestQueue.Count == 0 && (bar.IsOpen || bar.TotalNumberGuests > 0))
+                {
+
+                }
             }
-            while (bar.guestQueue.Count == 0)
+            else
             {
-                if (bar.TotalNumberGuests == 0 && !bar.IsOpen)
-                    return;
-                if (bar.guestQueue.Count > 0 && bar.cleanGlassesStack.Count > 0)
-                    break;               
-            }
-            Log(DateTime.Now, "Going to the shelf.");
-            GoToShelf();
+                Log(DateTime.Now, "Going to the shelf.");
+                GoToShelf();
+            }           
         }
 
         private void GoToShelf()
@@ -71,23 +61,22 @@ namespace RubberDuckPub
             if (bar.cleanGlassesStack.Count > 0 && bar.guestQueue.Count > 0)
             {
                 Log(DateTime.Now, "Picking up a glass from the shelf.");
-                Glasses glass;
-                bar.cleanGlassesStack.TryPop(out glass);
+                bar.cleanGlassesStack.TryPop(out Glasses glass);
                 Thread.Sleep(3000);
-                Guest dequeuedGuest;
-                bar.guestQueue.TryDequeue(out dequeuedGuest);
-                ServeBeer(bar, dequeuedGuest, mainWindow);
+                bool dequeued = bar.guestQueue.TryDequeue(out Guest dequeuedGuest);
+                if (dequeued)
+                {
+                    ServeBeer(dequeuedGuest);
+                }
             }
         }
 
-        private void ServeBeer(Bar bar, Guest dequeuedGuest, MainWindow mainWindow)
+        private void ServeBeer(Guest dequeuedGuest)
         {
-            if (dequeuedGuest != null)
-            {
-                Log(DateTime.Now, $"Pouring a beer to {dequeuedGuest.Name}.");
-                bar.guestWaitingForTableQueue.Enqueue(dequeuedGuest);
-                Thread.Sleep(3000);
-            }
+            Log(DateTime.Now, $"Pouring a beer to {dequeuedGuest.Name}.");
+            dequeuedGuest.HasBeer = true;
+            bar.guestWaitingForTableQueue.Enqueue(dequeuedGuest);
+            Thread.Sleep(3000);
         }
 
         private void GoHome()

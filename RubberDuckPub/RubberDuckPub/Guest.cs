@@ -11,29 +11,15 @@ namespace RubberDuckPub
         public Bar bar { get; set; }
         public int TimeToGoToTable { get; set; } = 4000;
         public bool IsInBar { get; set; } = true;
+        public bool HasBeer { get; set; }
 
         public Guest(string name, Bar bar, MainWindow mainWindow)
         {
             Name = name;
             this.mainWindow = mainWindow;
             this.bar = bar;
+
             StartGuest();
-            //Task.Run(() =>
-            //{
-            //    while (IsInBar)
-            //    {
-            //        if (bar.guestWaitingForTableQueue.Count > 0)
-            //        {
-            //            Guest nextToBeServed;
-            //            bar.guestWaitingForTableQueue.TryDequeue(out nextToBeServed);
-            //            if (nextToBeServed != null)
-            //            {
-            //                Log(DateTime.Now, $"{nextToBeServed.Name} is searching for an available seat.", mainWindow);
-            //                SearchForEmptyChair(bar, mainWindow, nextToBeServed);
-            //            }
-            //        }
-            //    }
-            //});
         }
 
         private void StartGuest()
@@ -42,47 +28,49 @@ namespace RubberDuckPub
             {
                 while (IsInBar)
                 {
-                    if (bar.guestWaitingForTableQueue.Count > 0)
+                    if (HasBeer)
                     {
-                        Guest nextToBeServed;
-                        bar.guestWaitingForTableQueue.TryDequeue(out nextToBeServed);
-                        if (nextToBeServed != null)
-                        {
-                            Log(DateTime.Now, $"{nextToBeServed.Name} is searching for an available seat.");
-                            SearchForEmptyChair(nextToBeServed);
-                        }
-                    }
+                        Log(DateTime.Now, $"{Name} is searching for an available seat.");
+                        while (bar.emptyChairs.Count == 0) { }
+                        SearchForEmptyChair();
+                    }   
                 }
             });
         }
 
-        private void SearchForEmptyChair(Guest nextToBeSeated)
+        private void SearchForEmptyChair(/*Guest nextToBeSeated*/)
         {
             if (bar.emptyChairs.Count > 0)
             {
                 Thread.Sleep(TimeToGoToTable);
-                Log(DateTime.Now, $"{nextToBeSeated.Name} is sitting at the table.");
-                bar.seatedGuests.Add(nextToBeSeated);
-                bar.emptyChairs.TryPop(out Chairs removedChair);
-                DrinkBeer(removedChair, nextToBeSeated);
-            }
+                Log(DateTime.Now, $"{Name} is sitting at the table.");
+                bool seatSucceeded = bar.guestWaitingForTableQueue.TryDequeue(out Guest seatedGuest);
+                if (seatSucceeded)
+                {
+                    bar.seatedGuests.Add(this);
+                    bar.emptyChairs.TryPop(out Chairs removedChair);
+                    DrinkBeer(removedChair);
+                }                
+            }                
         }
 
-        private void DrinkBeer(Chairs removedChair, Guest drinkingGuest)
+        private void DrinkBeer(Chairs removedChair)
         {
             Random r = new Random();
-            Log(DateTime.Now, $"{drinkingGuest.Name} is drinking beer");
+            Log(DateTime.Now, $"{Name} is drinking beer");         
             int secondsToDrinkBeer = r.Next(20, 31);
             if (bar.GuestsStayingDouble)
+            {
                 secondsToDrinkBeer *= 2;
+            }               
             Thread.Sleep(secondsToDrinkBeer * 1000);
-            GoHome(removedChair, drinkingGuest);
+            GoHome(removedChair);
         }
 
-        private void GoHome(Chairs removedChair, Guest leavingGuest)
+        private void GoHome(Chairs removedChair)
         {
             bar.seatedGuests.Remove(this);
-            Log(DateTime.Now, $"{leavingGuest.Name} finished the beer and goes home.");
+            Log(DateTime.Now, $"{Name} finished the beer and goes home.");
             IsInBar = false;
             bar.dirtyGlassesStack.Push(new Glasses());
             bar.emptyChairs.Push(removedChair);
