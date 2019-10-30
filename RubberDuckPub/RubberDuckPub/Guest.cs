@@ -43,7 +43,7 @@ namespace RubberDuckPub
         private void SearchForEmptyChair(/*Guest nextToBeSeated*/)
         {
             int availableChairs = bar.emptyChairs.Count;  // saved in a separate variable 
-            if (availableChairs > 0)  //
+            if (availableChairs > 0)
             {
                 //Thread.Sleep(TimeToGoToTable);
                 Log(DateTime.Now, $"{Name} is sitting at the table.");
@@ -51,34 +51,34 @@ namespace RubberDuckPub
                 bar.guestWaitingForTableQueue.TryDequeue(out Guest seatedGuest);
                 //if (seatSucceeded)
                 //{
-                bar.seatedGuests.Add(seatedGuest); /////
+                bar.seatedGuests.Add(this);
                 bool chairTaken = bar.emptyChairs.TryPop(out Chairs removedChair);
                 if (chairTaken)
                 {
-                    DrinkBeer(removedChair, seatedGuest);
+                    DrinkBeer(removedChair);
                 }
                 //}
             }
         }
 
-        private void DrinkBeer(Chairs removedChair, Guest seatedGuest)
+        private void DrinkBeer(Chairs removedChair)
         {
             Random r = new Random();
-            Log(DateTime.Now, $"{seatedGuest.Name} is drinking beer");
+            Log(DateTime.Now, $"{Name} is drinking beer");
             int secondsToDrinkBeer = r.Next(20, 31);
             if (bar.GuestsStayingDouble)
             {
                 secondsToDrinkBeer *= 2;
             }
             Thread.Sleep(secondsToDrinkBeer * 1000);
-            GoHome(removedChair, seatedGuest);
+            GoHome(removedChair);
         }
 
-        private void GoHome(Chairs removedChair, Guest seatedGuest)
+        private void GoHome(Chairs removedChair)
         {
             //bar.seatedGuests.TryTake(out Guest wentHome);
-            Log(DateTime.Now, $"{seatedGuest.Name} finished the beer and goes home.");
-            bar.seatedGuests.TryTake(out seatedGuest);
+            Log(DateTime.Now, $"{Name} finished the beer and goes home.");
+            bar.seatedGuests.TryTake(out Guest wentHome);
             //HasBeer = false;
             //IsInBar = false;
             bar.dirtyGlassesStack.Push(new Glasses());

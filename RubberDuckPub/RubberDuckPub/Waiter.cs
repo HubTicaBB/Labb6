@@ -24,7 +24,6 @@ namespace RubberDuckPub
                 TimeToPickUpGlasses /= 2;
                 TimeToDoDishes /= 2;
             }
-
             StartWaiter();
         }
 
@@ -56,19 +55,15 @@ namespace RubberDuckPub
         {
             Log(DateTime.Now, $"Doing dishes.");
             Thread.Sleep(TimeToDoDishes);
-
             Glasses[] removedGlasses = new Glasses[glassesToClean];
             bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, glassesToClean);  // remove dirty glasses because they are clean now
-            PutGlassBack(glassesToClean);
+            PutGlassBack(removedGlasses);
         }
 
-        private void PutGlassBack(int glassesToClean)
+        private void PutGlassBack(Glasses[] removedGlasses)
         {
             Log(DateTime.Now, $"Putting clean glasses in the shelf.");
-            for (int i = 0; i < glassesToClean; i++)
-            {
-                bar.cleanGlassesStack.Push(new Glasses());  // put back new clean glasses 
-            }
+            bar.cleanGlassesStack.PushRange(removedGlasses);
             Thread.Sleep(100); // för att content listbox har tid att uppdatera sig
         }
 
