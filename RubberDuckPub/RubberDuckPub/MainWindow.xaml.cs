@@ -51,7 +51,10 @@ namespace RubberDuckPub
         {
             openBarButton.IsEnabled = false;
             closeBarButton.IsEnabled = true;
+            changeSpeedRadioButton.IsChecked = false;
             changeSpeedRadioButton.IsEnabled = false;
+            SpeedListBox.IsEnabled = false;            
+            testComboBox.IsEnabled = false;
             BartenderListBox.Items.Clear();
             WaiterListBox.Items.Clear();
             GuestsListBox.Items.Clear();
@@ -97,8 +100,7 @@ namespace RubberDuckPub
 
         private void OnCloseBarButtonClicked(object sender, RoutedEventArgs e)
         {
-            closeBarButton.IsEnabled = false;
-            openBarButton.IsEnabled = true;
+            closeBarButton.IsEnabled = false;           
             bar.IsOpen = false;
         }
 

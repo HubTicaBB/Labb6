@@ -36,7 +36,7 @@
         <Label Content="Bar Content" HorizontalAlignment="Left" Height="28" Margin="199.5,149,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.Column="4" Grid.ColumnSpan="2"/>
         <Button x:Name="openBarButton" Content="Open Bar" HorizontalAlignment="Left" Margin="156,96,0,0" VerticalAlignment="Top" Width="150" Height="28" Grid.ColumnSpan="3" Grid.Column="1"/>
         <ListBox x:Name="barContentListBox" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Left" Height="155" Margin="199.5,177,0,0" VerticalAlignment="Top" Width="263"/>
-        <RadioButton x:Name="changeSpeedRadioButton" Grid.ColumnSpan="2" Content="Change Speed" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="199.5,369,0,0" VerticalAlignment="Top" Width="264"/>
+        <RadioButton x:Name="changeSpeedRadioButton" Grid.ColumnSpan="2" Content="Customize activity speed in the bar" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="199.5,369,0,0" VerticalAlignment="Top" Width="264"/>
         <ListBox x:Name="SpeedListBox" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Left" Height="208" Margin="199.5,396,0,0" VerticalAlignment="Top" Width="262" IsEnabled="False" Visibility="Hidden"/>
 
     </Grid>

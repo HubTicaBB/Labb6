@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace RubberDuckPub
 {
@@ -79,6 +80,10 @@ namespace RubberDuckPub
                 IsWorking = false;
                 mainWindow.Dispatcher.Invoke(() => mainWindow.openBarButton.IsEnabled = true);
                 mainWindow.Dispatcher.Invoke(() => mainWindow.closeBarButton.IsEnabled = false);
+                mainWindow.Dispatcher.Invoke(() => mainWindow.testComboBox.IsEnabled = true);
+                mainWindow.Dispatcher.Invoke(() => mainWindow.changeSpeedRadioButton.IsEnabled = true);
+                mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedListBox.SelectedItem = null);
+                mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedListBox.Visibility = Visibility.Hidden);
             }
         }
 
