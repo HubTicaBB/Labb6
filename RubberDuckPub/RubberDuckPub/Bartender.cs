@@ -74,7 +74,6 @@ namespace RubberDuckPub
         private void ServeBeer(Guest dequeuedGuest)
         {
             Log(DateTime.Now, $"Pouring a beer to {dequeuedGuest.Name}.");
-            //dequeuedGuest.HasBeer = true;
             bar.guestWaitingForTableQueue.Enqueue(dequeuedGuest);
             dequeuedGuest.HasBeer = true;
             Thread.Sleep((int)TimeToServeBeer);

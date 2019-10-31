@@ -46,7 +46,7 @@ namespace RubberDuckPub
 
         private void CheckIfGlassesAreEmpty()
         {
-            int glassesToClean = bar.dirtyGlassesStack.Count; // save count in a variable so that is static 
+            int glassesToClean = bar.dirtyGlassesStack.Count;
             if (glassesToClean > 0)
             {
                 Log(DateTime.Now, $"Picking up {glassesToClean} empty glasses.");
@@ -59,21 +59,16 @@ namespace RubberDuckPub
         {
             Log(DateTime.Now, $"Doing dishes.");
             Thread.Sleep((int)TimeToDoDishes);
-
             Glasses[] removedGlasses = new Glasses[glassesToClean];
-            bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, glassesToClean);  // remove dirty glasses because they are clean now
+            bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, glassesToClean);
             PutGlassBack(removedGlasses);
         }
 
-        private void PutGlassBack(Glasses[] removedGlasses) //// change 
+        private void PutGlassBack(Glasses[] removedGlasses)
         {
             Log(DateTime.Now, $"Putting clean glasses in the shelf.");
-            bar.cleanGlassesStack.PushRange(removedGlasses);  // put back new clean glasses 
-            //for (int i = 0; i < glassesToClean; i++)
-            //{
-            //    bar.cleanGlassesStack.Push(new Glasses());  // put back new clean glasses 
-            //}
-            Thread.Sleep(1000); // för att content listbox har tid att uppdatera sig
+            bar.cleanGlassesStack.PushRange(removedGlasses);
+            Thread.Sleep(1000);
         }
 
         private void GoHome()
@@ -82,7 +77,7 @@ namespace RubberDuckPub
             {
                 Log(DateTime.Now, "Waiter goes home.");
                 IsWorking = false;
-                mainWindow.Dispatcher.Invoke(() => mainWindow.openBarButton.IsEnabled = true); // 
+                mainWindow.Dispatcher.Invoke(() => mainWindow.openBarButton.IsEnabled = true);
                 mainWindow.Dispatcher.Invoke(() => mainWindow.closeBarButton.IsEnabled = false);
             }
         }

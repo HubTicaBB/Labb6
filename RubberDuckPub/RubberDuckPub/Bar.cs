@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +13,6 @@ namespace RubberDuckPub
         public ConcurrentQueue<Guest> guestQueue = new ConcurrentQueue<Guest>();
         public ConcurrentQueue<Guest> guestWaitingForTableQueue = new ConcurrentQueue<Guest>();
         public ConcurrentBag<Guest> seatedGuests = new ConcurrentBag<Guest>();
-        public List<string> barContent = new List<string>();
         public int TotalNumberGuests { get; set; } = 0;
         public int NumberOfGlasses { get; set; }
         public int NumberOfChairs { get; set; }

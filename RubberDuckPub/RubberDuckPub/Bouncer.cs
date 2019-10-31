@@ -73,7 +73,7 @@ namespace RubberDuckPub
             "Magnus",
             "Pontus"
         };
-        static Random r = new Random();        
+        static Random r = new Random();
         public int NumberOfGuestsAtATime { get; set; }
         public bool BusIsComing { get; set; }
         public double TimeForBusToArrive { get; set; } = 20;
@@ -101,7 +101,6 @@ namespace RubberDuckPub
                 {
                     GenerateGuest();
                 }
-
                 GoHome();
             });
         }
@@ -109,7 +108,7 @@ namespace RubberDuckPub
         public void GenerateGuest()
         {
             TimeToGenerateAGuest = r.Next(3, 11);
-           
+
             if (BusIsComing)
             {
                 TimeToGenerateAGuest *= 2.0;
@@ -122,7 +121,6 @@ namespace RubberDuckPub
                 }
             }
             TimeToGenerateAGuest = TimeToGenerateAGuest * 1000 / bar.Speed;
-
             Thread.Sleep((int)TimeToGenerateAGuest);
 
             for (int i = 0; i < NumberOfGuestsAtATime; i++)
@@ -134,7 +132,7 @@ namespace RubberDuckPub
                 if (!CouplesNight && NumberOfGuestsAtATime != 15)
                 {
                     Thread.Sleep((int)TimeForGuestToGoToBar);
-                }                
+                }
                 bar.TotalNumberGuests++;
             }
 

@@ -27,7 +27,7 @@ namespace RubberDuckPub
         {
             Task.Run(() =>
             {
-                while (IsInBar) // ?? do we need it ?
+                while (IsInBar)
                 {
                     if (HasBeer)
                     {
@@ -36,7 +36,7 @@ namespace RubberDuckPub
                         while (bar.emptyChairs.Count == 0) { }
                         SearchForEmptyChair();
                     }
-                    Thread.Sleep(200); ////////////
+                    Thread.Sleep(200);
                 }
             });
         }
@@ -48,14 +48,12 @@ namespace RubberDuckPub
             {
                 Log(DateTime.Now, $"{Name} is sitting at the table.");
                 bar.guestWaitingForTableQueue.TryDequeue(out Guest seatedGuest);
-
                 bar.seatedGuests.Add(this);
                 bool chairTaken = bar.emptyChairs.TryPop(out Chairs removedChair);
                 if (chairTaken)
                 {
                     DrinkBeer(removedChair);
                 }
-
             }
         }
 
@@ -77,8 +75,6 @@ namespace RubberDuckPub
         {
             Log(DateTime.Now, $"{Name} finished the beer and goes home.");
             bar.seatedGuests.TryTake(out Guest wentHome);
-            //HasBeer = false;
-            //IsInBar = false;
             bar.dirtyGlassesStack.Push(new Glasses());
             bar.emptyChairs.Push(removedChair);
             bar.TotalNumberGuests--;

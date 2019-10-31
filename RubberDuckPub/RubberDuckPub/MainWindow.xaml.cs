@@ -20,14 +20,14 @@ namespace RubberDuckPub
 
             List<string> testCases = new List<string>()
             {
-                "Standard Settings",
-                "20 glasses, 3 chairs",
-                "20 chairs, 5 glasses",
-                "Guests staying double time",
-                "The waiter twice as fast",
-                "Bar working hours: 5 minutes",
-                "Couples Night",
-                "Bus coming"
+                "Case 1:    The bar has 8 glasses and 9 chairs.",
+                "Case 2:    The bar has 20 glasses and 3 chairs.",
+                "Case 3:    The bar has 5 glasses and 20 chairs.",
+                "Case 4:    The guests are staying double time in the bar.",
+                "Case 5:    The waiter is picking up glasses and doing dishes twice as fast.",
+                "Case 6:    The bar is open for 5 minutes.",
+                "Case 7:    Couples Night (The guests are coming inside the bar in couples).",
+                "Case 8:    A bus with 15 guests is coming at the bar."
             };
             testComboBox.ItemsSource = testCases;
 
@@ -35,7 +35,6 @@ namespace RubberDuckPub
             closeBarButton.Click += OnCloseBarButtonClicked;
             changeSpeedRadioButton.Checked += OnRadioButtonChecked;
         }
-        //public ManualResetEvent PauseBartender = new ManualResetEvent(true); //is not really working 
 
         static List<double> speeds = new List<double>()
         {
@@ -66,28 +65,28 @@ namespace RubberDuckPub
 
             switch (testComboBox.SelectedItem)
             {
-                case "Standard Settings":
+                case "Case 1:    The bar has 8 glasses and 9 chairs.":
                     bar = new Bar(this, speed);
                     break;
-                case "20 glasses, 3 chairs":
+                case "Case 2:    The bar has 20 glasses and 3 chairs.":
                     bar = new Bar(this, speed, numberOfGlasses: 20, numberOfChairs: 3);
                     break;
-                case "20 chairs, 5 glasses":
+                case "Case 3:    The bar has 5 glasses and 20 chairs.":
                     bar = new Bar(this, speed, numberOfChairs: 20, numberOfGlasses: 5);
                     break;
-                case "Guests staying double time":
+                case "Case 4:    The guests are staying double time in the bar.":
                     bar = new Bar(this, speed, guestsStayingDouble: true);
                     break;
-                case "The waiter twice as fast":
+                case "Case 5:    The waiter is picking up glasses and doing dishes twice as fast.":
                     bar = new Bar(this, speed, waiterTwiceAsFast: true);
                     break;
-                case "Bar working hours: 5 minutes":
+                case "Case 6:    The bar is open for 5 minutes.":
                     bar = new Bar(this, speed, openingSeconds: 300);
                     break;
-                case "Couples Night":
+                case "Case 7:    Couples Night (The guests are coming inside the bar in couples).":
                     bar = new Bar(this, speed, couplesNight: true, numberOfGuestsAtATime: 2);
                     break;
-                case "Bus coming":
+                case "Case 8:    A bus with 15 guests is coming at the bar.":
                     bar = new Bar(this, speed, busIsComing: true);
                     break;
                 default:
