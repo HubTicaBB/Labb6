@@ -23,25 +23,20 @@
             <ColumnDefinition Width="236*"/>
             <ColumnDefinition Width="233*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="BartenderListBox" HorizontalAlignment="Left" Height="331" Margin="10,177,0,0" VerticalAlignment="Top" Width="320"/>
+        <ListBox x:Name="BartenderListBox" HorizontalAlignment="Left" Height="428" Margin="10,177,0,0" VerticalAlignment="Top" Width="320"/>
         <Label x:Name="labelBartender" Content="Bartender" HorizontalAlignment="Left" Margin="10,153,0,0" VerticalAlignment="Top" Width="123"/>
-        <ListBox x:Name="WaiterListBox" HorizontalAlignment="Left" Height="331" Margin="352,177,0,0" VerticalAlignment="Top" Width="320" Grid.ColumnSpan="2"/>
-        <ListBox x:Name="GuestsListBox" HorizontalAlignment="Left" Height="331" Margin="155,177,0,0" VerticalAlignment="Top" Width="320" Grid.ColumnSpan="4" Grid.Column="1"/>
+        <ListBox x:Name="WaiterListBox" HorizontalAlignment="Left" Height="428" Margin="352,177,0,0" VerticalAlignment="Top" Width="320" Grid.ColumnSpan="2"/>
+        <ListBox x:Name="GuestsListBox" HorizontalAlignment="Left" Height="428" Margin="155,177,0,0" VerticalAlignment="Top" Width="320" Grid.ColumnSpan="4" Grid.Column="1"/>
         <Label x:Name="guestsLabel" Content="Guests" HorizontalAlignment="Left" Margin="156,151,0,0" VerticalAlignment="Top" Width="123" Grid.ColumnSpan="2" Grid.Column="1"/>
         <Label x:Name="waiterLabel" Content="Waiter" HorizontalAlignment="Left" Margin="352,151,0,0" VerticalAlignment="Top" Width="123"/>
-        <Button x:Name="closeBarButton" Content="Close Bar" HorizontalAlignment="Left" Height="28" Margin="523,96,0,0" VerticalAlignment="Top" Width="149" Grid.ColumnSpan="2"/>
-        <TextBlock x:Name="barStatusTextBox" HorizontalAlignment="Left" Height="46" Margin="180,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123" Grid.Column="4" Grid.ColumnSpan="2"/>
-        <Label Content="Bar Status" HorizontalAlignment="Left" Height="28" Margin="180,72,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.Column="4" Grid.ColumnSpan="2"/>
-        <ComboBox x:Name="testComboBox" HorizontalAlignment="Left" Height="28" Margin="10,96,0,0" VerticalAlignment="Top" Width="320" SelectedIndex="0"/>
-        <Label Content="Bar Content" HorizontalAlignment="Left" Height="28" Margin="180,151,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.Column="4" Grid.ColumnSpan="2"/>
-        <Button x:Name="openBarButton" Content="Open Bar " HorizontalAlignment="Left" Margin="361,96,0,0" VerticalAlignment="Top" Width="150" Height="28"/>
+        <Button x:Name="closeBarButton" Content="Close Bar" HorizontalAlignment="Left" Height="28" Margin="0,96,0,0" VerticalAlignment="Top" Width="149" Grid.Column="4"/>
+        <TextBlock x:Name="barStatusTextBox" HorizontalAlignment="Left" Height="39" Margin="183,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="261" Grid.Column="4" Grid.ColumnSpan="2"/>
+        <Label Content="Bar Status" HorizontalAlignment="Left" Height="28" Margin="183,76,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.Column="4" Grid.ColumnSpan="2"/>
+        <ComboBox x:Name="testComboBox" HorizontalAlignment="Left" Height="28" Margin="10,96,0,0" VerticalAlignment="Top" Width="662" SelectedIndex="0" Grid.ColumnSpan="2"/>
+        <Label Content="Bar Content" HorizontalAlignment="Left" Height="28" Margin="183,144,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.Column="4" Grid.ColumnSpan="2"/>
+        <Button x:Name="openBarButton" Content="Open Bar " HorizontalAlignment="Left" Margin="156,96,0,0" VerticalAlignment="Top" Width="150" Height="28" Grid.ColumnSpan="3" Grid.Column="1"/>
         <ListBox x:Name="barContentListBox" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Left" Height="155" Margin="180,177,0,0" VerticalAlignment="Top" Width="265"/>
-        <Slider x:Name="SpeedSlider" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="30" Margin="13,568,0,0" VerticalAlignment="Top" Width="659" TickFrequency="10" IsSnapToTickEnabled="True" Value="0" 
-                Minimum="-100" Maximum="100" IsMoveToPointEnabled="true" AutoToolTipPrecision="0" AutoToolTipPlacement="BottomRight"/>
-        <Label Content="-100 %" HorizontalAlignment="Left" Height="26" Margin="13,542,0,0" VerticalAlignment="Top" Width="220"/>
-        <Label Content="0 %" HorizontalAlignment="Left" Height="26" Margin="233,542,0,0" VerticalAlignment="Top" Width="220" HorizontalContentAlignment="Center"/>
-        <Label Content="+100 %" HorizontalAlignment="Left" Height="26" Margin="452,542,0,0" VerticalAlignment="Top" Width="220" Grid.ColumnSpan="2" HorizontalContentAlignment="Right" />
-        <RadioButton x:Name="changeSpeedRadioButton" Grid.ColumnSpan="2" Content="Change Speed" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="181,370,0,0" VerticalAlignment="Top" Width="264"/>
+        <RadioButton x:Name="changeSpeedRadioButton" Grid.ColumnSpan="2" Content="Change Speed" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="183,369,0,0" VerticalAlignment="Top" Width="264"/>
         <ListBox x:Name="SpeedListBox" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Left" Height="172" Margin="183,396,0,0" VerticalAlignment="Top" Width="262" IsEnabled="False" Visibility="Hidden"/>
 
     </Grid>

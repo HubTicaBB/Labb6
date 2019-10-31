@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace RubberDuckPub
@@ -54,6 +52,7 @@ namespace RubberDuckPub
         {
             openBarButton.IsEnabled = false;
             closeBarButton.IsEnabled = true;
+            changeSpeedRadioButton.IsEnabled = false;
             BartenderListBox.Items.Clear();
             WaiterListBox.Items.Clear();
             GuestsListBox.Items.Clear();
@@ -63,7 +62,7 @@ namespace RubberDuckPub
             if (SpeedListBox.SelectedItem != null)
             {
                 double.TryParse(SpeedListBox.SelectedItem.ToString(), out speed);
-            }            
+            }
 
             switch (testComboBox.SelectedItem)
             {
@@ -122,7 +121,9 @@ namespace RubberDuckPub
                 if (timeSpan == TimeSpan.Zero)
                 {
                     dispatcherTimer.Stop();
-                    bar.IsOpen = false;                    
+                    bar.IsOpen = false;
+                    closeBarButton.IsEnabled = false;
+                    changeSpeedRadioButton.IsEnabled = false;
                     barStatusTextBox.Text = "The bar is closed!";
                 }
                 timeSpan = timeSpan.Add(TimeSpan.FromSeconds(-1));

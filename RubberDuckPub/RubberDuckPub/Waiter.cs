@@ -82,6 +82,8 @@ namespace RubberDuckPub
             {
                 Log(DateTime.Now, "Waiter goes home.");
                 IsWorking = false;
+                mainWindow.Dispatcher.Invoke(() => mainWindow.openBarButton.IsEnabled = true); // 
+                mainWindow.Dispatcher.Invoke(() => mainWindow.closeBarButton.IsEnabled = false);
             }
         }
 
