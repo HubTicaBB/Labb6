@@ -36,14 +36,14 @@ namespace RubberDuckPub
                         while (bar.emptyChairs.Count == 0) { }
                         SearchForEmptyChair();
                     }
-                    Thread.Sleep(200);
+                    Thread.Sleep(200); ////////////
                 }
             });
         }
 
         private void SearchForEmptyChair()
         {
-            int availableChairs = bar.emptyChairs.Count;  
+            int availableChairs = bar.emptyChairs.Count;
             if (availableChairs > 0)
             {
                 //Thread.Sleep(TimeToGoToTable);
