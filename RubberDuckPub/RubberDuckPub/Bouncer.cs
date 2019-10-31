@@ -10,7 +10,6 @@ namespace RubberDuckPub
     {
         public MainWindow mainWindow { get; set; }
         public Bar bar { get; set; }
-
         static readonly List<string> nameList = new List<string>
         {
             "Bob",
@@ -74,27 +73,24 @@ namespace RubberDuckPub
             "Magnus",
             "Pontus"
         };
-        static Random r = new Random();
-        public int Seconds { get; set; }
+        static Random r = new Random();        
         public int NumberOfGuestsAtATime { get; set; }
-        public bool HalfAsFast { get; set; }
+        public bool BusIsComing { get; set; }
+        public int TimeForBusToArrive { get; set; } = 20;
+        public bool CouplesNight { get; set; }
+        public int TimeToGenerateAGuest { get; set; }
+        public int TimeForGuestToGoToBar { get; set; }
 
-        public Bouncer(Bar bar, MainWindow mainWindow, int numberOfGuestsAtATime, bool halfAsFast)
+        public Bouncer(Bar bar, MainWindow mainWindow, int numberOfGuestsAtATime, bool busIsComing, bool couplesNight)
         {
             this.bar = bar;
             this.mainWindow = mainWindow;
+            TimeForGuestToGoToBar = 1000 / bar.Speed;
             NumberOfGuestsAtATime = numberOfGuestsAtATime;
-            HalfAsFast = halfAsFast;
+            BusIsComing = busIsComing;
+            CouplesNight = couplesNight;
+
             StartBouncer();
-            //Task.Run(() =>
-            //{
-            //    while (bar.IsOpen)
-            //    {
-            //        GenerateGuest(bar, mainWindow);
-            //        //bar.IsOpen = false; quick check if the bouncer is going home
-            //    }
-            //    GoHome(mainWindow);
-            //});
         }
 
         private void StartBouncer()
@@ -104,17 +100,29 @@ namespace RubberDuckPub
                 while (bar.IsOpen)
                 {
                     GenerateGuest();
-                    //bar.IsOpen = false; quick check if the bouncer is going home
                 }
+
                 GoHome();
             });
         }
 
         public void GenerateGuest()
         {
-            Seconds = r.Next(3, 11);
-            if (HalfAsFast) Seconds *= 2;
-            Thread.Sleep(Seconds * 1000);
+            TimeToGenerateAGuest = r.Next(3, 11);
+           
+            if (BusIsComing)
+            {
+                TimeToGenerateAGuest *= 2;
+                TimeForBusToArrive -= TimeToGenerateAGuest;
+                if (TimeForBusToArrive <= 0)
+                {
+                    TimeToGenerateAGuest = TimeForBusToArrive + TimeToGenerateAGuest;
+                    NumberOfGuestsAtATime = 15;
+                    BusIsComing = false;
+                }
+            }
+
+            Thread.Sleep(TimeToGenerateAGuest * 1000 / bar.Speed);
 
             for (int i = 0; i < NumberOfGuestsAtATime; i++)
             {
@@ -122,8 +130,13 @@ namespace RubberDuckPub
                 if (!bar.IsOpen) return;
                 bar.guestQueue.Enqueue(new Guest(nameList[index], bar, mainWindow));
                 Log(DateTime.Now, nameList[index] + " comes in and goes to the bar");
+                if (!CouplesNight && NumberOfGuestsAtATime != 15)
+                {
+                    Thread.Sleep(TimeForGuestToGoToBar);
+                }                
                 bar.TotalNumberGuests++;
             }
+
             NumberOfGuestsAtATime = (NumberOfGuestsAtATime == 15) ? 1 : NumberOfGuestsAtATime;
         }
 

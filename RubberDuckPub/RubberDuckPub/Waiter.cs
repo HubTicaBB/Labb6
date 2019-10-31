@@ -8,8 +8,8 @@ namespace RubberDuckPub
     {
         public MainWindow mainWindow { get; set; }
         public Bar bar { get; set; }
-        public int TimeToPickUpGlasses { get; set; } = 10000;
-        public int TimeToDoDishes { get; set; } = 15000;
+        public int TimeToPickUpGlasses { get; set; }
+        public int TimeToDoDishes { get; set; }
         public int numberOfPickedUpGlasses = 0;
         public bool IsWorking { get; set; }
         public bool TwiceAsFast { get; set; }
@@ -18,6 +18,9 @@ namespace RubberDuckPub
         {
             this.bar = bar;
             this.mainWindow = mainWindow;
+            TimeToPickUpGlasses = 10000 / bar.Speed;
+            TimeToDoDishes = 15000 / bar.Speed;
+
             TwiceAsFast = twiceAsFast;
             if (TwiceAsFast)
             {
@@ -43,7 +46,7 @@ namespace RubberDuckPub
 
         private void CheckIfGlassesAreEmpty()
         {
-            int glassesToClean = bar.dirtyGlassesStack.Count;
+            int glassesToClean = bar.dirtyGlassesStack.Count; // save count in a variable so that is static 
             if (glassesToClean > 0)
             {
                 Log(DateTime.Now, $"Picking up {glassesToClean} empty glasses.");
@@ -58,7 +61,7 @@ namespace RubberDuckPub
             Thread.Sleep(TimeToDoDishes);
 
             Glasses[] removedGlasses = new Glasses[glassesToClean];
-            bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, glassesToClean);
+            bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, glassesToClean);  // remove dirty glasses because they are clean now
             PutGlassBack(glassesToClean);
         }
 
@@ -67,9 +70,9 @@ namespace RubberDuckPub
             Log(DateTime.Now, $"Putting clean glasses in the shelf.");
             for (int i = 0; i < glassesToClean; i++)
             {
-                bar.cleanGlassesStack.Push(new Glasses());
+                bar.cleanGlassesStack.Push(new Glasses());  // put back new clean glasses 
             }
-            Thread.Sleep(100); // för att content listbox har tid att uppdatera sig
+            Thread.Sleep(1000); // för att content listbox har tid att uppdatera sig
         }
 
         private void GoHome()

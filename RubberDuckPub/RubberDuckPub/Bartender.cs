@@ -8,13 +8,16 @@ namespace RubberDuckPub
     {
         public MainWindow mainWindow { get; set; }
         public Bar bar { get; set; }
-
         public bool IsWorking { get; set; }
+        public int TimeToGoToShelf { get; set; }
+        public int TimeToServeBeer { get; set; }
 
         public Bartender(Bar bar, MainWindow mainWindow)
         {
             this.bar = bar;
             this.mainWindow = mainWindow;
+            TimeToGoToShelf = 3000 / bar.Speed;
+            TimeToServeBeer = 3000 / bar.Speed;
 
             StartBartender();
         }
@@ -37,16 +40,13 @@ namespace RubberDuckPub
             if (bar.guestQueue.Count == 0)
             {
                 Log(DateTime.Now, "Waiting for guests at the bar.");
-                while (bar.guestQueue.Count == 0 && (bar.IsOpen || bar.TotalNumberGuests > 0))
-                {
-
-                }
+                while (bar.guestQueue.Count == 0 && (bar.IsOpen || bar.TotalNumberGuests > 0)) { }
             }
             else
             {
                 Log(DateTime.Now, "Going to the shelf.");
                 GoToShelf();
-            }           
+            }
         }
 
         private void GoToShelf()
@@ -62,7 +62,7 @@ namespace RubberDuckPub
             {
                 Log(DateTime.Now, "Picking up a glass from the shelf.");
                 bar.cleanGlassesStack.TryPop(out Glasses glass);
-                Thread.Sleep(3000);
+                Thread.Sleep(TimeToGoToShelf);
                 bool dequeued = bar.guestQueue.TryDequeue(out Guest dequeuedGuest);
                 if (dequeued)
                 {
@@ -74,9 +74,10 @@ namespace RubberDuckPub
         private void ServeBeer(Guest dequeuedGuest)
         {
             Log(DateTime.Now, $"Pouring a beer to {dequeuedGuest.Name}.");
-            dequeuedGuest.HasBeer = true;
+            //dequeuedGuest.HasBeer = true;
             bar.guestWaitingForTableQueue.Enqueue(dequeuedGuest);
-            Thread.Sleep(3000);
+            dequeuedGuest.HasBeer = true;
+            Thread.Sleep(TimeToServeBeer);
         }
 
         private void GoHome()
