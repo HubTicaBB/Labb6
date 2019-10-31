@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace RubberDuckPub
@@ -34,57 +35,72 @@ namespace RubberDuckPub
 
             openBarButton.Click += OnOpenBarButtonClicked;
             closeBarButton.Click += OnCloseBarButtonClicked;
+            changeSpeedRadioButton.Checked += OnRadioButtonChecked;
         }
         //public ManualResetEvent PauseBartender = new ManualResetEvent(true); //is not really working 
+
+        static List<double> speeds = new List<double>()
+        {
+            0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2
+        };
+        private void OnRadioButtonChecked(object sender, RoutedEventArgs e)
+        {
+            SpeedListBox.ItemsSource = speeds;
+            SpeedListBox.IsEnabled = true;
+            SpeedListBox.Visibility = Visibility.Visible;
+        }
 
         private void OnOpenBarButtonClicked(object sender, RoutedEventArgs e)
         {
             openBarButton.IsEnabled = false;
             closeBarButton.IsEnabled = true;
+            BartenderListBox.Items.Clear();
+            WaiterListBox.Items.Clear();
+            GuestsListBox.Items.Clear();
+            barContentListBox.Items.Clear();
+
+            int speed = 1;
+            if (SpeedListBox.SelectedItem != null)
+            {
+                int.TryParse(SpeedListBox.SelectedItem.ToString(), out speed);
+            }            
+
             switch (testComboBox.SelectedItem)
             {
                 case "Standard Settings":
-                    bar = new Bar(this);
-                    UpdateBarStatus(bar);
+                    bar = new Bar(this, speed);
                     break;
                 case "20 glasses, 3 chairs":
-                    bar = new Bar(this, numberOfGlasses: 20, numberOfChairs: 3);
-                    UpdateBarStatus(bar);
+                    bar = new Bar(this, speed, numberOfGlasses: 20, numberOfChairs: 3);
                     break;
                 case "20 chairs, 5 glasses":
-                    bar = new Bar(this, numberOfChairs: 20, numberOfGlasses: 5);
-                    UpdateBarStatus(bar);
+                    bar = new Bar(this, speed, numberOfChairs: 20, numberOfGlasses: 5);
                     break;
                 case "Guests staying double time":
-                    bar = new Bar(this, guestsStayingDouble: true);
-                    UpdateBarStatus(bar);
+                    bar = new Bar(this, speed, guestsStayingDouble: true);
                     break;
                 case "The waiter twice as fast":
-                    bar = new Bar(this, waiterTwiceAsFast: true);
-                    UpdateBarStatus(bar);
+                    bar = new Bar(this, speed, waiterTwiceAsFast: true);
                     break;
                 case "Bar working hours: 5 minutes":
-                    bar = new Bar(this, openingSeconds: 300);
-                    UpdateBarStatus(bar);
+                    bar = new Bar(this, speed, openingSeconds: 300);
                     break;
                 case "Couples Night":
-                    bar = new Bar(this, numberOfGuestsAtATime: 2);
-                    UpdateBarStatus(bar);
+                    bar = new Bar(this, speed, couplesNight: true, numberOfGuestsAtATime: 2);
                     break;
                 case "Bus coming":
-                    bar = new Bar(this, bouncerHalfAsSlow: true, numberOfGuestsAtATime: 15);
-                    UpdateBarStatus(bar);
+                    bar = new Bar(this, speed, busIsComing: true);
                     break;
                 default:
                     break;
             }
+            UpdateBarStatus(bar);
         }
 
         private void OnCloseBarButtonClicked(object sender, RoutedEventArgs e)
         {
             closeBarButton.IsEnabled = false;
             openBarButton.IsEnabled = true;
-            Thread.Sleep(100);
             bar.IsOpen = false;
         }
 
@@ -106,8 +122,8 @@ namespace RubberDuckPub
                 if (timeSpan == TimeSpan.Zero)
                 {
                     dispatcherTimer.Stop();
-                    bar.IsOpen = false;
-                    barStatusTextBox.Text = "The bar is closed";
+                    bar.IsOpen = false;                    
+                    barStatusTextBox.Text = "The bar is closed!";
                 }
                 timeSpan = timeSpan.Add(TimeSpan.FromSeconds(-1));
 
