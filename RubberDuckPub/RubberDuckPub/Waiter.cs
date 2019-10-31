@@ -78,12 +78,27 @@ namespace RubberDuckPub
             {
                 Log(DateTime.Now, "Waiter goes home.");
                 IsWorking = false;
-                mainWindow.Dispatcher.Invoke(() => mainWindow.openBarButton.IsEnabled = true);
-                mainWindow.Dispatcher.Invoke(() => mainWindow.closeBarButton.IsEnabled = false);
-                mainWindow.Dispatcher.Invoke(() => mainWindow.testComboBox.IsEnabled = true);
-                mainWindow.Dispatcher.Invoke(() => mainWindow.changeSpeedRadioButton.IsEnabled = true);
-                mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedListBox.SelectedItem = null);
-                mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedListBox.Visibility = Visibility.Hidden);
+                MessageBoxResult answer = mainWindow.Dispatcher.Invoke(() => 
+                                          MessageBox.Show($"{mainWindow.testComboBox.SelectedItem.ToString().Substring(0,7)}\n\n" +
+                                                          $"\"{mainWindow.testComboBox.SelectedItem.ToString().Substring(11)}\"\n\n" +
+                                                          $"has been successfully completed. All the guests and staff went home.\n\n" +
+                                                          "  - Press 'YES' to continue\n" +
+                                                          "  - Press 'NO' to close the application", 
+                                                          "Done", MessageBoxButton.YesNo, MessageBoxImage.Information));
+
+                if (answer == MessageBoxResult.No)
+                {
+                    mainWindow.Dispatcher.Invoke(() => Application.Current.Shutdown());
+                }
+                else
+                {
+                    mainWindow.Dispatcher.Invoke(() => mainWindow.openBarButton.IsEnabled = true);
+                    mainWindow.Dispatcher.Invoke(() => mainWindow.closeBarButton.IsEnabled = false);
+                    mainWindow.Dispatcher.Invoke(() => mainWindow.testComboBox.IsEnabled = true);
+                    mainWindow.Dispatcher.Invoke(() => mainWindow.changeSpeedRadioButton.IsEnabled = true);
+                    mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedListBox.SelectedItem = null);
+                    mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedListBox.Visibility = Visibility.Hidden);
+                }          
             }
         }
 
