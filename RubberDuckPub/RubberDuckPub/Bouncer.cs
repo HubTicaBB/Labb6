@@ -76,10 +76,10 @@ namespace RubberDuckPub
         static Random r = new Random();        
         public int NumberOfGuestsAtATime { get; set; }
         public bool BusIsComing { get; set; }
-        public int TimeForBusToArrive { get; set; } = 20;
+        public double TimeForBusToArrive { get; set; } = 20;
         public bool CouplesNight { get; set; }
-        public int TimeToGenerateAGuest { get; set; }
-        public int TimeForGuestToGoToBar { get; set; }
+        public double TimeToGenerateAGuest { get; set; }
+        public double TimeForGuestToGoToBar { get; set; }
 
         public Bouncer(Bar bar, MainWindow mainWindow, int numberOfGuestsAtATime, bool busIsComing, bool couplesNight)
         {
@@ -112,7 +112,7 @@ namespace RubberDuckPub
            
             if (BusIsComing)
             {
-                TimeToGenerateAGuest *= 2;
+                TimeToGenerateAGuest *= 2.0;
                 TimeForBusToArrive -= TimeToGenerateAGuest;
                 if (TimeForBusToArrive <= 0)
                 {
@@ -121,8 +121,9 @@ namespace RubberDuckPub
                     BusIsComing = false;
                 }
             }
+            TimeToGenerateAGuest = TimeToGenerateAGuest * 1000 / bar.Speed;
 
-            Thread.Sleep(TimeToGenerateAGuest * 1000 / bar.Speed);
+            Thread.Sleep((int)TimeToGenerateAGuest);
 
             for (int i = 0; i < NumberOfGuestsAtATime; i++)
             {
@@ -132,7 +133,7 @@ namespace RubberDuckPub
                 Log(DateTime.Now, nameList[index] + " comes in and goes to the bar");
                 if (!CouplesNight && NumberOfGuestsAtATime != 15)
                 {
-                    Thread.Sleep(TimeForGuestToGoToBar);
+                    Thread.Sleep((int)TimeForGuestToGoToBar);
                 }                
                 bar.TotalNumberGuests++;
             }

@@ -8,8 +8,8 @@ namespace RubberDuckPub
     {
         public MainWindow mainWindow { get; set; }
         public Bar bar { get; set; }
-        public int TimeToPickUpGlasses { get; set; }
-        public int TimeToDoDishes { get; set; }
+        public double TimeToPickUpGlasses { get; set; }
+        public double TimeToDoDishes { get; set; }
         public int numberOfPickedUpGlasses = 0;
         public bool IsWorking { get; set; }
         public bool TwiceAsFast { get; set; }
@@ -50,7 +50,7 @@ namespace RubberDuckPub
             if (glassesToClean > 0)
             {
                 Log(DateTime.Now, $"Picking up {glassesToClean} empty glasses.");
-                Thread.Sleep(TimeToPickUpGlasses);
+                Thread.Sleep((int)TimeToPickUpGlasses);
                 DoDishes(glassesToClean);
             }
         }
@@ -58,7 +58,7 @@ namespace RubberDuckPub
         private void DoDishes(int glassesToClean)
         {
             Log(DateTime.Now, $"Doing dishes.");
-            Thread.Sleep(TimeToDoDishes);
+            Thread.Sleep((int)TimeToDoDishes);
 
             Glasses[] removedGlasses = new Glasses[glassesToClean];
             bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, glassesToClean);  // remove dirty glasses because they are clean now

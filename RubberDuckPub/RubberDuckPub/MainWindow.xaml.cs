@@ -41,7 +41,7 @@ namespace RubberDuckPub
 
         static List<double> speeds = new List<double>()
         {
-            0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2
+            0.25, 0.5, 1, 2, 3, 4
         };
         private void OnRadioButtonChecked(object sender, RoutedEventArgs e)
         {
@@ -59,10 +59,10 @@ namespace RubberDuckPub
             GuestsListBox.Items.Clear();
             barContentListBox.Items.Clear();
 
-            int speed = 1;
+            double speed = 1;
             if (SpeedListBox.SelectedItem != null)
             {
-                int.TryParse(SpeedListBox.SelectedItem.ToString(), out speed);
+                double.TryParse(SpeedListBox.SelectedItem.ToString(), out speed);
             }            
 
             switch (testComboBox.SelectedItem)

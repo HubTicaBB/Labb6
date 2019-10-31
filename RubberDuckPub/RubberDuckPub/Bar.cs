@@ -21,10 +21,10 @@ namespace RubberDuckPub
         public bool GuestsStayingDouble { get; set; }
         public int TimeOpenBar { get; set; }
         public bool IsOpen { get; set; }
-        public int Speed { get; set; }
+        public double Speed { get; set; }
 
         public Bar(MainWindow mainWindow,
-                   int speed,
+                   double speed,
                    int numberOfGlasses = 8,
                    int numberOfChairs = 9,
                    bool guestsStayingDouble = false,
