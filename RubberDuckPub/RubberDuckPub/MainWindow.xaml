@@ -30,14 +30,14 @@
         <Label x:Name="guestsLabel" Content="Guests" HorizontalAlignment="Left" Margin="156,151,0,0" VerticalAlignment="Top" Width="123" Grid.ColumnSpan="2" Grid.Column="1"/>
         <Label x:Name="waiterLabel" Content="Waiter" HorizontalAlignment="Left" Margin="352,151,0,0" VerticalAlignment="Top" Width="123"/>
         <Button x:Name="closeBarButton" Content="Close Bar" HorizontalAlignment="Left" Height="28" Margin="0,96,0,0" VerticalAlignment="Top" Width="149" Grid.Column="4"/>
-        <TextBlock x:Name="barStatusTextBox" HorizontalAlignment="Left" Height="39" Margin="183,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="261" Grid.Column="4" Grid.ColumnSpan="2"/>
-        <Label Content="Bar Status" HorizontalAlignment="Left" Height="28" Margin="183,76,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.Column="4" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="barStatusTextBox" HorizontalAlignment="Left" Height="44" Margin="199.5,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="263" Grid.Column="4" Grid.ColumnSpan="2" Padding="5,0,0,0"/>
+        <Label Content="Bar Status" HorizontalAlignment="Left" Height="28" Margin="199.5,67,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.Column="4" Grid.ColumnSpan="2"/>
         <ComboBox x:Name="testComboBox" HorizontalAlignment="Left" Height="28" Margin="10,96,0,0" VerticalAlignment="Top" Width="662" SelectedIndex="0" Grid.ColumnSpan="2"/>
-        <Label Content="Bar Content" HorizontalAlignment="Left" Height="28" Margin="183,144,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.Column="4" Grid.ColumnSpan="2"/>
-        <Button x:Name="openBarButton" Content="Open Bar " HorizontalAlignment="Left" Margin="156,96,0,0" VerticalAlignment="Top" Width="150" Height="28" Grid.ColumnSpan="3" Grid.Column="1"/>
-        <ListBox x:Name="barContentListBox" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Left" Height="155" Margin="180,177,0,0" VerticalAlignment="Top" Width="265"/>
-        <RadioButton x:Name="changeSpeedRadioButton" Grid.ColumnSpan="2" Content="Customize activity speed in the bar" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="183,369,0,0" VerticalAlignment="Top" Width="264"/>
-        <ListBox x:Name="SpeedListBox" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Left" Height="172" Margin="183,396,0,0" VerticalAlignment="Top" Width="262" IsEnabled="False" Visibility="Hidden"/>
+        <Label Content="Bar Content" HorizontalAlignment="Left" Height="28" Margin="199.5,149,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.Column="4" Grid.ColumnSpan="2"/>
+        <Button x:Name="openBarButton" Content="Open Bar" HorizontalAlignment="Left" Margin="156,96,0,0" VerticalAlignment="Top" Width="150" Height="28" Grid.ColumnSpan="3" Grid.Column="1"/>
+        <ListBox x:Name="barContentListBox" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Left" Height="155" Margin="199.5,177,0,0" VerticalAlignment="Top" Width="263"/>
+        <RadioButton x:Name="changeSpeedRadioButton" Grid.ColumnSpan="2" Content="Change Speed" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="199.5,369,0,0" VerticalAlignment="Top" Width="264"/>
+        <ListBox x:Name="SpeedListBox" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Left" Height="208" Margin="199.5,396,0,0" VerticalAlignment="Top" Width="262" IsEnabled="False" Visibility="Hidden"/>
 
     </Grid>
 </Window>
