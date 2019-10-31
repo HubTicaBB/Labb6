@@ -73,17 +73,19 @@ namespace RubberDuckPub
             "Magnus",
             "Pontus"
         };
-        static Random r = new Random();
-        public int Seconds { get; set; }
+        static Random r = new Random();        
         public int NumberOfGuestsAtATime { get; set; }
         public bool BusIsComing { get; set; }
         public int TimeForBusToArrive { get; set; } = 20;
         public bool CouplesNight { get; set; }
+        public int TimeToGenerateAGuest { get; set; }
+        public int TimeForGuestToGoToBar { get; set; }
 
         public Bouncer(Bar bar, MainWindow mainWindow, int numberOfGuestsAtATime, bool busIsComing, bool couplesNight)
         {
             this.bar = bar;
             this.mainWindow = mainWindow;
+            TimeForGuestToGoToBar = 1000 / bar.Speed;
             NumberOfGuestsAtATime = numberOfGuestsAtATime;
             BusIsComing = busIsComing;
             CouplesNight = couplesNight;
@@ -106,21 +108,21 @@ namespace RubberDuckPub
 
         public void GenerateGuest()
         {
-            Seconds = r.Next(3, 11);
+            TimeToGenerateAGuest = r.Next(3, 11);
            
             if (BusIsComing)
             {
-                Seconds *= 2;
-                TimeForBusToArrive -= Seconds;
+                TimeToGenerateAGuest *= 2;
+                TimeForBusToArrive -= TimeToGenerateAGuest;
                 if (TimeForBusToArrive <= 0)
                 {
-                    Seconds = TimeForBusToArrive + Seconds;
+                    TimeToGenerateAGuest = TimeForBusToArrive + TimeToGenerateAGuest;
                     NumberOfGuestsAtATime = 15;
                     BusIsComing = false;
                 }
             }
 
-            Thread.Sleep(Seconds * 1000);
+            Thread.Sleep(TimeToGenerateAGuest * 1000 / bar.Speed);
 
             for (int i = 0; i < NumberOfGuestsAtATime; i++)
             {
@@ -128,6 +130,10 @@ namespace RubberDuckPub
                 if (!bar.IsOpen) return;
                 bar.guestQueue.Enqueue(new Guest(nameList[index], bar, mainWindow));
                 Log(DateTime.Now, nameList[index] + " comes in and goes to the bar");
+                if (!CouplesNight && NumberOfGuestsAtATime != 15)
+                {
+                    Thread.Sleep(TimeForGuestToGoToBar);
+                }                
                 bar.TotalNumberGuests++;
             }
 

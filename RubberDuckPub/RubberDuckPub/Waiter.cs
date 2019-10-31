@@ -8,8 +8,8 @@ namespace RubberDuckPub
     {
         public MainWindow mainWindow { get; set; }
         public Bar bar { get; set; }
-        public int TimeToPickUpGlasses { get; set; } = 10000;
-        public int TimeToDoDishes { get; set; } = 15000;
+        public int TimeToPickUpGlasses { get; set; }
+        public int TimeToDoDishes { get; set; }
         public int numberOfPickedUpGlasses = 0;
         public bool IsWorking { get; set; }
         public bool TwiceAsFast { get; set; }
@@ -18,6 +18,9 @@ namespace RubberDuckPub
         {
             this.bar = bar;
             this.mainWindow = mainWindow;
+            TimeToPickUpGlasses = 10000 / bar.Speed;
+            TimeToDoDishes = 15000 / bar.Speed;
+
             TwiceAsFast = twiceAsFast;
             if (TwiceAsFast)
             {

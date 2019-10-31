@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RubberDuckPub"
         mc:Ignorable="d"
         Title="Ye Olde Rubber Duck Bar" Height="673.5" Width="1378">
-    <Grid Margin="10,0,26,-1" RenderTransformOrigin="0.5,0.5">
+    <Grid x:Name="grid" Margin="10,0,26,-1" RenderTransformOrigin="0.5,0.5">
         <Grid.RenderTransform>
             <TransformGroup>
                 <ScaleTransform/>
@@ -35,7 +35,14 @@
         <ComboBox x:Name="testComboBox" HorizontalAlignment="Left" Height="28" Margin="10,96,0,0" VerticalAlignment="Top" Width="320" SelectedIndex="0"/>
         <Label Content="Bar Content" HorizontalAlignment="Left" Height="28" Margin="180,151,0,0" VerticalAlignment="Top" Width="123" FontSize="14" Grid.Column="4" Grid.ColumnSpan="2"/>
         <Button x:Name="openBarButton" Content="Open Bar " HorizontalAlignment="Left" Margin="361,96,0,0" VerticalAlignment="Top" Width="150" Height="28"/>
-        <ListBox x:Name="barContentListBox" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Left" Height="194" Margin="180,177,0,0" VerticalAlignment="Top" Width="265"/>
+        <ListBox x:Name="barContentListBox" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Left" Height="155" Margin="180,177,0,0" VerticalAlignment="Top" Width="265"/>
+        <Slider x:Name="SpeedSlider" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="30" Margin="13,568,0,0" VerticalAlignment="Top" Width="659" TickFrequency="10" IsSnapToTickEnabled="True" Value="0" 
+                Minimum="-100" Maximum="100" IsMoveToPointEnabled="true" AutoToolTipPrecision="0" AutoToolTipPlacement="BottomRight"/>
+        <Label Content="-100 %" HorizontalAlignment="Left" Height="26" Margin="13,542,0,0" VerticalAlignment="Top" Width="220"/>
+        <Label Content="0 %" HorizontalAlignment="Left" Height="26" Margin="233,542,0,0" VerticalAlignment="Top" Width="220" HorizontalContentAlignment="Center"/>
+        <Label Content="+100 %" HorizontalAlignment="Left" Height="26" Margin="452,542,0,0" VerticalAlignment="Top" Width="220" Grid.ColumnSpan="2" HorizontalContentAlignment="Right" />
+        <RadioButton x:Name="changeSpeedRadioButton" Grid.ColumnSpan="2" Content="Change Speed" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="181,370,0,0" VerticalAlignment="Top" Width="264"/>
+        <ListBox x:Name="SpeedListBox" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Left" Height="172" Margin="183,396,0,0" VerticalAlignment="Top" Width="262" IsEnabled="False" Visibility="Hidden"/>
 
     </Grid>
 </Window>

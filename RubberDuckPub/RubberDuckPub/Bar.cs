@@ -21,8 +21,10 @@ namespace RubberDuckPub
         public bool GuestsStayingDouble { get; set; }
         public int TimeOpenBar { get; set; }
         public bool IsOpen { get; set; }
+        public int Speed { get; set; }
 
         public Bar(MainWindow mainWindow,
+                   int speed,
                    int numberOfGlasses = 8,
                    int numberOfChairs = 9,
                    bool guestsStayingDouble = false,
@@ -33,6 +35,7 @@ namespace RubberDuckPub
                    bool busIsComing = false)
         {
             this.mainWindow = mainWindow;
+            Speed = speed;
             IsOpen = true;
             NumberOfGlasses = numberOfGlasses;
             NumberOfChairs = numberOfChairs;
