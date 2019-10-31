@@ -62,16 +62,17 @@ namespace RubberDuckPub
 
             Glasses[] removedGlasses = new Glasses[glassesToClean];
             bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, glassesToClean);  // remove dirty glasses because they are clean now
-            PutGlassBack(glassesToClean);
+            PutGlassBack(removedGlasses);
         }
 
-        private void PutGlassBack(int glassesToClean)
+        private void PutGlassBack(Glasses[] removedGlasses) //// change 
         {
             Log(DateTime.Now, $"Putting clean glasses in the shelf.");
-            for (int i = 0; i < glassesToClean; i++)
-            {
-                bar.cleanGlassesStack.Push(new Glasses());  // put back new clean glasses 
-            }
+            bar.cleanGlassesStack.PushRange(removedGlasses);  // put back new clean glasses 
+            //for (int i = 0; i < glassesToClean; i++)
+            //{
+            //    bar.cleanGlassesStack.Push(new Glasses());  // put back new clean glasses 
+            //}
             Thread.Sleep(1000); // för att content listbox har tid att uppdatera sig
         }
 

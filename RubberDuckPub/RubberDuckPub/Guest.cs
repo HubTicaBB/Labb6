@@ -32,19 +32,21 @@ namespace RubberDuckPub
                     if (HasBeer)
                     {
                         Log(DateTime.Now, $"{Name} is searching for an available seat.");
+                        Thread.Sleep(TimeToGoToTable);
                         while (bar.emptyChairs.Count == 0) { }
                         SearchForEmptyChair();
                     }
+                    Thread.Sleep(200); ////////////
                 }
             });
         }
 
         private void SearchForEmptyChair()
         {
-            int availableChairs = bar.emptyChairs.Count;  
+            int availableChairs = bar.emptyChairs.Count;
             if (availableChairs > 0)
             {
-                Thread.Sleep(TimeToGoToTable);
+                //Thread.Sleep(TimeToGoToTable);
                 Log(DateTime.Now, $"{Name} is sitting at the table.");
                 bar.guestWaitingForTableQueue.TryDequeue(out Guest seatedGuest);
 
@@ -75,11 +77,13 @@ namespace RubberDuckPub
         {
             Log(DateTime.Now, $"{Name} finished the beer and goes home.");
             bar.seatedGuests.TryTake(out Guest wentHome);
-            HasBeer = false;
-            IsInBar = false;
+            //HasBeer = false;
+            //IsInBar = false;
             bar.dirtyGlassesStack.Push(new Glasses());
             bar.emptyChairs.Push(removedChair);
             bar.TotalNumberGuests--;
+            HasBeer = false;
+            IsInBar = false;
         }
 
         private void Log(DateTime timestamp, string activity)
