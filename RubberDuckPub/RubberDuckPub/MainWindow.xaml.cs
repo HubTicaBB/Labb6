@@ -123,7 +123,7 @@ namespace RubberDuckPub
                 {
                     dispatcherTimer.Stop();
                     bar.IsOpen = false;                    
-                   // barStatusTextBox.Text = "The bar is closed";
+                    barStatusTextBox.Text = "The bar is closed!";
                 }
                 timeSpan = timeSpan.Add(TimeSpan.FromSeconds(-1));
 
