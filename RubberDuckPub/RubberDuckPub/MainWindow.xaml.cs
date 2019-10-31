@@ -112,7 +112,7 @@ namespace RubberDuckPub
                 barStatusTextBox.Text = $"The bar is {status}!";
                 if (bar.IsOpen)
                 {
-                    barStatusTextBox.Text += "\nThe bar is closing in: " + timeSpan.ToString("c");
+                    barStatusTextBox.Text += "\nThe bar is closing in: " + timeSpan.ToString(@"hh\:mm\:ss");
                 }
                 else
                 {
@@ -126,8 +126,7 @@ namespace RubberDuckPub
                     changeSpeedRadioButton.IsEnabled = false;
                     barStatusTextBox.Text = "The bar is closed!";
                 }
-                timeSpan = timeSpan.Add(TimeSpan.FromSeconds(-1));
-
+                timeSpan = timeSpan.Add(TimeSpan.FromSeconds(-1 * bar.Speed));
             }, Application.Current.Dispatcher);
             dispatcherTimer.Start();
         }
