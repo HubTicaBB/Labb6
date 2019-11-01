@@ -6,26 +6,26 @@ namespace RubberDuckPub
 {
     public class Bar
     {
-        MainWindow mainWindow { get; set; }
-        public ConcurrentStack<Glasses> cleanGlassesStack = new ConcurrentStack<Glasses>();
-        public ConcurrentStack<Glasses> dirtyGlassesStack = new ConcurrentStack<Glasses>();
+        MainWindow mainWindow;
+        public ConcurrentStack<Glasses> cleanGlasses = new ConcurrentStack<Glasses>();
+        public ConcurrentStack<Glasses> dirtyGlasses = new ConcurrentStack<Glasses>();
         public ConcurrentStack<Chairs> emptyChairs = new ConcurrentStack<Chairs>();
         public ConcurrentQueue<Guest> guestQueue = new ConcurrentQueue<Guest>();
-        public ConcurrentQueue<Guest> guestWaitingForTableQueue = new ConcurrentQueue<Guest>();
+        public ConcurrentQueue<Guest> guestsWaitingForTable = new ConcurrentQueue<Guest>();
         public ConcurrentBag<Guest> seatedGuests = new ConcurrentBag<Guest>();
-        public int TotalNumberGuests { get; set; } = 0;
-        public int NumberOfGlasses { get; set; }
-        public int NumberOfChairs { get; set; }
-        public bool GuestsStayingDouble { get; set; }
-        public int TimeOpenBar { get; set; }
         public bool IsOpen { get; set; }
-        public double Speed { get; set; }
+        public int TotalNumberGuests { get; set; } = 0;
+        public int NumberOfGlasses { get; }
+        public int NumberOfChairs { get; }
+        public bool GuestsStayingDoubleTime { get; }
+        public int TimeOpenBar { get; }       
+        public double Speed { get; }
 
         public Bar(MainWindow mainWindow,
                    double speed,
                    int numberOfGlasses = 8,
                    int numberOfChairs = 9,
-                   bool guestsStayingDouble = false,
+                   bool guestsStayingDoubleTime = false,
                    bool waiterTwiceAsFast = false,
                    int openingSeconds = 120,
                    int numberOfGuestsAtATime = 1,
@@ -33,11 +33,11 @@ namespace RubberDuckPub
                    bool busIsComing = false)
         {
             this.mainWindow = mainWindow;
-            Speed = speed;
             IsOpen = true;
+            Speed = speed;            
             NumberOfGlasses = numberOfGlasses;
             NumberOfChairs = numberOfChairs;
-            GuestsStayingDouble = guestsStayingDouble;
+            GuestsStayingDoubleTime = guestsStayingDoubleTime;
             TimeOpenBar = openingSeconds;
 
             PushGlasses(NumberOfGlasses);
@@ -66,7 +66,7 @@ namespace RubberDuckPub
         {
             mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items.Clear());
             mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items.Add($"There are {TotalNumberGuests} guests in the bar."));
-            mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items.Add($"There are {cleanGlassesStack.Count} glasses on the shelf " +
+            mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items.Add($"There are {cleanGlasses.Count} glasses on the shelf " +
                                                                                       $"({NumberOfGlasses} total)"));
             mainWindow.Dispatcher.Invoke(() => mainWindow.barContentListBox.Items.Add($"There are {emptyChairs.Count} available chairs " +
                                                                                       $"({NumberOfChairs} total)"));
@@ -76,7 +76,7 @@ namespace RubberDuckPub
         {
             for (int i = 0; i < numberOfGlasses; i++)
             {
-                cleanGlassesStack.Push(new Glasses());
+                cleanGlasses.Push(new Glasses());
             }
         }
 

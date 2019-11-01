@@ -51,17 +51,17 @@ namespace RubberDuckPub
 
         private void GoToShelf()
         {
-            while (bar.cleanGlassesStack.Count == 0)
+            while (bar.cleanGlasses.Count == 0)
             {
                 if (bar.TotalNumberGuests == 0 && !bar.IsOpen)
                 {
                     return;
                 }
             }
-            if (bar.cleanGlassesStack.Count > 0 && bar.guestQueue.Count > 0)
+            if (bar.cleanGlasses.Count > 0 && bar.guestQueue.Count > 0)
             {
                 Log(DateTime.Now, "Picking up a glass from the shelf.");
-                bar.cleanGlassesStack.TryPop(out Glasses glass);
+                bar.cleanGlasses.TryPop(out Glasses glass);
                 Thread.Sleep((int)TimeToGoToShelf);
                 bool dequeued = bar.guestQueue.TryDequeue(out Guest dequeuedGuest);
                 if (dequeued)
@@ -74,7 +74,7 @@ namespace RubberDuckPub
         private void ServeBeer(Guest dequeuedGuest)
         {
             Log(DateTime.Now, $"Pouring a beer to {dequeuedGuest.Name}.");
-            bar.guestWaitingForTableQueue.Enqueue(dequeuedGuest);
+            bar.guestsWaitingForTable.Enqueue(dequeuedGuest);
             dequeuedGuest.HasBeer = true;
             Thread.Sleep((int)TimeToServeBeer);
         }

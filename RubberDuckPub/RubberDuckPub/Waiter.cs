@@ -36,7 +36,7 @@ namespace RubberDuckPub
         {
             Task.Run(() =>
             {
-                while (bar.IsOpen || bar.dirtyGlassesStack.Count > 0 || bar.TotalNumberGuests > 0)
+                while (bar.IsOpen || bar.dirtyGlasses.Count > 0 || bar.TotalNumberGuests > 0)
                 {
                     IsWorking = true;
                     CheckIfGlassesAreEmpty();
@@ -47,7 +47,7 @@ namespace RubberDuckPub
 
         private void CheckIfGlassesAreEmpty()
         {
-            int glassesToClean = bar.dirtyGlassesStack.Count;
+            int glassesToClean = bar.dirtyGlasses.Count;
             if (glassesToClean > 0)
             {
                 Log(DateTime.Now, $"Picking up {glassesToClean} empty glasses.");
@@ -61,14 +61,14 @@ namespace RubberDuckPub
             Log(DateTime.Now, $"Doing dishes.");
             Thread.Sleep((int)TimeToDoDishes);
             Glasses[] removedGlasses = new Glasses[glassesToClean];
-            bar.dirtyGlassesStack.TryPopRange(removedGlasses, 0, glassesToClean);
+            bar.dirtyGlasses.TryPopRange(removedGlasses, 0, glassesToClean);
             PutGlassBack(removedGlasses);
         }
 
         private void PutGlassBack(Glasses[] removedGlasses)
         {
             Log(DateTime.Now, $"Putting clean glasses in the shelf.");
-            bar.cleanGlassesStack.PushRange(removedGlasses);
+            bar.cleanGlasses.PushRange(removedGlasses);
             Thread.Sleep(1000);
         }
 

@@ -8,8 +8,9 @@ namespace RubberDuckPub
 {
     public class Bouncer
     {
-        public MainWindow mainWindow { get; set; }
-        public Bar bar { get; set; }
+        MainWindow mainWindow;
+        Bar bar;
+        Random random = new Random();
         static readonly List<string> nameList = new List<string>
         {
             "Bob",
@@ -73,18 +74,18 @@ namespace RubberDuckPub
             "Magnus",
             "Pontus"
         };
-        static Random r = new Random();
+       
         public int NumberOfGuestsAtATime { get; set; }
         public bool BusIsComing { get; set; }
         public double TimeForBusToArrive { get; set; } = 20;
-        public bool CouplesNight { get; set; }
+        public bool CouplesNight { get; }
         public double TimeToGenerateAGuest { get; set; }
         public double TimeForGuestToGoToBar { get; set; }
 
         public Bouncer(Bar bar, MainWindow mainWindow, int numberOfGuestsAtATime, bool busIsComing, bool couplesNight)
         {
-            this.bar = bar;
             this.mainWindow = mainWindow;
+            this.bar = bar;            
             TimeForGuestToGoToBar = 1000 / bar.Speed;
             NumberOfGuestsAtATime = numberOfGuestsAtATime;
             BusIsComing = busIsComing;
@@ -107,11 +108,13 @@ namespace RubberDuckPub
 
         public void GenerateGuest()
         {
-            TimeToGenerateAGuest = r.Next(3, 11);
+            TimeToGenerateAGuest = random.Next(3, 11);
 
+            // Bus is arriving 20 seconds after opening.
+            // Check if it's time for bus to arrive, otherwise let in a single guest.
             if (BusIsComing)
             {
-                TimeToGenerateAGuest *= 2.0;
+                TimeToGenerateAGuest *= 2;
                 TimeForBusToArrive -= TimeToGenerateAGuest;
                 if (TimeForBusToArrive <= 0)
                 {
@@ -125,7 +128,7 @@ namespace RubberDuckPub
 
             for (int i = 0; i < NumberOfGuestsAtATime; i++)
             {
-                int index = r.Next(1, nameList.Count());
+                int index = random.Next(1, nameList.Count());
                 if (!bar.IsOpen) return;
                 bar.guestQueue.Enqueue(new Guest(nameList[index], bar, mainWindow));
                 Log(DateTime.Now, nameList[index] + " comes in and goes to the bar");

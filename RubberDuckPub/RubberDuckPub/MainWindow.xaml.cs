@@ -10,9 +10,7 @@ namespace RubberDuckPub
     /// </summary>
     public partial class MainWindow : Window
     {
-        Bar bar;
-        DispatcherTimer dispatcherTimer;
-        TimeSpan timeSpan;
+        Bar bar;        
 
         public MainWindow()
         {
@@ -34,17 +32,21 @@ namespace RubberDuckPub
             openBarButton.Click += OnOpenBarButtonClicked;
             closeBarButton.Click += OnCloseBarButtonClicked;
             changeSpeedRadioButton.Checked += OnRadioButtonChecked;
+            SpeedListBox.SelectionChanged += OnChangedSpeed;
         }
 
-        static List<double> speeds = new List<double>()
-        {
-            0.25, 0.5, 0.75, 1, 2, 3, 4, 5
-        };
+        static List<double> speeds = new List<double>() { 0.25, 0.5, 0.75, 1, 2, 3, 4, 5 };
         private void OnRadioButtonChecked(object sender, RoutedEventArgs e)
         {
             SpeedListBox.ItemsSource = speeds;
             SpeedListBox.IsEnabled = true;
             SpeedListBox.Visibility = Visibility.Visible;
+        }
+
+        private void OnChangedSpeed(object sender, RoutedEventArgs e)
+        {
+            SpeedCheckBox.IsEnabled = true;
+            SpeedCheckBox.Visibility = Visibility.Visible;
         }
 
         private void OnOpenBarButtonClicked(object sender, RoutedEventArgs e)
@@ -79,7 +81,7 @@ namespace RubberDuckPub
                     bar = new Bar(this, speed, numberOfChairs: 20, numberOfGlasses: 5);
                     break;
                 case "Case 4:    The guests are staying double time in the bar.":
-                    bar = new Bar(this, speed, guestsStayingDouble: true);
+                    bar = new Bar(this, speed, guestsStayingDoubleTime: true);
                     break;
                 case "Case 5:    The waiter is picking up glasses and doing dishes twice as fast.":
                     bar = new Bar(this, speed, waiterTwiceAsFast: true);
@@ -96,6 +98,7 @@ namespace RubberDuckPub
                 default:
                     break;
             }
+
             UpdateBarStatus(bar);
         }
 
@@ -105,13 +108,14 @@ namespace RubberDuckPub
             bar.IsOpen = false;
         }
 
+        DispatcherTimer dispatcherTimer;
+        TimeSpan timeSpan;
         public void UpdateBarStatus(Bar bar)
         {
             timeSpan = TimeSpan.FromSeconds(bar.TimeOpenBar);
             dispatcherTimer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
             {
-                string status = (bar.IsOpen) ? "open" : "closed";
-                barStatusTextBox.Text = $"The bar is {status}!";
+                PrintOpenOrClose();
                 if (bar.IsOpen)
                 {
                     barStatusTextBox.Text += "\nThe bar is closing in: " + timeSpan.ToString(@"hh\:mm\:ss");
@@ -126,12 +130,18 @@ namespace RubberDuckPub
                     bar.IsOpen = false;
                     closeBarButton.IsEnabled = false;
                     changeSpeedRadioButton.IsEnabled = false;
-                    barStatusTextBox.Text = "The bar is closed!";
+                    PrintOpenOrClose();
                 }
                 double tick = (SpeedCheckBox.IsChecked ?? false) ? (-1 * bar.Speed) : -1; 
                 timeSpan = timeSpan.Add(TimeSpan.FromSeconds(tick));
             }, Application.Current.Dispatcher);
             dispatcherTimer.Start();
+        }
+
+        public void PrintOpenOrClose()
+        {
+            string status = (bar.IsOpen) ? "open" : "closed";
+            barStatusTextBox.Text = $"The bar is {status}!";
         }
     }
 }
