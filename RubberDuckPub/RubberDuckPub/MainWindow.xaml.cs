@@ -38,7 +38,7 @@ namespace RubberDuckPub
 
         static List<double> speeds = new List<double>()
         {
-            0.25, 0.5, 0.75, 1, 1.5, 2, 2.5, 3, 3.5, 4
+            0.25, 0.5, 0.75, 1, 2, 3, 4, 5
         };
         private void OnRadioButtonChecked(object sender, RoutedEventArgs e)
         {
@@ -53,7 +53,8 @@ namespace RubberDuckPub
             closeBarButton.IsEnabled = true;
             changeSpeedRadioButton.IsChecked = false;
             changeSpeedRadioButton.IsEnabled = false;
-            SpeedListBox.IsEnabled = false;            
+            SpeedListBox.IsEnabled = false;
+            SpeedCheckBox.IsEnabled = false;
             testComboBox.IsEnabled = false;
             BartenderListBox.Items.Clear();
             WaiterListBox.Items.Clear();
@@ -127,7 +128,8 @@ namespace RubberDuckPub
                     changeSpeedRadioButton.IsEnabled = false;
                     barStatusTextBox.Text = "The bar is closed!";
                 }
-                timeSpan = timeSpan.Add(TimeSpan.FromSeconds(-1 * bar.Speed));
+                double tick = (SpeedCheckBox.IsChecked ?? false) ? (-1 * bar.Speed) : -1; 
+                timeSpan = timeSpan.Add(TimeSpan.FromSeconds(tick));
             }, Application.Current.Dispatcher);
             dispatcherTimer.Start();
         }

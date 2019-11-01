@@ -98,6 +98,8 @@ namespace RubberDuckPub
                     mainWindow.Dispatcher.Invoke(() => mainWindow.changeSpeedRadioButton.IsEnabled = true);
                     mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedListBox.SelectedItem = null);
                     mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedListBox.Visibility = Visibility.Hidden);
+                    mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedCheckBox.IsChecked = false);
+                    mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedCheckBox.IsEnabled = true);
                 }          
             }
         }
