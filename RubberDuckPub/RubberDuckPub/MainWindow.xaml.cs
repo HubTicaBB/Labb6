@@ -134,6 +134,7 @@ namespace RubberDuckPub
         {
             string status = (bar.IsOpen) ? "open" : "closed";
             barStatusTextBox.Text = $"The bar is {status}!";
+            SpeedCheckBox.IsEnabled = (bar.IsOpen) ? true : false;
         }
 
         public double CurrentSpeed()
