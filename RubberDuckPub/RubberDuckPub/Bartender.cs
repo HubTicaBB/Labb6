@@ -9,15 +9,13 @@ namespace RubberDuckPub
         public MainWindow mainWindow { get; set; }
         public Bar bar { get; set; }
         public bool IsWorking { get; set; }
-        public double TimeToGoToShelf { get; set; }
-        public double TimeToServeBeer { get; set; }
+        public double TimeToGoToShelf { get; set; } = 3000;
+        public double TimeToServeBeer { get; set; } = 3000;
 
         public Bartender(Bar bar, MainWindow mainWindow)
         {
             this.bar = bar;
             this.mainWindow = mainWindow;
-            TimeToGoToShelf = 3000 / bar.Speed;
-            TimeToServeBeer = 3000 / bar.Speed;
 
             StartBartender();
         }
@@ -62,7 +60,7 @@ namespace RubberDuckPub
             {
                 Log(DateTime.Now, "Picking up a glass from the shelf.");
                 bar.cleanGlasses.TryPop(out Glasses glass);
-                Thread.Sleep((int)TimeToGoToShelf);
+                Thread.Sleep((int)(TimeToGoToShelf / mainWindow.CurrentSpeed()));
                 bool dequeued = bar.guestQueue.TryDequeue(out Guest dequeuedGuest);
                 if (dequeued)
                 {
@@ -76,7 +74,7 @@ namespace RubberDuckPub
             Log(DateTime.Now, $"Pouring a beer to {dequeuedGuest.Name}.");
             bar.guestsWaitingForTable.Enqueue(dequeuedGuest);
             dequeuedGuest.HasBeer = true;
-            Thread.Sleep((int)TimeToServeBeer);
+            Thread.Sleep((int)(TimeToServeBeer / mainWindow.CurrentSpeed()));
         }
 
         private void GoHome()

@@ -55,45 +55,37 @@ namespace RubberDuckPub
             closeBarButton.IsEnabled = true;
             changeSpeedRadioButton.IsChecked = false;
             changeSpeedRadioButton.IsEnabled = false;
-            SpeedListBox.IsEnabled = false;
-            SpeedCheckBox.IsEnabled = false;
             testComboBox.IsEnabled = false;
             BartenderListBox.Items.Clear();
             WaiterListBox.Items.Clear();
             GuestsListBox.Items.Clear();
             barContentListBox.Items.Clear();
 
-            double speed = 1;
-            if (SpeedListBox.SelectedItem != null)
-            {
-                double.TryParse(SpeedListBox.SelectedItem.ToString(), out speed);
-            }
-
             switch (testComboBox.SelectedItem)
             {
                 case "Case 1:    The bar has 8 glasses and 9 chairs.":
-                    bar = new Bar(this, speed);
+                    bar = new Bar(this);
                     break;
                 case "Case 2:    The bar has 20 glasses and 3 chairs.":
-                    bar = new Bar(this, speed, numberOfGlasses: 20, numberOfChairs: 3);
+                    bar = new Bar(this, numberOfGlasses: 20, numberOfChairs: 3);
                     break;
                 case "Case 3:    The bar has 5 glasses and 20 chairs.":
-                    bar = new Bar(this, speed, numberOfChairs: 20, numberOfGlasses: 5);
+                    bar = new Bar(this, numberOfChairs: 20, numberOfGlasses: 5);
                     break;
                 case "Case 4:    The guests are staying double time in the bar.":
-                    bar = new Bar(this, speed, guestsStayingDoubleTime: true);
+                    bar = new Bar(this, guestsStayingDoubleTime: true);
                     break;
                 case "Case 5:    The waiter is picking up glasses and doing dishes twice as fast.":
-                    bar = new Bar(this, speed, waiterTwiceAsFast: true);
+                    bar = new Bar(this, waiterTwiceAsFast: true);
                     break;
                 case "Case 6:    The bar is open for 5 minutes.":
-                    bar = new Bar(this, speed, openingSeconds: 300);
+                    bar = new Bar(this, openingSeconds: 300);
                     break;
                 case "Case 7:    Couples Night (The guests are coming inside the bar in couples).":
-                    bar = new Bar(this, speed, couplesNight: true, numberOfGuestsAtATime: 2);
+                    bar = new Bar(this, couplesNight: true, numberOfGuestsAtATime: 2);
                     break;
                 case "Case 8:    A bus with 15 guests is coming at the bar.":
-                    bar = new Bar(this, speed, busIsComing: true);
+                    bar = new Bar(this, busIsComing: true);
                     break;
                 default:
                     break;
@@ -124,7 +116,7 @@ namespace RubberDuckPub
                 {
                     timeSpan = TimeSpan.Zero;
                 }
-                if (timeSpan == TimeSpan.Zero)
+                if (timeSpan <= TimeSpan.Zero)
                 {
                     dispatcherTimer.Stop();
                     bar.IsOpen = false;
@@ -132,7 +124,7 @@ namespace RubberDuckPub
                     changeSpeedRadioButton.IsEnabled = false;
                     PrintOpenOrClose();
                 }
-                double tick = (SpeedCheckBox.IsChecked ?? false) ? (-1 * bar.Speed) : -1; 
+                double tick = (SpeedCheckBox.IsChecked ?? false) ? (-1 * CurrentSpeed()) : -1; 
                 timeSpan = timeSpan.Add(TimeSpan.FromSeconds(tick));
             }, Application.Current.Dispatcher);
             dispatcherTimer.Start();
@@ -142,6 +134,11 @@ namespace RubberDuckPub
         {
             string status = (bar.IsOpen) ? "open" : "closed";
             barStatusTextBox.Text = $"The bar is {status}!";
+        }
+
+        public double CurrentSpeed()
+        {
+            return (Dispatcher.Invoke(() => SpeedListBox.SelectedItem == null) ? 1 : Convert.ToDouble(Dispatcher.Invoke(() => SpeedListBox.SelectedItem)));
         }
     }
 }

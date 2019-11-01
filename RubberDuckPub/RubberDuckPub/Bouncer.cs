@@ -10,7 +10,6 @@ namespace RubberDuckPub
     {
         MainWindow mainWindow;
         Bar bar;
-        Random random = new Random();
         static readonly List<string> nameList = new List<string>
         {
             "Bob",
@@ -80,13 +79,12 @@ namespace RubberDuckPub
         public double TimeForBusToArrive { get; set; } = 20;
         public bool CouplesNight { get; }
         public double TimeToGenerateAGuest { get; set; }
-        public double TimeForGuestToGoToBar { get; set; }
+        public double TimeForGuestToGoToBar { get; set; } = 1000;
 
         public Bouncer(Bar bar, MainWindow mainWindow, int numberOfGuestsAtATime, bool busIsComing, bool couplesNight)
         {
             this.mainWindow = mainWindow;
             this.bar = bar;            
-            TimeForGuestToGoToBar = 1000 / bar.Speed;
             NumberOfGuestsAtATime = numberOfGuestsAtATime;
             BusIsComing = busIsComing;
             CouplesNight = couplesNight;
@@ -108,7 +106,8 @@ namespace RubberDuckPub
 
         public void GenerateGuest()
         {
-            TimeToGenerateAGuest = random.Next(3, 11);
+            Random random = new Random();
+            TimeToGenerateAGuest = random.Next(3, 11) * 1000;
 
             // Bus is arriving 20 seconds after opening.
             // Check if it's time for bus to arrive, otherwise let in a single guest.
@@ -123,8 +122,7 @@ namespace RubberDuckPub
                     BusIsComing = false;
                 }
             }
-            TimeToGenerateAGuest = TimeToGenerateAGuest * 1000 / bar.Speed;
-            Thread.Sleep((int)TimeToGenerateAGuest);
+            Thread.Sleep((int)(TimeToGenerateAGuest / mainWindow.CurrentSpeed()));
 
             for (int i = 0; i < NumberOfGuestsAtATime; i++)
             {
@@ -134,7 +132,7 @@ namespace RubberDuckPub
                 Log(DateTime.Now, nameList[index] + " comes in and goes to the bar");
                 if (!CouplesNight && NumberOfGuestsAtATime != 15)
                 {
-                    Thread.Sleep((int)TimeForGuestToGoToBar);
+                    Thread.Sleep((int)(TimeForGuestToGoToBar / mainWindow.CurrentSpeed()));
                 }
                 bar.TotalNumberGuests++;
             }

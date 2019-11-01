@@ -19,10 +19,8 @@ namespace RubberDuckPub
         public int NumberOfChairs { get; }
         public bool GuestsStayingDoubleTime { get; }
         public int TimeOpenBar { get; }       
-        public double Speed { get; }
 
         public Bar(MainWindow mainWindow,
-                   double speed,
                    int numberOfGlasses = 8,
                    int numberOfChairs = 9,
                    bool guestsStayingDoubleTime = false,
@@ -34,7 +32,6 @@ namespace RubberDuckPub
         {
             this.mainWindow = mainWindow;
             IsOpen = true;
-            Speed = speed;            
             NumberOfGlasses = numberOfGlasses;
             NumberOfChairs = numberOfChairs;
             GuestsStayingDoubleTime = guestsStayingDoubleTime;
@@ -58,7 +55,7 @@ namespace RubberDuckPub
             while (IsOpen || waiter.IsWorking || bartender.IsWorking)
             {
                 UpdateBarContent(mainWindow);
-                Thread.Sleep(1000);
+                Thread.Sleep(1000); // to make blinking not so obvious
             }
         }
 

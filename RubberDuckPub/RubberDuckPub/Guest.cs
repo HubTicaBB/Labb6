@@ -11,14 +11,14 @@ namespace RubberDuckPub
         public Bar bar { get; set; }
         public bool IsInBar { get; set; } = true;
         public bool HasBeer { get; set; }
-        public double TimeToGoToTable { get; set; }
+        public int TimeToGoToTheTable { get; set; } = 4000;
+        public int TimeToDrinkBeer { get; set; }
 
         public Guest(string name, Bar bar, MainWindow mainWindow)
         {
             Name = name;
             this.mainWindow = mainWindow;
             this.bar = bar;
-            TimeToGoToTable = 4000 / bar.Speed;
 
             StartGuest();
         }
@@ -32,7 +32,7 @@ namespace RubberDuckPub
                     if (HasBeer)
                     {
                         Log(DateTime.Now, $"{Name} is searching for an available seat.");
-                        Thread.Sleep((int)TimeToGoToTable);
+                        Thread.Sleep((int)(TimeToGoToTheTable / mainWindow.CurrentSpeed()));
                         while (bar.emptyChairs.Count == 0) { }
                         SearchForEmptyChair();
                     }
@@ -59,15 +59,14 @@ namespace RubberDuckPub
 
         private void DrinkBeer(Chairs removedChair)
         {
-            Random r = new Random();
+            Random random = new Random();
             Log(DateTime.Now, $"{Name} is drinking beer");
-            double secondsToDrinkBeer = r.Next(20, 31);
+            TimeToDrinkBeer = random.Next(20, 31) * 1000;
             if (bar.GuestsStayingDoubleTime)
             {
-                secondsToDrinkBeer *= 2;
+                TimeToDrinkBeer *= 2;
             }
-            secondsToDrinkBeer = secondsToDrinkBeer * 1000 / bar.Speed;
-            Thread.Sleep((int)secondsToDrinkBeer);
+            Thread.Sleep((int)(TimeToDrinkBeer / mainWindow.CurrentSpeed()));
             GoHome(removedChair);
         }
 

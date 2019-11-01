@@ -9,8 +9,8 @@ namespace RubberDuckPub
     {
         public MainWindow mainWindow { get; set; }
         public Bar bar { get; set; }
-        public double TimeToPickUpGlasses { get; set; }
-        public double TimeToDoDishes { get; set; }
+        public double TimeToPickUpGlasses { get; set; } = 10000;
+        public double TimeToDoDishes { get; set; } = 15000;
         public int numberOfPickedUpGlasses = 0;
         public bool IsWorking { get; set; }
         public bool TwiceAsFast { get; set; }
@@ -19,8 +19,6 @@ namespace RubberDuckPub
         {
             this.bar = bar;
             this.mainWindow = mainWindow;
-            TimeToPickUpGlasses = 10000 / bar.Speed;
-            TimeToDoDishes = 15000 / bar.Speed;
 
             TwiceAsFast = twiceAsFast;
             if (TwiceAsFast)
@@ -51,7 +49,7 @@ namespace RubberDuckPub
             if (glassesToClean > 0)
             {
                 Log(DateTime.Now, $"Picking up {glassesToClean} empty glasses.");
-                Thread.Sleep((int)TimeToPickUpGlasses);
+                Thread.Sleep((int)(TimeToPickUpGlasses / mainWindow.CurrentSpeed()));
                 DoDishes(glassesToClean);
             }
         }
@@ -59,7 +57,7 @@ namespace RubberDuckPub
         private void DoDishes(int glassesToClean)
         {
             Log(DateTime.Now, $"Doing dishes.");
-            Thread.Sleep((int)TimeToDoDishes);
+            Thread.Sleep((int)(TimeToDoDishes / mainWindow.CurrentSpeed()));
             Glasses[] removedGlasses = new Glasses[glassesToClean];
             bar.dirtyGlasses.TryPopRange(removedGlasses, 0, glassesToClean);
             PutGlassBack(removedGlasses);
@@ -69,7 +67,7 @@ namespace RubberDuckPub
         {
             Log(DateTime.Now, $"Putting clean glasses in the shelf.");
             bar.cleanGlasses.PushRange(removedGlasses);
-            Thread.Sleep(1000);
+            Thread.Sleep(1000); // making sure that bar content has enough time to update after putting the last glass back
         }
 
         private void GoHome()
@@ -99,7 +97,6 @@ namespace RubberDuckPub
                     mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedListBox.SelectedItem = null);
                     mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedListBox.Visibility = Visibility.Hidden);
                     mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedCheckBox.IsChecked = false);
-                    mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedCheckBox.IsEnabled = true);
                 }          
             }
         }
