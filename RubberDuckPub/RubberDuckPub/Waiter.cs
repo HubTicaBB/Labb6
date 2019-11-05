@@ -94,12 +94,11 @@ namespace RubberDuckPub
                     mainWindow.Dispatcher.Invoke(() => mainWindow.GuestsListBox.Items.Clear());
                     mainWindow.Dispatcher.Invoke(() => mainWindow.WaiterListBox.Items.Clear());
                     mainWindow.Dispatcher.Invoke(() => mainWindow.testComboBox.SelectedItem = null);
-
-
                     mainWindow.Dispatcher.Invoke(() => mainWindow.openBarButton.IsEnabled = true);
                     mainWindow.Dispatcher.Invoke(() => mainWindow.closeBarButton.IsEnabled = false);
                     mainWindow.Dispatcher.Invoke(() => mainWindow.testComboBox.IsEnabled = true);
                     mainWindow.Dispatcher.Invoke(() => mainWindow.changeSpeedRadioButton.IsEnabled = true);
+                    mainWindow.Dispatcher.Invoke(() => mainWindow.changeSpeedRadioButton.IsChecked = false);
                     mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedListBox.SelectedItem = null);
                     mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedListBox.Visibility = Visibility.Hidden);
                     mainWindow.Dispatcher.Invoke(() => mainWindow.SpeedCheckBox.IsChecked = false);
