@@ -10,7 +10,7 @@ namespace RubberDuckPub
     /// </summary>
     public partial class MainWindow : Window
     {
-        Bar bar;        
+        Bar bar;
 
         public MainWindow()
         {
@@ -54,7 +54,7 @@ namespace RubberDuckPub
             openBarButton.IsEnabled = false;
             closeBarButton.IsEnabled = true;
             changeSpeedRadioButton.IsChecked = false;
-            changeSpeedRadioButton.IsEnabled = false;
+            //changeSpeedRadioButton.IsEnabled = false;
             testComboBox.IsEnabled = false;
             BartenderListBox.Items.Clear();
             WaiterListBox.Items.Clear();
@@ -96,7 +96,7 @@ namespace RubberDuckPub
 
         private void OnCloseBarButtonClicked(object sender, RoutedEventArgs e)
         {
-            closeBarButton.IsEnabled = false;           
+            closeBarButton.IsEnabled = false;
             bar.IsOpen = false;
         }
 
@@ -124,7 +124,7 @@ namespace RubberDuckPub
                     changeSpeedRadioButton.IsEnabled = false;
                     PrintOpenOrClose();
                 }
-                double tick = (SpeedCheckBox.IsChecked ?? false) ? (-1 * CurrentSpeed()) : -1; 
+                double tick = (SpeedCheckBox.IsChecked ?? false) ? (-1 * CurrentSpeed()) : -1;
                 timeSpan = timeSpan.Add(TimeSpan.FromSeconds(tick));
             }, Application.Current.Dispatcher);
             dispatcherTimer.Start();

@@ -15,6 +15,8 @@ namespace RubberDuckPub
             "Bob",
             "Tijana",
             "Andreea",
+            "Wilhelm",
+            "Simon",
             "Kalle",
             "Sam",
             "Linda",
@@ -73,10 +75,10 @@ namespace RubberDuckPub
             "Magnus",
             "Pontus"
         };
-       
+
         public int NumberOfGuestsAtATime { get; set; }
         public bool BusIsComing { get; set; }
-        public double TimeForBusToArrive { get; set; } = 20;
+        public double TimeForBusToArrive { get; set; } = 20000;
         public bool CouplesNight { get; }
         public double TimeToGenerateAGuest { get; set; }
         public double TimeForGuestToGoToBar { get; set; } = 1000;
@@ -84,7 +86,7 @@ namespace RubberDuckPub
         public Bouncer(Bar bar, MainWindow mainWindow, int numberOfGuestsAtATime, bool busIsComing, bool couplesNight)
         {
             this.mainWindow = mainWindow;
-            this.bar = bar;            
+            this.bar = bar;
             NumberOfGuestsAtATime = numberOfGuestsAtATime;
             BusIsComing = busIsComing;
             CouplesNight = couplesNight;
