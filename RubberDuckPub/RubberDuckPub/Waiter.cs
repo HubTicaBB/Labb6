@@ -58,12 +58,12 @@ namespace RubberDuckPub
         {
             Log(DateTime.Now, $"Doing dishes.");
             Thread.Sleep((int)(TimeToDoDishes / mainWindow.CurrentSpeed()));
-            Glasses[] removedGlasses = new Glasses[glassesToClean];
+            Glass[] removedGlasses = new Glass[glassesToClean];
             bar.dirtyGlasses.TryPopRange(removedGlasses, 0, glassesToClean);
             PutGlassBack(removedGlasses);
         }
 
-        private void PutGlassBack(Glasses[] removedGlasses)
+        private void PutGlassBack(Glass[] removedGlasses)
         {
             Log(DateTime.Now, $"Putting clean glasses in the shelf.");
             bar.cleanGlasses.PushRange(removedGlasses);

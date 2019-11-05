@@ -57,8 +57,8 @@
     </ApplicationDefinition>
     <Compile Include="Bar.cs" />
     <Compile Include="Bartender.cs" />
-    <Compile Include="Chairs.cs" />
-    <Compile Include="Glasses.cs" />
+    <Compile Include="Chair.cs" />
+    <Compile Include="Glass.cs" />
     <Compile Include="Guest.cs" />
     <Compile Include="Waiter.cs" />
     <Page Include="MainWindow.xaml">

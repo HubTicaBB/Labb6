@@ -49,7 +49,7 @@ namespace RubberDuckPub
                 Log(DateTime.Now, $"{Name} is sitting at the table.");
                 bar.guestsWaitingForTable.TryDequeue(out Guest seatedGuest);
                 bar.seatedGuests.Add(this);
-                bool chairTaken = bar.emptyChairs.TryPop(out Chairs removedChair);
+                bool chairTaken = bar.emptyChairs.TryPop(out Chair removedChair);
                 if (chairTaken)
                 {
                     DrinkBeer(removedChair);
@@ -57,7 +57,7 @@ namespace RubberDuckPub
             }
         }
 
-        private void DrinkBeer(Chairs removedChair)
+        private void DrinkBeer(Chair removedChair)
         {
             Random random = new Random();
             Log(DateTime.Now, $"{Name} is drinking beer");
@@ -70,11 +70,11 @@ namespace RubberDuckPub
             GoHome(removedChair);
         }
 
-        private void GoHome(Chairs removedChair)
+        private void GoHome(Chair removedChair)
         {
             Log(DateTime.Now, $"{Name} finished the beer and goes home.");
             bar.seatedGuests.TryTake(out Guest wentHome);
-            bar.dirtyGlasses.Push(new Glasses());
+            bar.dirtyGlasses.Push(new Glass());
             bar.emptyChairs.Push(removedChair);
             bar.TotalNumberGuests--;
             HasBeer = false;

@@ -1,6 +1,6 @@
 ﻿namespace RubberDuckPub
 {
-    public class Glasses
+    public class Chair
     {
     }
 }

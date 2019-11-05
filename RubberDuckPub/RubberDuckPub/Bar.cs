@@ -7,9 +7,9 @@ namespace RubberDuckPub
     public class Bar
     {
         MainWindow mainWindow;
-        public ConcurrentStack<Glasses> cleanGlasses = new ConcurrentStack<Glasses>();
-        public ConcurrentStack<Glasses> dirtyGlasses = new ConcurrentStack<Glasses>();
-        public ConcurrentStack<Chairs> emptyChairs = new ConcurrentStack<Chairs>();
+        public ConcurrentStack<Glass> cleanGlasses = new ConcurrentStack<Glass>();
+        public ConcurrentStack<Glass> dirtyGlasses = new ConcurrentStack<Glass>();
+        public ConcurrentStack<Chair> emptyChairs = new ConcurrentStack<Chair>();
         public ConcurrentQueue<Guest> guestQueue = new ConcurrentQueue<Guest>();
         public ConcurrentQueue<Guest> guestsWaitingForTable = new ConcurrentQueue<Guest>();
         public ConcurrentBag<Guest> seatedGuests = new ConcurrentBag<Guest>();
@@ -18,7 +18,7 @@ namespace RubberDuckPub
         public int NumberOfGlasses { get; }
         public int NumberOfChairs { get; }
         public bool GuestsStayingDoubleTime { get; }
-        public int TimeOpenBar { get; }       
+        public int TimeOpenBar { get; }
 
         public Bar(MainWindow mainWindow,
                    int numberOfGlasses = 8,
@@ -73,7 +73,7 @@ namespace RubberDuckPub
         {
             for (int i = 0; i < numberOfGlasses; i++)
             {
-                cleanGlasses.Push(new Glasses());
+                cleanGlasses.Push(new Glass());
             }
         }
 
@@ -81,7 +81,7 @@ namespace RubberDuckPub
         {
             for (int i = 0; i < numberOfChairs; i++)
             {
-                emptyChairs.Push(new Chairs());
+                emptyChairs.Push(new Chair());
             }
         }
     }

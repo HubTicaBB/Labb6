@@ -59,7 +59,7 @@ namespace RubberDuckPub
             if (bar.cleanGlasses.Count > 0 && bar.guestQueue.Count > 0)
             {
                 Log(DateTime.Now, "Picking up a glass from the shelf.");
-                bar.cleanGlasses.TryPop(out Glasses glass);
+                bar.cleanGlasses.TryPop(out Glass glass);
                 Thread.Sleep((int)(TimeToGoToShelf / mainWindow.CurrentSpeed()));
                 bool dequeued = bar.guestQueue.TryDequeue(out Guest dequeuedGuest);
                 if (dequeued)
